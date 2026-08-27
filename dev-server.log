@@ -1,0 +1,25 @@
+
+> thirumalaai-traders@1.0.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 3s
+ ○ Compiling /about ...
+ ✓ Compiled /about in 5.7s (653 modules)
+ GET /about 200 in 5931ms
+ ✓ Compiled in 872ms (300 modules)
+ ✓ Compiled in 617ms (300 modules)
+ ✓ Compiled in 404ms (300 modules)
+ ✓ Compiled in 631ms (300 modules)
+ ✓ Compiled in 532ms (300 modules)
+ ✓ Compiled in 1603ms (300 modules)
+ ✓ Compiled in 302ms (300 modules)
+ ✓ Compiled in 347ms (300 modules)
+ ✓ Compiled in 302ms (300 modules)
+ ✓ Compiled in 279ms (300 modules)
+ ✓ Compiled in 269ms (300 modules)
+ ✓ Compiled in 299ms (300 modules)
+ ✓ Compiled in 356ms (300 modules)

@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold
+      transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+      focus-visible:outline-brand-green disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-green text-white hover:bg-brand-green-dark;
+  }
+
+  .btn-outline {
+    @apply btn border border-brand-line bg-white text-brand-ink hover:border-brand-green hover:text-brand-green;
+  }
+
+  .btn-gold {
+    @apply btn bg-brand-gold text-brand-green-deep hover:bg-brand-gold-dark;
+  }
+
+  .section-pad {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .card {
+    @apply rounded-lg border border-brand-line bg-white shadow-card;
+  }
+
+  .input {
+    @apply w-full rounded-md border border-brand-line bg-white px-3 py-2.5 text-sm text-brand-ink
+      placeholder:text-brand-muted/70 focus:border-brand-green focus:outline-none focus:ring-2
+      focus:ring-brand-green/20;
+  }
+
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-brand-ink;
+  }
+
+  .prose-site p {
+    @apply mb-4 leading-relaxed text-brand-muted;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out both;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

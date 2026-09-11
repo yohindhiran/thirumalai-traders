@@ -6,9 +6,9 @@ import {
   Truck,
   Warehouse,
 } from "lucide-react";
+import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
-import CTABanner from "@/components/CTABanner";
 
 export const metadata = pageMetadata({
   title: "Wholesale Supply – Bulk Grocery Ordering & Delivery",
@@ -27,6 +27,18 @@ const CAPABILITIES = [
 ];
 
 export default function WholesaleSupplyPage() {
+  const page = getPageContent("wholesale-supply");
+  const CAP_ICONS = [Package, Scale, CalendarCheck, Warehouse, Truck, ClipboardCheck];
+  const list = (
+    page?.sections?.length
+      ? page.sections
+      : CAPABILITIES.map((c) => ({ heading: c.title, body: c.desc }))
+  ).map((s, i) => ({
+    title: s.heading,
+    desc: s.body,
+    icon: CAP_ICONS[i % CAP_ICONS.length],
+  }));
+
   return (
     <>
       <JsonLd
@@ -43,7 +55,7 @@ export default function WholesaleSupplyPage() {
       <section className="section-pad bg-white">
         <div className="container-site">
           <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {CAPABILITIES.map((c) => (
+            {list.map((c) => (
               <li key={c.title} className="card p-7">
                 <span className="flex h-12 w-12 items-center justify-center rounded-md bg-brand-green text-brand-gold">
                   <c.icon className="h-6 w-6" aria-hidden="true" />
@@ -71,8 +83,6 @@ export default function WholesaleSupplyPage() {
           </div>
         </div>
       </section>
-
-      <CTABanner />
     </>
   );
 }

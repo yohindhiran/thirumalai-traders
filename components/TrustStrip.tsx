@@ -1,10 +1,10 @@
-import { Medal, Package, Truck, Users } from "lucide-react";
+import { Clock, Users2, Truck, ShieldCheck } from "lucide-react";
 
 const ITEMS = [
-  { icon: Medal, value: "25+", label: "Years Experience" },
-  { icon: Users, value: "1000+", label: "Customers" },
-  { icon: Package, value: "Bulk", label: "Supply" },
-  { icon: Truck, value: "Reliable", label: "Delivery" },
+  { icon: Clock, value: "25+", label: "Years Experience" },
+  { icon: Users2, value: "1000+", label: "Customers" },
+  { icon: Truck, value: "Bulk", label: "Supply" },
+  { icon: ShieldCheck, value: "Reliable", label: "Delivery" },
 ];
 
 export default function TrustStrip() {
@@ -13,7 +13,7 @@ export default function TrustStrip() {
       <ul className="container-site grid grid-cols-2 gap-x-6 gap-y-8 py-10 lg:grid-cols-4 lg:py-12">
         {ITEMS.map((item) => (
           <li key={item.label} className="flex items-center gap-3.5 lg:justify-center">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-brand-green/10 text-brand-green">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-brand-green/10 text-brand-green">
               <item.icon className="h-5 w-5" aria-hidden="true" />
             </span>
             <span className="flex flex-col leading-tight">

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { getContent, readDb, writeDb } from "@/lib/db";
+import { DEFAULT_CONTENT, getContent, readDb, writeDb } from "@/lib/db";
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -23,6 +23,18 @@ export async function PUT(request: Request) {
   if (typeof body?.aboutPreview === "string") db.content.aboutPreview = body.aboutPreview.trim();
   if (typeof body?.officePhone === "string" && body.officePhone.trim()) {
     db.content.officePhone = body.officePhone.trim();
+  }
+  if (typeof body?.homeAboutImage === "string") {
+    db.content.homeAboutImage = body.homeAboutImage.trim() || "/images/about-warehouse.jpg";
+  }
+  if (typeof body?.homeAboutHeading === "string") {
+    db.content.homeAboutHeading = body.homeAboutHeading.trim() || DEFAULT_CONTENT.homeAboutHeading;
+  }
+  if (typeof body?.homeAboutButtonText === "string") {
+    db.content.homeAboutButtonText = body.homeAboutButtonText.trim() || DEFAULT_CONTENT.homeAboutButtonText;
+  }
+  if (typeof body?.homeAboutButtonLink === "string") {
+    db.content.homeAboutButtonLink = body.homeAboutButtonLink.trim() || DEFAULT_CONTENT.homeAboutButtonLink;
   }
   if (Array.isArray(body?.highlights)) {
     const highlights = body.highlights

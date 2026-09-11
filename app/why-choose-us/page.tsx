@@ -1,9 +1,9 @@
 import { CheckCircle2 } from "lucide-react";
 import { WHY_CHOOSE_US } from "@/data/site";
+import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import StatsSection from "@/components/StatsSection";
-import CTABanner from "@/components/CTABanner";
 
 export const metadata = pageMetadata({
   title: "Why Choose Us – Trusted Wholesale Grocery Supplier",
@@ -13,6 +13,13 @@ export const metadata = pageMetadata({
 });
 
 export default function WhyChooseUsPage() {
+  const page = getPageContent("why-choose-us");
+  const list = (
+    page?.sections?.length
+      ? page.sections
+      : WHY_CHOOSE_US.map((w) => ({ heading: w.title, body: w.desc }))
+  ).map((s) => ({ title: s.heading, desc: s.body }));
+
   return (
     <>
       <JsonLd
@@ -31,7 +38,7 @@ export default function WhyChooseUsPage() {
       <section className="section-pad bg-white">
         <div className="container-site">
           <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {WHY_CHOOSE_US.map((w, i) => (
+            {list.map((w, i) => (
               <li key={w.title} className="card group p-7">
                 <span className="flex h-11 w-11 items-center justify-center rounded-md bg-brand-green text-brand-gold">
                   <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
@@ -46,8 +53,6 @@ export default function WhyChooseUsPage() {
           </ul>
         </div>
       </section>
-
-      <CTABanner />
     </>
   );
 }

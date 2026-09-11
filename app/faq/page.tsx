@@ -1,7 +1,7 @@
 import { FAQS } from "@/data/site";
+import { getActiveFaqs } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
-import CTABanner from "@/components/CTABanner";
 
 export const metadata = pageMetadata({
   title: "FAQ – Wholesale Grocery Supply Questions",
@@ -11,6 +11,11 @@ export const metadata = pageMetadata({
 });
 
 export default function FaqPage() {
+  const faqs = getActiveFaqs();
+  const faqList = faqs.length
+    ? faqs.map((f) => ({ q: f.question, a: f.answer }))
+    : FAQS.map((f) => ({ q: f.q, a: f.a }));
+
   return (
     <>
       <JsonLd
@@ -19,7 +24,7 @@ export default function FaqPage() {
             { name: "Home", path: "/" },
             { name: "FAQ", path: "/faq" },
           ]),
-          faqSchema(FAQS.map((f) => ({ q: f.q, a: f.a }))),
+          faqSchema(faqList),
         ]}
       />
       <PageHero
@@ -29,7 +34,7 @@ export default function FaqPage() {
       <section className="section-pad bg-white">
         <div className="container-site max-w-4xl">
           <div className="space-y-4">
-            {FAQS.map((f, i) => (
+            {faqList.map((f, i) => (
               <details key={f.q} className="card group px-6 py-5" open={i === 0}>
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-brand-ink [&::-webkit-details-marker]:hidden">
                   {f.q}
@@ -46,7 +51,6 @@ export default function FaqPage() {
           </div>
         </div>
       </section>
-      <CTABanner title="Still Have a Question?" subtitle="Call or WhatsApp our sales team — we respond quickly." />
     </>
   );
 }

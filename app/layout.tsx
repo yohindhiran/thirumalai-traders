@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/data/site";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
+import { getContactSettings, getSiteSettings } from "@/lib/db";
+import PublicChrome from "@/components/PublicChrome";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,13 +23,13 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const site = getSiteSettings();
+  const contact = getContactSettings();
+
   return (
     <html lang="en" className={inter.variable}>
       <body className="flex min-h-screen flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <PublicChrome site={site} contact={contact}>{children}</PublicChrome>
       </body>
     </html>
   );

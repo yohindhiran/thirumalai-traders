@@ -14,7 +14,22 @@ const CATEGORY_LINKS = [
   { href: "/products", label: "All Products" },
 ];
 
-export default function Footer() {
+export interface FooterContact {
+  name?: string;
+  phone?: string;
+  email?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressState?: string;
+}
+
+export default function Footer({ contact }: { contact?: FooterContact }) {
+  const name = contact?.name || SITE.name;
+  const phone = contact?.phone || SITE.officePhone;
+  const email = contact?.email || SITE.email;
+  const addressLine1 = contact?.addressLine1 || SITE.address.line1;
+  const addressLine2 = contact?.addressLine2 || SITE.address.line2;
+  const addressState = contact?.addressState || SITE.address.state;
   return (
     <footer className="bg-brand-green-deep text-white">
       <div className="container-site grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-16">
@@ -72,19 +87,19 @@ export default function Footer() {
             <li className="flex gap-3">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
               <span>
-                {SITE.name},<br />
-                {SITE.address.line1}
+                {name},<br />
+                {addressLine1}
                 <br />
-                {SITE.address.line2}
+                {addressLine2}
                 <br />
-                {SITE.address.state}
+                {addressState}
               </span>
             </li>
             <li className="flex gap-3">
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
               <span>
-                <a href={telHref(SITE.officePhone)} className="hover:text-brand-gold">
-                  Office: {SITE.officePhone}
+                <a href={telHref(phone)} className="hover:text-brand-gold">
+                  Office: {phone}
                 </a>
                 <br />
                 <a href={telHref("9842698877")} className="hover:text-brand-gold">
@@ -98,8 +113,8 @@ export default function Footer() {
             </li>
             <li className="flex gap-3">
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
-              <a href={`mailto:${SITE.email}`} className="break-all hover:text-brand-gold">
-                {SITE.email}
+              <a href={`mailto:${email}`} className="break-all hover:text-brand-gold">
+                {email}
               </a>
             </li>
           </ul>

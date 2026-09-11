@@ -159,6 +159,7 @@ export default function ProductsBrowser({
                     id: p.slug,
                     categoryId: "",
                     status: "active",
+                    displayOrder: 0,
                     createdAt: "",
                     updatedAt: "",
                   } as Product

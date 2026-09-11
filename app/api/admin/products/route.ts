@@ -2,6 +2,41 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { newId, readDb, writeDb } from "@/lib/db";
 import { slugify } from "@/data/products-seed";
+import type { Product, ProductSpec } from "@/types";
+
+function toArray(value: unknown): string[] {
+  if (Array.isArray(value)) return value.map(String);
+  if (typeof value === "string" && value.trim()) {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) return parsed.map(String);
+    } catch {
+      /* fall through */
+    }
+    return value.split("\n").map((s) => s.trim()).filter(Boolean);
+  }
+  return [];
+}
+
+function toSpecs(value: unknown): ProductSpec[] {
+  const map = (arr: any[]) =>
+    arr
+      .map((s) => ({
+        label: String(s?.label ?? ""),
+        value: String(s?.value ?? ""),
+      }))
+      .filter((s) => s.label && s.value);
+  if (Array.isArray(value)) return map(value);
+  if (typeof value === "string" && value.trim()) {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) return map(parsed);
+    } catch {
+      /* ignore */
+    }
+  }
+  return [];
+}
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -30,26 +65,43 @@ export async function POST(request: Request) {
   }
 
   const db = readDb();
-  if (!db.categories.some((c) => c.id === categoryId)) {
+  const cat = db.categories.find((c) => c.id === categoryId);
+  if (!cat) {
     return NextResponse.json({ error: "Invalid category." }, { status: 400 });
   }
-  const cat = db.categories.find((c) => c.id === categoryId)!;
-  const now = new Date().toISOString();
 
-  const product = {
+  const now = new Date().toISOString();
+  const maxOrder = db.products.reduce((m, p) => Math.max(m, p.displayOrder ?? 0), 0);
+  const slug = `${cat.slug}-${slugify(name)}`;
+
+  const product: Product = {
     id: newId("prod"),
-    slug: `${cat.slug}-${slugify(name)}`,
+    slug,
     name,
     categoryId,
     subcategory:
       typeof body?.subcategory === "string" && body.subcategory.trim()
         ? body.subcategory.trim()
         : undefined,
+    shortDescription:
+      typeof body?.shortDescription === "string"
+        ? body.shortDescription.trim()
+        : undefined,
     description:
       typeof body?.description === "string" && body.description.trim()
         ? body.description.trim()
         : `Bulk wholesale supply of ${name.toLowerCase()} — part of our ${cat.name} range.`,
-    status: body?.status === "inactive" ? ("inactive" as const) : ("active" as const),
+    mainImage: typeof body?.mainImage === "string" ? body.mainImage : undefined,
+    images: toArray(body?.images),
+    specs: toSpecs(body?.specs),
+    purity: typeof body?.purity === "string" ? body.purity : undefined,
+    color: typeof body?.color === "string" ? body.color : undefined,
+    shelfLife: typeof body?.shelfLife === "string" ? body.shelfLife : undefined,
+    packaging: typeof body?.packaging === "string" ? body.packaging : undefined,
+    qualityInfo:
+      typeof body?.qualityInfo === "string" ? body.qualityInfo : undefined,
+    status: body?.status === "inactive" ? "inactive" : "active",
+    displayOrder: maxOrder + 1,
     createdAt: now,
     updatedAt: now,
   };

@@ -68,7 +68,7 @@ export default function HeroSlider() {
       aria-label="Wholesale grocery highlights"
       className="relative overflow-hidden bg-brand-green-deep"
     >
-      <div className="relative h-[520px] sm:h-[560px] lg:h-[640px]">
+      <div className="relative h-[420px] sm:h-[450px] lg:h-[510px]">
         {SLIDES.map((slide, i) => (
           <div
             key={slide.src}

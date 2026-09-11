@@ -7,10 +7,24 @@ import {
   resolveFeatured,
 } from "@/lib/catalog";
 
-export default function ProductGrid() {
-  const products = OUR_PRODUCTS.map(resolveFeatured).filter(
-    (p): p is NonNullable<typeof p> => Boolean(p)
-  );
+export interface OurProductItem {
+  name: string;
+  slug: string;
+  categoryName: string;
+  categorySlug: string;
+  description?: string;
+  image?: string;
+}
+
+export default function ProductGrid({
+  products: provided,
+}: {
+  products?: OurProductItem[];
+}) {
+  const fallback = OUR_PRODUCTS.map(resolveFeatured)
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .map((p) => ({ ...p, image: undefined }));
+  const products = provided && provided.length ? provided : fallback;
 
   return (
     <section className="section-pad bg-brand-soft">
@@ -34,37 +48,46 @@ export default function ProductGrid() {
           </Link>
         </div>
 
-        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
-          {products.map((p) => {
-            const img = CATEGORY_IMAGES[p.categorySlug];
+        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+           {products.map((p) => {
+            const img = p.image
+              ? { src: p.image, alt: p.name }
+              : CATEGORY_IMAGES[p.categorySlug];
             return (
               <li key={`${p.categorySlug}-${p.slug}`}>
                 <article className="card group flex h-full flex-col overflow-hidden rounded-xl transition-shadow hover:shadow-lift">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-white">
+                  <Link
+                    href={`/products/${p.categorySlug}/${p.slug}`}
+                    className="relative block aspect-[4/3] overflow-hidden bg-white"
+                    aria-label={`View ${p.name}`}
+                  >
                     <Image
                       src={img.src}
                       alt={img.alt}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     <span
                       aria-hidden="true"
                       className="absolute inset-x-0 bottom-0 h-1 bg-brand-gold opacity-0 transition-opacity group-hover:opacity-100"
                     />
-                  </div>
+                  </Link>
                   <div className="flex flex-1 flex-col p-4">
-                    <h3 className="text-base font-semibold text-brand-ink">
+                    <Link
+                      href={`/products/${p.categorySlug}/${p.slug}`}
+                      className="text-base font-semibold text-brand-ink hover:text-brand-green"
+                    >
                       {p.name}
-                    </h3>
+                    </Link>
                     <p className="mt-1 text-xs font-medium uppercase tracking-wider text-brand-green/80">
                       {p.categoryName}
                     </p>
                     <Link
-                      href={`/enquiry?product=${encodeURIComponent(p.name)}&category=${encodeURIComponent(p.categoryName)}`}
+                      href={`/products/${p.categorySlug}/${p.slug}`}
                       className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-semibold text-brand-green hover:text-brand-green-dark"
                     >
-                      Enquire Now
+                      View Product
                       <ArrowRight
                         className="h-4 w-4 transition-transform group-hover:translate-x-1"
                         aria-hidden="true"

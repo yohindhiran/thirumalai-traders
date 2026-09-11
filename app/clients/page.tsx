@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { CLIENTS } from "@/data/site";
+import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
-import CTABanner from "@/components/CTABanner";
 
 export const metadata = pageMetadata({
   title: "Our Clients – Trusted by 1000+ Customers",
@@ -12,6 +12,9 @@ export const metadata = pageMetadata({
 });
 
 export default function ClientsPage() {
+  const page = getPageContent("clients");
+  const list = page?.items?.length ? page.items.map((c) => c.title) : CLIENTS;
+
   return (
     <>
       <JsonLd
@@ -28,7 +31,7 @@ export default function ClientsPage() {
       <section className="section-pad bg-brand-soft">
         <div className="container-site">
           <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {CLIENTS.map((c) => (
+            {list.map((c) => (
               <li key={c} className="card flex min-h-[120px] items-center justify-center p-8 text-center">
                 <span className="text-base font-bold uppercase tracking-wide text-brand-ink/80 sm:text-lg">
                   {c}
@@ -46,8 +49,6 @@ export default function ClientsPage() {
           </p>
         </div>
       </section>
-
-      <CTABanner />
     </>
   );
 }

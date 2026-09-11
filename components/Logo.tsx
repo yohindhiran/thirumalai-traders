@@ -17,7 +17,7 @@ export default function Logo({
       <img
         src="/images/thirumalaai-traders-logo.png"
         alt="Thirumalaai Traders"
-        className="h-auto w-[150px] object-contain sm:w-[160px] lg:w-[200px]"
+        className="h-auto w-[170px] object-contain sm:w-[190px] lg:w-[220px]"
       />
     </Link>
   );

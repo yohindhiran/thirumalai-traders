@@ -22,9 +22,9 @@ export default function ProductCard({
       )}
     >
       <Link
-        href={`/products/${categorySlug || ""}?product=${encodeURIComponent(product.name)}`}
+        href={`/products/${categorySlug || ""}/${product.slug}`}
         className="relative flex h-36 items-center justify-center overflow-hidden bg-brand-soft"
-        aria-label={`Enquire about ${product.name}`}
+        aria-label={`View ${product.name}`}
       >
         <span
           aria-hidden="true"

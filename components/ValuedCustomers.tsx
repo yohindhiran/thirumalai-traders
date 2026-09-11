@@ -3,17 +3,22 @@
 import { useCallback, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const CUSTOMERS = [
-  "Sagar",
-  "CMS",
-  "Erode Sengunthar Engineering College",
-  "Pallavaa Group",
-  "SPK",
-  "PSG College",
-  "Hindusthan College",
-  "Best Corporation",
-  "SCM Mills",
-  "SKL Mill",
+export interface ValuedCustomerItem {
+  name: string;
+  logo?: string;
+}
+
+const DEFAULT_CUSTOMERS: ValuedCustomerItem[] = [
+  { name: "Sagar" },
+  { name: "CMS" },
+  { name: "Erode Sengunthar Engineering College", logo: "/images/clients/erode-sengunthar.png" },
+  { name: "Pallavaa Group" },
+  { name: "SPK" },
+  { name: "PSG College", logo: "/images/clients/psg-college.png" },
+  { name: "Hindusthan College", logo: "/images/clients/hindusthan.png" },
+  { name: "Best Corporation" },
+  { name: "SCM Mills" },
+  { name: "SKL Mill" },
 ];
 
 function initials(name: string) {
@@ -34,7 +39,11 @@ function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
-export default function ValuedCustomers() {
+export default function ValuedCustomers({
+  customers = DEFAULT_CUSTOMERS,
+}: {
+  customers?: ValuedCustomerItem[];
+}) {
   const trackRef = useRef<HTMLDivElement>(null);
   const copyWidthRef = useRef(0);
   const offsetRef = useRef(0);
@@ -48,9 +57,9 @@ export default function ValuedCustomers() {
     const track = trackRef.current;
     const first = track?.firstElementChild as HTMLElement | null;
     if (track && first) {
-      copyWidthRef.current = first.offsetWidth * CUSTOMERS.length;
+      copyWidthRef.current = first.offsetWidth * customers.length;
     }
-  }, []);
+  }, [customers.length]);
 
   useEffect(() => {
     measure();
@@ -102,7 +111,7 @@ export default function ValuedCustomers() {
     };
   }, []);
 
-  const items = [...CUSTOMERS, ...CUSTOMERS];
+  const items = [...customers, ...customers];
 
   return (
     <section className="py-12 sm:py-14 lg:py-16 bg-brand-soft">
@@ -118,47 +127,58 @@ export default function ValuedCustomers() {
           </h2>
         </div>
 
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => go(-1)}
-            aria-label="Previous customers"
-            className="absolute left-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-brand-line bg-white text-brand-ink shadow-card transition-colors hover:border-brand-green hover:text-brand-green sm:flex h-10 w-10"
-          >
-            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
-          </button>
+<div className="relative">
+           <button
+             type="button"
+             onClick={() => go(-1)}
+             aria-label="Previous customers"
+             className="absolute left-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-lg border border-brand-line bg-white text-brand-ink shadow-card transition-colors hover:border-brand-green hover:text-brand-green sm:flex h-10 w-10"
+           >
+             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+           </button>
 
-          <div className="overflow-hidden px-1 py-2 sm:px-12">
-            <div
-              ref={trackRef}
-              className="flex will-change-transform"
-              style={{ transform: "translateX(0px)" }}
-            >
-              {items.map((customer, i) => (
-                <div
-                  key={`${customer}-${i}`}
-                  aria-hidden={i >= CUSTOMERS.length}
-                  className="flex w-28 shrink-0 flex-col items-center pr-6 sm:w-32"
-                >
-                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand-green text-lg font-bold text-brand-gold shadow-card sm:h-24 sm:w-24">
-                    {initials(customer)}
+<div className="overflow-hidden px-1 py-2 sm:px-12">
+             <div
+               ref={trackRef}
+               className="flex will-change-transform"
+               style={{ transform: "translateX(0px)" }}
+             >
+               {items.map((customer, i) => (
+                 <div
+                   key={`${customer.name}-${i}`}
+                   aria-hidden={i >= customers.length}
+                   className="flex w-28 shrink-0 flex-col items-center pr-6 sm:w-32"
+                 >
+                   <div className="flex h-20 w-20 items-center justify-center overflow-hidden bg-white p-2 ring-1 ring-brand-line sm:h-24 sm:w-24">
+                     {customer.logo ? (
+                      <span
+                        role="img"
+                        aria-label={customer.name}
+                        className="block h-full w-full bg-contain bg-center bg-no-repeat"
+                        style={{ backgroundImage: `url(${customer.logo})` }}
+                      />
+                    ) : (
+                      <span className="text-lg font-bold text-brand-green sm:text-xl">
+                        {initials(customer.name)}
+                      </span>
+                    )}
                   </div>
                   <p className="mt-3 text-center text-xs font-medium leading-snug text-brand-ink sm:text-sm">
-                    {customer}
+                    {customer.name}
                   </p>
                 </div>
               ))}
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => go(1)}
-            aria-label="Next customers"
-            className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-brand-line bg-white text-brand-ink shadow-card transition-colors hover:border-brand-green hover:text-brand-green sm:flex h-10 w-10"
-          >
-            <ChevronRight className="h-5 w-5" aria-hidden="true" />
-          </button>
+<button
+             type="button"
+             onClick={() => go(1)}
+             aria-label="Next customers"
+             className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-lg border border-brand-line bg-white text-brand-ink shadow-card transition-colors hover:border-brand-green hover:text-brand-green sm:flex h-10 w-10"
+           >
+             <ChevronRight className="h-5 w-5" aria-hidden="true" />
+           </button>
         </div>
       </div>
     </section>

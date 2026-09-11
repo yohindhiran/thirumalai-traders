@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Compass, Handshake, ShieldCheck } from "lucide-react";
 import PageHero from "@/components/PageHero";
 import { CORE_VALUES, MISSION, VISION } from "@/data/site";
+import { getAbout, getActiveTestimonials } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import Testimonials from "@/components/Testimonials";
 
@@ -31,6 +32,14 @@ const APPROACH = [
 ];
 
 export default function AboutPage() {
+  const about = getAbout();
+  const vision = about.vision || VISION;
+  const mission = about.mission.length ? about.mission : MISSION;
+  const coreValues = (about.coreValues.length ? about.coreValues : CORE_VALUES)
+    .filter((v) => (v as any).status !== "inactive")
+    .slice()
+    .sort((a, b) => ((a as any).displayOrder ?? 0) - ((b as any).displayOrder ?? 0));
+
   return (
     <>
       <JsonLd
@@ -41,7 +50,7 @@ export default function AboutPage() {
       />
 
       {/* Hero */}
-      <PageHero title="About Us" backgroundImage="/images/about-warehouse.jpg" />
+      <PageHero title="About Us" backgroundImage={about.heroImage || "/images/about-warehouse.jpg"} />
 
       {/* Who We Are */}
       <section className="section-pad bg-white">
@@ -93,13 +102,13 @@ export default function AboutPage() {
               Our Vision
             </p>
             <blockquote className="text-base font-normal not-italic leading-relaxed tracking-normal text-brand-muted sm:text-lg">
-              &ldquo;{VISION}&rdquo;
+              &ldquo;{vision}&rdquo;
             </blockquote>
             <span aria-hidden="true" className="mt-8 block h-1 w-16 bg-brand-gold" />
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lift">
             <Image
-              src="/images/about-warehouse.jpg"
+              src={about.visionImage || "/images/about-warehouse.jpg"}
               alt="Bulk grocery stock inside the Thirumalaai Traders warehouse"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -114,7 +123,7 @@ export default function AboutPage() {
         <div className="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div className="relative order-last aspect-[4/3] overflow-hidden rounded-2xl shadow-lift lg:order-first">
             <Image
-              src="/images/hero-spices.jpg"
+              src={about.missionImage || "/images/hero-spices.jpg"}
               alt="Assorted wholesale spices supplied by Thirumalaai Traders"
               fill
               sizes="(min-width: 1024px) 50vw, 100vw"
@@ -127,7 +136,7 @@ export default function AboutPage() {
               Our Mission
             </p>
             <ul className="space-y-4">
-              {MISSION.map((m) => (
+              {mission.map((m) => (
                 <li key={m} className="flex gap-3 leading-relaxed text-brand-muted">
                   <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold-dark" />
                   {m}
@@ -139,7 +148,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Testimonials />
+      <Testimonials
+        items={getActiveTestimonials().map((t) => ({
+          quote: t.quote,
+          name: t.name,
+          role: t.company,
+        }))}
+      />
 
       {/* Core Values */}
       <section className="section-pad bg-brand-soft">
@@ -148,7 +163,7 @@ export default function AboutPage() {
             Core Values
           </h2>
           <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {CORE_VALUES.map((v) => (
+            {coreValues.map((v) => (
               <li key={v.title} className="card border-t-2 border-t-brand-gold p-6 text-center">
                 <h3 className="font-semibold text-brand-ink">{v.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-brand-muted">{v.desc}</p>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { newId, readDb, writeDb } from "@/lib/db";
 import { slugify } from "@/data/products-seed";
+import type { Category } from "@/types";
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -20,12 +21,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Category name is required." }, { status: 400 });
   }
   const db = readDb();
-  const slug = slugify(name);
+  const slug = slugify(typeof body?.slug === "string" && body.slug.trim() ? body.slug : name);
   if (db.categories.some((c) => c.slug === slug)) {
-    return NextResponse.json({ error: "A category with this name already exists." }, { status: 409 });
+    return NextResponse.json(
+      { error: "A category with this name or slug already exists." },
+      { status: 409 }
+    );
   }
   const now = new Date().toISOString();
-  const category = {
+  const maxOrder = db.categories.reduce((m, c) => Math.max(m, c.displayOrder ?? 0), 0);
+  const category: Category = {
     id: newId("cat"),
     slug,
     name,
@@ -33,7 +38,9 @@ export async function POST(request: Request) {
       typeof body?.description === "string"
         ? body.description.trim()
         : `Wholesale ${name.toLowerCase()} supplied in bulk by Thirumalaai Traders.`,
-    status: "active" as const,
+    image: typeof body?.image === "string" ? body.image : undefined,
+    status: "active",
+    displayOrder: maxOrder + 1,
     createdAt: now,
     updatedAt: now,
   };

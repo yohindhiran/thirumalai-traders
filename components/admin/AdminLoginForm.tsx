@@ -20,7 +20,7 @@ export default function AdminLoginForm() {
       body: JSON.stringify(Object.fromEntries(form.entries())),
     });
     if (res.ok) {
-      router.replace("/admin/dashboard");
+      router.replace("/admin");
       router.refresh();
     } else {
       const data = await res.json().catch(() => null);

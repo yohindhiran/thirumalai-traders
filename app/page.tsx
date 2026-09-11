@@ -30,9 +30,9 @@ export default function HomePage() {
       <TrustStrip />
 
       {/* 4. ABOUT SECTION */}
-      <section className="section-pad bg-brand-soft">
+      <section className="section-pad bg-brand-green">
         <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative h-72 overflow-hidden rounded-lg shadow-card sm:h-96 lg:h-[480px]">
+          <div className="relative h-72 overflow-hidden sm:h-96 lg:h-[480px]">
             <Image
               src="/images/about-warehouse.jpg"
               alt="Wholesale grocery warehouse with stocked shelves of bulk food products"
@@ -42,16 +42,16 @@ export default function HomePage() {
             />
           </div>
           <div>
-            <p className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
-              About Thirumalaai Traders
-            </p>
-            <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
-              A Trusted Name in Wholesale Grocery Since Over Two Decades
-            </h2>
-            <span aria-hidden="true" className="mb-6 mt-5 block h-1 w-14 bg-brand-gold" />
-            <p className="leading-relaxed text-brand-muted">{content.aboutPreview}</p>
-            <Link href="/about" className="btn-primary mt-8">
+<p className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-gold">
+               <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+               About Thirumalaai Traders
+             </p>
+             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+               A Trusted Name in Wholesale Grocery Since Over Two Decades
+             </h2>
+             <span aria-hidden="true" className="mb-6 mt-5 block h-1 w-14 bg-brand-gold" />
+             <p className="leading-relaxed text-white/80">{content.aboutPreview}</p>
+            <Link href="/about" className="mt-8 inline-flex items-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-brand-green shadow-sm transition-colors hover:bg-brand-soft">
               Know More About Us
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>

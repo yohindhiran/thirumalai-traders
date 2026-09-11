@@ -15,7 +15,7 @@ const MAIN_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Header() {
+export default function Header({ phone }: { phone?: string }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -30,6 +30,7 @@ export default function Header() {
     };
   }, [open]);
 
+  const phoneNumber = phone || SITE.officePhone;
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
@@ -58,12 +59,12 @@ export default function Header() {
         {/* RIGHT: phone + CTA */}
         <div className="hidden items-center gap-4 lg:flex">
           <a
-            href={telHref(SITE.officePhone)}
+            href={telHref(phoneNumber)}
             className="inline-flex items-center gap-2 text-sm font-semibold text-brand-green hover:text-brand-green-dark"
-            aria-label={`Call our office at ${SITE.officePhone}`}
+            aria-label={`Call our office at ${phoneNumber}`}
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
-            {SITE.officePhone}
+            {phoneNumber}
           </a>
           <Link href="/enquiry" className="btn-primary !py-2.5">
             Request Enquiry
@@ -73,7 +74,7 @@ export default function Header() {
         {/* MOBILE actions */}
         <div className="flex items-center gap-2 lg:hidden">
           <a
-            href={telHref(SITE.officePhone)}
+            href={telHref(phoneNumber)}
             className="btn-primary !px-3 !py-2"
             aria-label="Call now"
           >
@@ -85,7 +86,7 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex items-center justify-center rounded-md border border-brand-line p-2 text-brand-ink hover:border-brand-green hover:text-brand-green"
+            className="inline-flex items-center justify-center border border-brand-line p-2 text-brand-ink hover:border-brand-green hover:text-brand-green"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>

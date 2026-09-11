@@ -26,16 +26,16 @@ export default function WhatsAppButton() {
         type="button"
         onClick={() => setDismissed(true)}
         aria-label="Dismiss WhatsApp button"
-        className="absolute -left-2 -top-2 hidden rounded-full border border-brand-line bg-white p-1 text-brand-muted shadow-card hover:text-brand-ink sm:block"
+        className="hidden rounded border border-brand-line bg-white p-1 text-brand-muted shadow-card hover:text-brand-ink sm:block"
       >
         <X className="h-3 w-3" />
       </button>
-      <a
+<a
         href={whatsappHref()}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with us on WhatsApp"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lift transition-transform hover:scale-105"
+        className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#25D366] text-white transition-colors hover:bg-[#20b850]"
       >
         <MessageCircle className="h-7 w-7 text-white" aria-hidden="true" />
       </a>

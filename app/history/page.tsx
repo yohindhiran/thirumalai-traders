@@ -1,6 +1,6 @@
+import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
-import CTABanner from "@/components/CTABanner";
 
 export const metadata = pageMetadata({
   title: "Our History – 25+ Years in Wholesale Grocery",
@@ -41,6 +41,13 @@ const MILESTONES = [
 ];
 
 export default function HistoryPage() {
+  const page = getPageContent("history");
+  const list = (
+    page?.sections?.length
+      ? page.sections
+      : MILESTONES.map((m) => ({ heading: m.title, body: m.desc }))
+  ).map((s) => ({ title: s.heading, desc: s.body }));
+
   return (
     <>
       <JsonLd
@@ -57,7 +64,7 @@ export default function HistoryPage() {
       <section className="section-pad bg-white">
         <div className="container-site">
           <ol className="relative mx-auto max-w-3xl space-y-12 border-l-2 border-brand-green/20 pl-8 sm:pl-10">
-            {MILESTONES.map((m, i) => (
+            {list.map((m, i) => (
               <li key={m.title} className="relative">
                 <span
                   aria-hidden="true"
@@ -76,8 +83,6 @@ export default function HistoryPage() {
           </ol>
         </div>
       </section>
-
-      <CTABanner title="Join Our Next Chapter of Growth" />
     </>
   );
 }

@@ -1,0 +1,38 @@
+import { NextResponse } from "next/server";
+import { isAdmin } from "@/lib/auth";
+import { newId, readDb, writeDb } from "@/lib/db";
+import type { HomeShowcaseItem } from "@/types";
+
+export const dynamic = "force-dynamic";
+
+export async function GET() {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const items = readDb().homeShowcase.slice().sort((a, b) => a.displayOrder - b.displayOrder);
+  return NextResponse.json({ items });
+}
+
+export async function POST(request: Request) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const body = await request.json().catch(() => null);
+  const image = typeof body?.image === "string" ? body.image.trim() : "";
+  if (!image) {
+    return NextResponse.json({ error: "Image is required." }, { status: 400 });
+  }
+  const db = readDb();
+  const maxOrder = db.homeShowcase.reduce((m, s) => Math.max(m, s.displayOrder), 0);
+  const item: HomeShowcaseItem = {
+    id: newId("show"),
+    image,
+    alt: typeof body?.alt === "string" ? body.alt.trim() : "",
+    title: typeof body?.title === "string" ? body.title.trim() : "",
+    status: "active",
+    displayOrder: maxOrder + 1,
+  };
+  db.homeShowcase.push(item);
+  writeDb(db);
+  return NextResponse.json({ item }, { status: 201 });
+}

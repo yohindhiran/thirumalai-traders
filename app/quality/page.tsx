@@ -8,9 +8,9 @@ import {
   Timer,
   Truck,
 } from "lucide-react";
+import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
-import CTABanner from "@/components/CTABanner";
 
 export const metadata = pageMetadata({
   title: "Quality & Service – Our Wholesale Commitment",
@@ -31,6 +31,27 @@ const PILLARS = [
 ];
 
 export default function QualityPage() {
+  const page = getPageContent("quality");
+  const PILLAR_ICONS = [
+    BadgeCheck,
+    SearchCheck,
+    ClipboardCheck,
+    PackageCheck,
+    Timer,
+    Truck,
+    Headset,
+    Handshake,
+  ];
+  const list = (
+    page?.sections?.length
+      ? page.sections
+      : PILLARS.map((p) => ({ heading: p.title, body: p.desc }))
+  ).map((s, i) => ({
+    title: s.heading,
+    desc: s.body,
+    icon: PILLAR_ICONS[i % PILLAR_ICONS.length],
+  }));
+
   return (
     <>
       <JsonLd
@@ -47,7 +68,7 @@ export default function QualityPage() {
       <section className="section-pad bg-white">
         <div className="container-site">
           <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {PILLARS.map((p) => (
+            {list.map((p) => (
               <li key={p.title} className="card p-7">
                 <span className="flex h-11 w-11 items-center justify-center rounded-md bg-brand-green/10 text-brand-green">
                   <p.icon className="h-5 w-5" aria-hidden="true" />
@@ -59,8 +80,6 @@ export default function QualityPage() {
           </ul>
         </div>
       </section>
-
-      <CTABanner title="Experience Our Quality First-hand" subtitle="Start with a trial order or request wholesale pricing today." />
     </>
   );
 }

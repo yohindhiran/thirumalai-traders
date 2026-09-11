@@ -8,7 +8,7 @@ export default function PageHero({
   backgroundImage: string;
 }) {
   return (
-    <section className="relative flex h-[150px] items-center justify-center overflow-hidden sm:h-[180px] lg:h-[200px]">
+    <section className="relative flex h-[240px] items-center justify-center overflow-hidden sm:h-[280px] lg:h-[320px]">
       <Image
         src={backgroundImage}
         alt=""
@@ -22,10 +22,7 @@ export default function PageHero({
         <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
           {title}
         </h1>
-        <span
-          aria-hidden="true"
-          className="mt-3 block h-1 w-14 rounded-full bg-brand-gold"
-        />
+        <span aria-hidden="true" className="mt-3 block h-1 w-14 bg-brand-gold" />
       </div>
     </section>
   );

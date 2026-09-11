@@ -57,7 +57,9 @@ export function seedCategories(): Category[] {
     slug: c.slug,
     name: c.name,
     description: c.description,
+    image: undefined,
     status: "active" as const,
+    displayOrder: 0,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   }));

@@ -108,3 +108,63 @@ export function resolveFeatured(
     categorySlug: cat.slug,
   };
 }
+
+/**
+ * Per-category image sets reused as product imagery. These reference existing
+ * assets in /public/images so we never need to download external images.
+ */
+export const PRODUCT_IMAGE_SET: Record<string, string[]> = {
+  spices: ["/images/cat-spices.jpg", "/images/hero-spices.jpg"],
+  "grains-pulses": ["/images/cat-grains-pulses.jpg", "/images/hero-pulses.jpg"],
+  "rice-lentils": ["/images/cat-rice-lentils.jpg", "/images/hero-rice.jpg"],
+  masala: ["/images/cat-masala.jpg"],
+  "dry-fruits-nuts": [
+    "/images/cat-dry-fruits-nuts.jpg",
+    "/images/hero-nuts.jpg",
+  ],
+  oils: ["/images/cat-oils.jpg", "/images/hero-oil.jpg"],
+  "atta-flour-grocery": ["/images/cat-atta-flour-grocery.jpg"],
+};
+
+export function getProductImages(categorySlug: string): string[] {
+  return PRODUCT_IMAGE_SET[categorySlug] ?? ["/images/hero-warehouse.jpg"];
+}
+
+export function getAllProducts(): BrowserProduct[] {
+  return buildFullCatalog();
+}
+
+export function getProduct(
+  categorySlug: string,
+  slug: string
+): BrowserProduct | undefined {
+  const cat = CATEGORY_SEEDS.find((c) => c.slug === categorySlug);
+  const seed = (PRODUCT_SEEDS[categorySlug] || []).find(
+    (p) => slugify(p.name) === slug
+  );
+  if (!cat || !seed) return undefined;
+  return {
+    name: seed.name,
+    slug: slugify(seed.name),
+    description: productDescription(seed.name, cat.name),
+    subcategory: seed.subcategory,
+    categoryName: cat.name,
+    categorySlug: cat.slug,
+  };
+}
+
+export function getRelatedProducts(
+  categorySlug: string,
+  slug: string,
+  count = 5
+): BrowserProduct[] {
+  const all = buildFullCatalog();
+  const sameCat = all.filter(
+    (p) => p.categorySlug === categorySlug && p.slug !== slug
+  );
+  if (sameCat.length >= count) return sameCat.slice(0, count);
+  const others = all.filter(
+    (p) => p.categorySlug !== categorySlug && p.slug !== slug
+  );
+  return [...sameCat, ...others].slice(0, count);
+}

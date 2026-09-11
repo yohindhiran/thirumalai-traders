@@ -47,11 +47,11 @@ html {
   }
 
   .section-pad {
-    @apply py-16 sm:py-20 lg:py-24;
+    @apply py-12 sm:py-14 lg:py-16;
   }
 
   .card {
-    @apply rounded-lg border border-brand-line bg-white shadow-card;
+    @apply rounded border border-brand-line bg-white;
   }
 
   .input {

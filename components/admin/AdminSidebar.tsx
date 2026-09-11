@@ -5,53 +5,111 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Boxes,
+  Building2,
+  FileText,
   FolderTree,
+  Flame,
+  HelpCircle,
+  Image,
   Inbox,
   LayoutDashboard,
+  LayoutGrid,
   LogOut,
   Menu,
+  MessageSquareQuote,
+  Phone,
   Settings,
+  Users,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const LINKS = [
-  { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/dashboard/enquiries", label: "Enquiries", icon: Inbox },
-  { href: "/admin/dashboard/products", label: "Products", icon: Boxes },
-  { href: "/admin/dashboard/categories", label: "Categories", icon: FolderTree },
-  { href: "/admin/dashboard/content", label: "Content", icon: Settings },
+type Item = { href: string; label: string; icon: React.ComponentType<{ className?: string }> };
+type Group = { title: string; items: Item[] };
+
+const GROUPS: Group[] = [
+  {
+    title: "Dashboard",
+    items: [{ href: "/admin", label: "Overview", icon: LayoutDashboard }],
+  },
+  {
+    title: "Home Page",
+    items: [
+      { href: "/admin/dashboard/hero", label: "Home Hero", icon: Image },
+      { href: "/admin/dashboard/home-about", label: "Home About Section", icon: Building2 },
+      { href: "/admin/dashboard/home-showcase", label: "What We Supply", icon: LayoutGrid },
+      { href: "/admin/dashboard/customers", label: "Valued Customers", icon: Users },
+      { href: "/admin/dashboard/content", label: "Home Content", icon: FileText },
+    ],
+  },
+  {
+    title: "About Page",
+    items: [
+      { href: "/admin/dashboard/about", label: "About / Vision / Mission", icon: Building2 },
+      { href: "/admin/dashboard/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+    ],
+  },
+  {
+    title: "Product Management",
+    items: [
+      { href: "/admin/dashboard/products", label: "Products", icon: Boxes },
+      { href: "/admin/dashboard/categories", label: "Categories", icon: FolderTree },
+      { href: "/admin/dashboard/most-selling", label: "Most Selling", icon: Flame },
+      { href: "/admin/dashboard/our-products", label: "Our Products", icon: LayoutGrid },
+    ],
+  },
+  {
+    title: "Other Pages",
+    items: [
+      { href: "/admin/dashboard/pages", label: "Company Pages", icon: FileText },
+      { href: "/admin/dashboard/faqs", label: "FAQ", icon: HelpCircle },
+      { href: "/admin/dashboard/enquiries", label: "Enquiries", icon: Inbox },
+      { href: "/admin/dashboard/contact-settings", label: "Contact Settings", icon: Phone },
+      { href: "/admin/dashboard/site-settings", label: "Site Settings", icon: Settings },
+    ],
+  },
 ];
 
 export default function AdminSidebar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  function isActive(href: string): boolean {
+    if (href === "/admin") return pathname === "/admin";
+    return pathname === href || pathname.startsWith(href + "/");
+  }
+
   const nav = (
-    <nav className="flex flex-1 flex-col gap-1 p-4">
-      {LINKS.map((l) => {
-        const active =
-          l.href === "/admin/dashboard"
-            ? pathname === "/admin/dashboard"
-            : pathname.startsWith(l.href);
-        return (
-          <Link
-            key={l.href}
-            href={l.href}
-            onClick={() => setOpen(false)}
-            className={cn(
-              "flex items-center gap-3 rounded-md px-4 py-2.5 text-sm font-medium transition-colors",
-              active
-                ? "bg-brand-gold/90 text-brand-green-deep"
-                : "text-white/75 hover:bg-white/10 hover:text-white"
-            )}
-          >
-            <l.icon className="h-4 w-4" aria-hidden="true" />
-            {l.label}
-          </Link>
-        );
-      })}
-      <div className="mt-auto pt-6">
+    <nav className="scrollbar-hide flex flex-1 flex-col gap-3 overflow-y-auto p-3">
+      {GROUPS.map((group) => (
+        <div key={group.title}>
+          <p className="mb-1 px-3 text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+            {group.title}
+          </p>
+          <div className="flex flex-col gap-0.5">
+            {group.items.map((l) => {
+              const active = isActive(l.href);
+              return (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className={cn(
+                    "flex items-center gap-3 rounded-md px-4 py-2 text-sm font-medium transition-colors",
+                    active
+                      ? "bg-brand-gold/90 text-brand-green-deep"
+                      : "text-white/75 hover:bg-white/10 hover:text-white"
+                  )}
+                >
+                  <l.icon className="h-4 w-4" aria-hidden="true" />
+                  {l.label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+      <div className="pt-2">
         <LogoutButton />
       </div>
     </nav>
@@ -59,7 +117,6 @@ export default function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile top toggle */}
       <button
         type="button"
         onClick={() => setOpen(true)}
@@ -69,13 +126,11 @@ export default function AdminSidebar() {
         <Menu className="h-5 w-5" />
       </button>
 
-      {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-72 flex-col bg-brand-green-deep lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-72 shrink-0 flex-col bg-brand-green-deep lg:flex">
         <SidebarBrand />
         {nav}
       </aside>
 
-      {/* Mobile drawer */}
       {open && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
@@ -106,7 +161,7 @@ export default function AdminSidebar() {
 
 function SidebarBrand() {
   return (
-    <Link href="/admin/dashboard" className="flex items-center gap-3 px-5 py-5">
+    <Link href="/admin" className="flex items-center gap-3 px-5 py-5">
       <span className="flex h-9 w-9 items-center justify-center rounded-md bg-brand-gold font-bold text-brand-green-deep">
         TT
       </span>

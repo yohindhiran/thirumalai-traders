@@ -3,7 +3,7 @@ import { isAdmin } from "@/lib/auth";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
 
 export default async function AdminLoginPage() {
-  if (await isAdmin()) redirect("/admin/dashboard");
+  if (await isAdmin()) redirect("/admin");
   return (
     <section className="flex min-h-[70vh] items-center justify-center bg-brand-soft px-4 py-16">
       <div className="w-full max-w-md">

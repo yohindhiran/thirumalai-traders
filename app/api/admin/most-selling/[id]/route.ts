@@ -1,0 +1,38 @@
+import { NextResponse } from "next/server";
+import { isAdmin } from "@/lib/auth";
+import { readDb, writeDb } from "@/lib/db";
+
+export async function PATCH(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const { id } = await params;
+  const body = await request.json().catch(() => null);
+  const db = readDb();
+  const ref = db.mostSelling.find((r) => r.productId === id);
+  if (!ref) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (body?.status === "active" || body?.status === "inactive") ref.status = body.status;
+  if (typeof body?.displayOrder === "number") ref.displayOrder = body.displayOrder;
+  writeDb(db);
+  return NextResponse.json({ item: ref });
+}
+
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const { id } = await params;
+  const db = readDb();
+  const before = db.mostSelling.length;
+  db.mostSelling = db.mostSelling.filter((r) => r.productId !== id);
+  if (db.mostSelling.length === before)
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  writeDb(db);
+  return NextResponse.json({ ok: true });
+}

@@ -4,17 +4,59 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { TESTIMONIALS } from "@/data/testimonials";
 
-const AUTOPLAY_MS = 5500;
-const TRANSITION_MS = 900;
+export interface TestimonialItem {
+  quote: string;
+  name: string;
+  role?: string;
+  image?: string;
+}
 
-export default function Testimonials() {
-  const [index, setIndex] = useState(0);
-  const [instant, setInstant] = useState(false);
+// Slow, continuous forward scroll (pixels per millisecond).
+const SPEED = 0.025;
+const ARROW_TWEEN_MS = 500;
+
+function easeInOutCubic(t: number) {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+export default function Testimonials({
+  items: provided,
+}: {
+  items?: TestimonialItem[];
+}) {
+  const source = provided && provided.length ? provided : TESTIMONIALS;
+  const TESTIMONIAL_ITEMS: TestimonialItem[] = source.map((t) => ({
+    quote: t.quote,
+    name: t.name,
+    role: t.role,
+    image: (t as { image?: string }).image,
+  }));
+
+  // Duplicate the set once so the loop can wrap seamlessly.
+  const items = [...TESTIMONIAL_ITEMS, ...TESTIMONIAL_ITEMS];
+
+  const trackRef = useRef<HTMLUListElement>(null);
+  const copyWidthRef = useRef(0);
+  const offsetRef = useRef(0);
+  const tweenRef = useRef<{ from: number; to: number; start: number } | null>(
+    null
+  );
   const [perView, setPerView] = useState(3);
   const reducedMotionRef = useRef(false);
 
-  // Clone the full set once so the loop can wrap seamlessly.
-  const items = [...TESTIMONIALS, ...TESTIMONIALS];
+  const measure = useCallback(() => {
+    const track = trackRef.current;
+    const first = track?.firstElementChild as HTMLElement | null;
+    if (track && first) {
+      copyWidthRef.current = first.offsetWidth * TESTIMONIAL_ITEMS.length;
+    }
+  }, [TESTIMONIAL_ITEMS.length]);
+
+  useEffect(() => {
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [measure]);
 
   useEffect(() => {
     const queries: Array<[MediaQueryList, number]> = [
@@ -41,63 +83,55 @@ export default function Testimonials() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const goNext = useCallback(() => {
-    setIndex((i) => Math.min(i + 1, items.length - 1));
-  }, [items.length]);
-
-  const goPrev = useCallback(() => {
-    if (reducedMotionRef.current) {
-      setIndex((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-      return;
-    }
-    setIndex((i) => {
-      if (i > 0) return i - 1;
-      // Step back from the first slide: jump instantly to the cloned copy,
-      // then animate to the last real slide on the next frame.
-      setInstant(true);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setInstant(false);
-          setIndex(TESTIMONIALS.length - 1);
-        });
-      });
-      return TESTIMONIALS.length;
-    });
+  useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(now - last, 100);
+      last = now;
+      const copy = copyWidthRef.current;
+      if (copy > 0) {
+        const tween = tweenRef.current;
+        if (tween) {
+          const t = Math.min((now - tween.start) / ARROW_TWEEN_MS, 1);
+          offsetRef.current =
+            ((tween.from + (tween.to - tween.from) * easeInOutCubic(t)) %
+              copy +
+              copy) %
+            copy;
+          if (t >= 1) tweenRef.current = null;
+        } else if (!reducedMotionRef.current) {
+          offsetRef.current = (offsetRef.current + SPEED * dt) % copy;
+        }
+        if (trackRef.current) {
+          trackRef.current.style.transform = `translateX(${-offsetRef.current}px)`;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
-  // Autoplay: one slide roughly every 5.5 seconds, very slow and smooth.
-  useEffect(() => {
-    if (reducedMotionRef.current) return undefined;
-    const id = window.setInterval(() => {
-      goNext();
-    }, AUTOPLAY_MS);
-    return () => window.clearInterval(id);
-  }, [goNext]);
-
-  // After sliding onto a cloned copy, snap back silently to the real slide.
-  const handleTransitionEnd = useCallback(() => {
-    setIndex((i) => {
-      if (i >= TESTIMONIALS.length) {
-        setInstant(true);
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setInstant(false);
-            setIndex(i - TESTIMONIALS.length);
-          });
-        });
-        return i;
-      }
-      return i;
-    });
+  const go = useCallback((direction: number) => {
+    const copy = copyWidthRef.current;
+    const first = trackRef.current?.firstElementChild as HTMLElement | null;
+    if (!copy || !first) return;
+    const step = first.offsetWidth;
+    tweenRef.current = {
+      from: offsetRef.current,
+      to: offsetRef.current + direction * step,
+      start: performance.now(),
+    };
   }, []);
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") {
       e.preventDefault();
-      goPrev();
+      go(-1);
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
-      goNext();
+      go(1);
     }
   };
 
@@ -126,7 +160,7 @@ export default function Testimonials() {
         >
           <button
             type="button"
-            onClick={goPrev}
+            onClick={() => go(-1)}
             aria-label="Previous testimonial"
             className="absolute left-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-brand-line bg-white text-brand-ink shadow-card transition-colors hover:border-brand-green hover:text-brand-green sm:flex h-10 w-10"
           >
@@ -135,24 +169,20 @@ export default function Testimonials() {
 
           <div className="overflow-hidden px-1 py-2 sm:px-14">
             <ul
-              className="flex will-change-transform motion-reduce:transition-none"
-              style={{
-                transform: `translateX(-${index * (100 / perView)}%)`,
-                transition: instant
-                  ? "none"
-                  : reducedMotionRef.current
-                    ? "none"
-                    : `transform ${TRANSITION_MS}ms ease-in-out`,
-              }}
-              onTransitionEnd={handleTransitionEnd}
+              ref={trackRef}
+              className="flex will-change-transform motion-reduce:transform-none"
+              style={{ transform: "translateX(0px)" }}
             >
               {items.map((t, i) => (
                 <li
                   key={`${t.name}-${i}`}
-                  aria-hidden={i >= TESTIMONIALS.length && index < TESTIMONIALS.length ? "true" : undefined}
+                  aria-hidden={
+                    i >= TESTIMONIAL_ITEMS.length ? "true" : undefined
+                  }
                   aria-roledescription="slide"
-                  aria-label={`Testimonial ${((i % TESTIMONIALS.length) + 1)} of ${TESTIMONIALS.length}`}
-                  className="min-w-[100%] px-3 sm:min-w-[50%] lg:min-w-[33.3333%]"
+                  aria-label={`Testimonial ${((i % TESTIMONIAL_ITEMS.length) + 1)} of ${TESTIMONIAL_ITEMS.length}`}
+                  className="shrink-0 px-3"
+                  style={{ width: `${100 / perView}%` }}
                 >
                   <figure className="card relative flex h-full flex-col p-8">
                     <blockquote className="flex-1 leading-relaxed text-brand-muted">
@@ -161,9 +191,18 @@ export default function Testimonials() {
                     <figcaption className="mt-6 flex items-center gap-3 border-t border-brand-line pt-5">
                       <span
                         aria-hidden="true"
-                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-green text-sm font-bold text-brand-gold"
+                        className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-green text-sm font-bold text-brand-gold"
                       >
-                        &ldquo;
+                        {t.image ? (
+                          <span
+                            role="img"
+                            aria-label={t.name}
+                            className="block h-full w-full bg-white bg-contain bg-center bg-no-repeat"
+                            style={{ backgroundImage: `url(${t.image})` }}
+                          />
+                        ) : (
+                          "&ldquo;"
+                        )}
                       </span>
                       <span>
                         <span className="block font-semibold text-brand-ink">
@@ -182,7 +221,7 @@ export default function Testimonials() {
 
           <button
             type="button"
-            onClick={goNext}
+            onClick={() => go(1)}
             aria-label="Next testimonial"
             className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 items-center justify-center rounded-full border border-brand-line bg-white text-brand-ink shadow-card transition-colors hover:border-brand-green hover:text-brand-green sm:flex h-10 w-10"
           >

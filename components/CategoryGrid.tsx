@@ -29,7 +29,7 @@ export default function CategoryGrid() {
               <li key={cat.slug}>
                 <Link
                   href={`/products/${cat.slug}`}
-                  className="card group block overflow-hidden transition-shadow hover:shadow-lift"
+                  className="card group block overflow-hidden transition-shadow hover:shadow-card"
                 >
                   <div className="relative h-44 overflow-hidden">
                     <Image
@@ -37,7 +37,7 @@ export default function CategoryGrid() {
                       alt={cat.alt}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                     />
                     <span
                       aria-hidden="true"

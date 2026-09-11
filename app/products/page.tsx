@@ -7,10 +7,8 @@ import MostSellingProducts from "@/components/MostSellingProducts";
 import ProductGrid from "@/components/ProductGrid";
 import { JsonLd, breadcrumbSchema } from "@/lib/seo";
 import { CATEGORY_SEEDS } from "@/data/categories";
-import {
-  CATEGORY_IMAGES,
-  categoryProductCount,
-} from "@/lib/catalog";
+import { CATEGORY_IMAGES, categoryProductCount } from "@/lib/catalog";
+import { getMostSellingProducts, getOurProducts } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Categories – Bulk Wholesale Grocery Catalog",
@@ -20,6 +18,21 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
+  const mostSelling = getMostSellingProducts().map((p) => ({
+    name: p.name,
+    slug: p.slug,
+    categoryName: p.categoryName,
+    categorySlug: p.categorySlug,
+    image: p.images?.[0],
+  }));
+  const ourProducts = getOurProducts().map((p) => ({
+    name: p.name,
+    slug: p.slug,
+    categoryName: p.categoryName,
+    categorySlug: p.categorySlug,
+    image: p.images?.[0],
+  }));
+
   return (
     <>
       <JsonLd
@@ -92,10 +105,10 @@ export default function ProductsPage() {
       </section>
 
       {/* Most Selling Products */}
-      <MostSellingProducts />
+      <MostSellingProducts items={mostSelling} />
 
       {/* Our Products */}
-      <ProductGrid />
+      <ProductGrid products={ourProducts} />
     </>
   );
 }

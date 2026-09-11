@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { INDUSTRIES } from "@/data/site";
+import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
-import CTABanner from "@/components/CTABanner";
 
 export const metadata = pageMetadata({
   title: "Industries We Serve – Canteen & Institutional Grocery Supply",
@@ -13,6 +13,13 @@ export const metadata = pageMetadata({
 });
 
 export default function IndustriesPage() {
+  const page = getPageContent("industries-we-serve");
+  const list = (
+    page?.sections?.length
+      ? page.sections
+      : INDUSTRIES.map((i) => ({ heading: i.title, body: i.desc }))
+  ).map((s) => ({ title: s.heading, desc: s.body }));
+
   return (
     <>
       <JsonLd
@@ -28,7 +35,7 @@ export default function IndustriesPage() {
 
       <section className="section-pad bg-white">
         <div className="container-site space-y-6">
-          {INDUSTRIES.map((ind, i) => (
+          {list.map((ind, i) => (
             <article
               key={ind.title}
               className={`card grid gap-4 p-8 sm:flex sm:items-center sm:justify-between lg:p-10 ${
@@ -50,8 +57,6 @@ export default function IndustriesPage() {
           ))}
         </div>
       </section>
-
-      <CTABanner title="Your Segment Not Listed? We May Still Serve You." subtitle="Contact our sales team to discuss your bulk grocery requirement." />
     </>
   );
 }

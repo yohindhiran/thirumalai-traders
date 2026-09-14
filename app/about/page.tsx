@@ -36,9 +36,9 @@ export default function AboutPage() {
   const vision = about.vision || VISION;
   const mission = about.mission.length ? about.mission : MISSION;
   const coreValues = (about.coreValues.length ? about.coreValues : CORE_VALUES)
-    .filter((v) => (v as any).status !== "inactive")
+    .filter((v: any) => v.status !== "inactive")
     .slice()
-    .sort((a, b) => ((a as any).displayOrder ?? 0) - ((b as any).displayOrder ?? 0));
+    .sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
   return (
     <>
@@ -136,7 +136,7 @@ export default function AboutPage() {
               Our Mission
             </p>
             <ul className="space-y-4">
-              {mission.map((m) => (
+              {mission.map((m: any) => (
                 <li key={m} className="flex gap-3 leading-relaxed text-brand-muted">
                   <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold-dark" />
                   {m}
@@ -149,7 +149,7 @@ export default function AboutPage() {
       </section>
 
       <Testimonials
-        items={getActiveTestimonials().map((t) => ({
+        items={getActiveTestimonials().map((t: any) => ({
           quote: t.quote,
           name: t.name,
           role: t.company,
@@ -163,7 +163,7 @@ export default function AboutPage() {
             Core Values
           </h2>
           <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {coreValues.map((v) => (
+            {coreValues.map((v: any) => (
               <li key={v.title} className="card border-t-2 border-t-brand-gold p-6 text-center">
                 <h3 className="font-semibold text-brand-ink">{v.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-brand-muted">{v.desc}</p>

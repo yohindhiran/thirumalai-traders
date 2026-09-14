@@ -1,7 +1,5 @@
-"use client"
-
-import DashboardPage from "./dashboard/page"
+import { redirect } from "next/navigation";
 
 export default function AdminPage() {
-  return <DashboardPage />
+  redirect("/admin/dashboard");
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -5,76 +7,80 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object({
-  email: yup.string().required(),
-  password: yup.string().required(),
-});
-
-type FormValues = yup.InferType<typeof schema>;
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().required("Password is required"),
+}).required();
 
 export default function LoginPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormValues>({
+  const router = useRouter();
+  const [loginError, setLoginError] = useState(""); // Standard state for login failure messages
+  
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(schema),
   });
-  const router = useRouter();
 
-  const onSubmit = async (data: FormValues) => {
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    const result = await res.json();
-    if (result.success) {
-      router.push("/admin/dashboard");
-    } else {
-      alert(result.error || "Login failed");
+  const onSubmit = async (data: any) => {
+    try {
+      setLoginError("");
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        router.push("/admin");
+      } else {
+        const errData = await res.json();
+        setLoginError(errData.error || "Invalid credentials");
+      }
+    } catch (err) {
+      setLoginError("An unexpected error occurred. Please try again.");
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
-      >
-        <h2 className="text-2xl font-bold text-center mb-6">Admin Login</h2>
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1" htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            {...register("email")}
-            className="w-full border rounded px-3 py-2"
-            placeholder="Enter your email"
-          />
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
-        </div>
+      <div className="max-w-md w-full bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Admin Login</h1>
 
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1" htmlFor="password">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            {...register("password")}
-            className="w-full border rounded px-3 py-2"
-            placeholder="Enter your password"
-          />
-          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              {...register("email")}
+              className="w-full p-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-amber-500"
+            />
+            {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
+          </div>
 
-        <button
-          type="submit"
-          className="w-full bg-brand-primary text-white py-2 rounded hover:bg-brand-dark"
-        >
-          Sign In
-        </button>
+          <div>
+            <label className="block text-xs font-medium text-gray-700 mb-1">Password</label>
+            <input
+              type="password"
+              {...register("password")}
+              className="w-full p-2.5 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-amber-500"
+            />
+            {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
+          </div>
 
-        {errors.nonFieldError && <p className="text-red-500">{errors.nonFieldError?.message}</p>}
-      </form>
+          {/* Custom Login Error Alert */}
+          {loginError && (
+            <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg">
+              {loginError}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-amber-700 hover:bg-amber-800 text-white py-2.5 rounded-lg text-sm font-medium transition shadow-sm"
+          >
+            {isSubmitting ? "Logging in..." : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

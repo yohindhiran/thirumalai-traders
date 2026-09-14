@@ -21,8 +21,7 @@ export default function AdminDashboardPage() {
   const leads = new Set(db.enquiries.map((e) => e.phone.toLowerCase())).size;
   const activeTestimonials = db.testimonials.filter((t) => t.status === "active").length;
   const activeCustomers = db.valuedCustomers.filter((c) => c.status === "active").length;
-  const activeShowcase = db.homeShowcase.filter((s) => s.status === "active").length;
-
+const activeShowcase = db.homeShowcase.filter((s: any) => s.status === "active").length;
   const stats = [
     { label: "Total Products", value: db.products.length, icon: Boxes, href: "/admin/dashboard/products" },
     { label: "Total Categories", value: db.categories.length, icon: FolderTree, href: "/admin/dashboard/categories" },

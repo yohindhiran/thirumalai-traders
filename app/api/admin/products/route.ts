@@ -75,7 +75,7 @@ export async function POST(request: Request) {
   const slug = `${cat.slug}-${slugify(name)}`;
 
   const product: Product = {
-    id: newId("prod"),
+    id: newId(), // Supports your db.ts export
     slug,
     name,
     categoryId,

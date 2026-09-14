@@ -1,58 +1,67 @@
-import Link from "next/link";
-import { Package } from "lucide-react";
-import type { Product } from "@/types";
-import { cn } from "@/lib/utils";
+import React from 'react';
 
-export default function ProductCard({
-  product,
-  categoryName,
-  categorySlug,
-  className,
-}: {
-  product: Product;
-  categoryName: string;
-  categorySlug?: string;
-  className?: string;
-}) {
+interface ProductVariant {
+  size: string;
+  price: number;
+}
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  image: string;
+  variants: ProductVariant[];
+}
+
+export default function ProductCard({ product }: { product: Product }) {
+  const whatsappMessage = encodeURIComponent(
+    `Hello Thirumalaai Traders, I would like to enquire about ${product.name}.`
+  );
+
   return (
-    <article
-      className={cn(
-        "card group flex flex-col overflow-hidden transition-shadow hover:shadow-lift",
-        className
-      )}
-    >
-      <Link
-        href={`/products/${categorySlug || ""}/${product.slug}`}
-        className="relative flex h-36 items-center justify-center overflow-hidden bg-brand-soft"
-        aria-label={`View ${product.name}`}
-      >
-        <span
-          aria-hidden="true"
-          className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-green via-brand-gold to-brand-green opacity-0 transition-opacity group-hover:opacity-100"
-        />
-        <Package
-          className="h-10 w-10 text-brand-green/30 transition-colors group-hover:text-brand-green/50"
-          aria-hidden="true"
-        />
-      </Link>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
-          {categoryName}
-          {product.subcategory ? ` · ${product.subcategory}` : ""}
-        </p>
-        <h3 className="mt-2 text-base font-semibold text-brand-ink">{product.name}</h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-brand-muted">
-          {product.description}
-        </p>
-        <div className="mt-4 pt-4 mt-auto">
-          <Link
-            href={`/enquiry?product=${encodeURIComponent(product.name)}&category=${encodeURIComponent(categoryName)}`}
-            className="btn-primary w-full !py-2.5 !text-xs sm:!text-sm"
-          >
-            Request Wholesale Price
-          </Link>
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition flex flex-col justify-between">
+      <div>
+        <div className="relative h-44 w-full mb-3 overflow-hidden rounded-lg bg-gray-100">
+          <img 
+            src={product.image || '/images/hero-rice.jpg'} 
+            alt={product.name} 
+            className="h-full w-full object-cover hover:scale-105 transition duration-300" 
+          />
+          <span className="absolute top-2 left-2 text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded font-medium">
+            {product.category}
+          </span>
+        </div>
+        <h3 className="font-semibold text-gray-800 text-base line-clamp-1">{product.name}</h3>
+        
+        {/* Variant Size & Price Selector */}
+        <div className="my-3">
+          <select aria-label="Select product size and price" className="w-full text-xs border border-gray-200 rounded-lg p-2 bg-gray-50 focus:ring-2 focus:ring-amber-500 outline-none">
+            {product.variants?.map((v, i) => (
+              <option key={i} value={v.size}>
+                {v.size} — ₹{v.price}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
-    </article>
+
+      {/* Direct Action CTAs (No Payment Gateway) */}
+      <div className="grid grid-cols-2 gap-2 mt-2">
+        <a 
+          href="tel:9384482007" 
+          className="flex items-center justify-center bg-emerald-700 text-white text-xs py-2.5 rounded-lg font-medium hover:bg-emerald-800 transition shadow-sm"
+        >
+          📞 Call Now
+        </a>
+        <a 
+          href={`https://wa.me/919384482007?text=${whatsappMessage}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center bg-green-600 text-white text-xs py-2.5 rounded-lg font-medium hover:bg-green-700 transition shadow-sm"
+        >
+          💬 WhatsApp
+        </a>
+      </div>
+    </div>
   );
 }

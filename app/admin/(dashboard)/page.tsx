@@ -12,16 +12,43 @@ import {
 } from "lucide-react";
 import { readDb } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
+import type {
+  Enquiry,
+  EnquiryStatus,
+  HomeShowcaseItem,
+  Testimonial,
+  ValuedCustomer,
+} from "@/types";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+const STATUS_STYLE: Record<EnquiryStatus, string> = {
+  New: "bg-blue-50 text-blue-700 border-blue-200",
+  Contacted: "bg-amber-50 text-amber-700 border-amber-200",
+  "In Progress": "bg-purple-50 text-purple-700 border-purple-200",
+  Converted: "bg-green-50 text-green-700 border-green-200",
+  Closed: "bg-gray-100 text-gray-600 border-gray-200",
+};
 
 export default function AdminDashboardPage() {
   const db = readDb();
-  const newCount = db.enquiries.filter((e: any) => e.status === "New").length;
-  const leads = new Set(db.enquiries.map((e: any) => e.phone.toLowerCase())).size;
-  const activeTestimonials = db.testimonials.filter((t: any) => t.status === "active").length;
-  const activeCustomers = db.valuedCustomers.filter((c: any) => c.status === "active").length;
-  const activeShowcase = db.homeShowcase.filter((s: any) => s.status === "active").length;
+
+  const enquiries: Enquiry[] = db.enquiries ?? [];
+  const newCount = enquiries.filter((e) => e.status === "New").length;
+  const leads = new Set(
+    enquiries.map((e) => (e.phone ?? "").toLowerCase())
+  ).size;
+  const activeTestimonials = (db.testimonials ?? []).filter(
+    (t: Testimonial) => t.status === "active"
+  ).length;
+  const activeCustomers = (db.valuedCustomers ?? []).filter(
+    (c: ValuedCustomer) => c.status === "active"
+  ).length;
+  const activeShowcase = (db.homeShowcase ?? []).filter(
+    (s: HomeShowcaseItem) => s.status === "active"
+  ).length;
+
   const stats = [
     { label: "Total Products", value: db.products.length, icon: Boxes, href: "/admin/dashboard/products" },
     { label: "Total Categories", value: db.categories.length, icon: FolderTree, href: "/admin/dashboard/categories" },
@@ -30,18 +57,10 @@ export default function AdminDashboardPage() {
     { label: "Testimonials", value: activeTestimonials, icon: MessageSquareQuote, href: "/admin/dashboard/testimonials" },
     { label: "Valued Customers", value: activeCustomers, icon: Users, href: "/admin/dashboard/customers" },
     { label: "Home Showcase", value: activeShowcase, icon: Image, href: "/admin/dashboard/home-showcase" },
-    { label: "Total Enquiries", value: db.enquiries.length, icon: Inbox, href: "/admin/dashboard/enquiries" },
+    { label: "Total Enquiries", value: enquiries.length, icon: Inbox, href: "/admin/dashboard/enquiries" },
     { label: "New Enquiries", value: newCount, icon: Inbox, href: "/admin/dashboard/enquiries?status=New" },
     { label: "Total Leads", value: leads, icon: Users, href: "/admin/dashboard/enquiries" },
   ];
-
-  const statusStyle: Record<string, string> = {
-    New: "bg-blue-50 text-blue-700 border-blue-200",
-    Contacted: "bg-amber-50 text-amber-700 border-amber-200",
-    "In Progress": "bg-purple-50 text-purple-700 border-purple-200",
-    Converted: "bg-green-50 text-green-700 border-green-200",
-    Closed: "bg-gray-100 text-gray-600 border-gray-200",
-  };
 
   return (
     <div>
@@ -70,7 +89,7 @@ export default function AdminDashboardPage() {
           </Link>
         </div>
 
-        {db.enquiries.length === 0 ? (
+        {enquiries.length === 0 ? (
           <div className="card p-12 text-center text-sm text-brand-muted">
             No enquiries yet. New wholesale enquiries from the website will appear here.
           </div>
@@ -87,7 +106,7 @@ export default function AdminDashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {db.enquiries.slice(0, 8).map((e: any) => (
+                {enquiries.slice(0, 8).map((e) => (
                   <tr key={e.id} className="border-b border-brand-line last:border-0 hover:bg-brand-soft/60">
                     <td className="px-5 py-3.5">
                       <p className="font-medium text-brand-ink">{e.name}</p>
@@ -99,7 +118,7 @@ export default function AdminDashboardPage() {
                     </td>
                     <td className="px-5 py-3.5 text-brand-muted">{formatDate(e.createdAt)}</td>
                     <td className="px-5 py-3.5">
-                      <span className={`rounded-full border px-2.5 py-1 text-xs font-medium ${statusStyle[e.status]}`}>
+                      <span className={`rounded-full border px-2.5 py-1 text-xs font-medium ${STATUS_STYLE[e.status] ?? STATUS_STYLE.Closed}`}>
                         {e.status}
                       </span>
                     </td>

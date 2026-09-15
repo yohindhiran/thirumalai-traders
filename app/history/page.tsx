@@ -1,52 +1,37 @@
+import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
-import PageHero from "@/components/PageHero";
 
 export const metadata = pageMetadata({
-  title: "Our History – 25+ Years in Wholesale Grocery",
+  title: "Our History & Journey – Thirumalaai Traders Erode",
   description:
-    "The journey of Thirumalaai Traders — over 25 years of wholesale grocery supply, institutional partnerships and steady growth from Erode, Tamil Nadu.",
+    "Explore over 25 years of history and growth of Thirumalaai Traders — a trusted wholesale grocery supplier in Erode, Tamil Nadu.",
   path: "/history",
 });
 
-const MILESTONES = [
+const DEFAULT_MILESTONES = [
   {
-    title: "Establishment",
-    desc: "Thirumalaai Traders began operations at Karungalpalayam, Erode — supplying quality grocery products to local businesses at honest wholesale prices.",
+    title: "Founded",
+    desc: "Started operations as a small local grocery supplier in Erode.",
   },
   {
-    title: "Business Growth",
-    desc: "Consistent product quality and reliable service earned word-of-mouth referrals, steadily growing the customer base across the region.",
+    title: "Expansion",
+    desc: "Expanded into bulk wholesale supply for school canteens and industrial kitchens.",
   },
   {
-    title: "Institutional Supply",
-    desc: "The company became a specialised supplier to school and college canteens, industrial canteens and mills — building expertise in institutional kitchen requirements.",
-  },
-  {
-    title: "Expansion of Range & Reach",
-    desc: "Product range expanded to cover the full spectrum — spices, grains, pulses, rice, masalas, dry fruits, oils, flours and everyday grocery essentials.",
-  },
-  {
-    title: "Long-Term Customer Relationships",
-    desc: "Many customers stayed with us for years and decades. Today we proudly serve more than 1000 customers across institutions, industries and retail.",
-  },
-  {
-    title: "Present Capabilities",
-    desc: "Today Thirumalaai Traders combines bulk supply capability, flexible order quantities, hygienic packing and dependable delivery schedules.",
-  },
-  {
-    title: "Future Growth",
-    desc: "We continue to expand our product availability and supply capabilities, staying committed to the values that built this business.",
+    title: "25+ Years of Trust",
+    desc: "Became one of Karungalpalayam's leading trusted wholesale grocery partners.",
   },
 ];
 
 export default function HistoryPage() {
   const page = getPageContent("history");
-  const list = (
+  const milestones = (
     page?.sections?.length
       ? page.sections
-      : MILESTONES.map((m) => ({ heading: m.title, body: m.desc }))
-  ).map((s) => ({ title: s.heading, desc: s.body }));
+      : DEFAULT_MILESTONES.map((m) => ({ heading: m.title, body: m.desc }))
+  ).map((s: any) => ({ title: s.heading, desc: s.body }));
 
   return (
     <>
@@ -56,31 +41,38 @@ export default function HistoryPage() {
           { name: "History", path: "/history" },
         ])}
       />
+
       <PageHero
-        title="History"
-        backgroundImage="/images/hero-spices.jpg"
+        title={page?.heroTitle || "Our History & Journey"}
+        backgroundImage={page?.heroImage || "/images/about-warehouse.jpg"}
       />
 
       <section className="section-pad bg-white">
-        <div className="container-site">
-          <ol className="relative mx-auto max-w-3xl space-y-12 border-l-2 border-brand-green/20 pl-8 sm:pl-10">
-            {list.map((m, i) => (
-              <li key={m.title} className="relative">
-                <span
-                  aria-hidden="true"
-                  className={`absolute -left-[45px] top-1 flex h-6 w-6 items-center justify-center rounded-full border-2 text-xs font-bold sm:-left-[57px] ${
-                    i === 0 || i === MILESTONES.length - 1
-                      ? "border-brand-gold-dark bg-brand-gold text-brand-green-deep"
-                      : "border-brand-green bg-white text-brand-green"
-                  }`}
-                >
-                  {i + 1}
-                </span>
-                <h2 className="text-xl font-semibold text-brand-ink">{m.title}</h2>
-                <p className="mt-2 leading-relaxed text-brand-muted">{m.desc}</p>
-              </li>
+        <div className="container-site max-w-4xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
+              {page?.sectionHeading || "25+ Years of Reliable Wholesale Supply"}
+            </h2>
+            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <p className="text-brand-muted leading-relaxed">
+              {page?.sectionSubheading ||
+                "From our humble beginnings in Erode to becoming a staple partner for major institutions and bulk buyers, here is how we grew."}
+            </p>
+          </div>
+
+          <div className="mt-16 space-y-12">
+            {milestones.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="card relative flex flex-col sm:flex-row gap-6 p-6 sm:p-8 border-l-4 border-l-brand-gold"
+              >
+                <div>
+                  <h3 className="text-xl font-bold text-brand-ink">{item.title}</h3>
+                  <p className="mt-3 text-brand-muted leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
     </>

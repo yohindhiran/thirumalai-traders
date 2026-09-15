@@ -1,19 +1,19 @@
-import Link from "next/link";
+import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { CLIENTS } from "@/data/site";
 import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
-import PageHero from "@/components/PageHero";
 
 export const metadata = pageMetadata({
-  title: "Our Clients – Trusted by 1000+ Customers",
+  title: "Valued Clients – Thirumalaai Traders Erode",
   description:
-    "Colleges, mills, corporations and businesses trust Thirumalaai Traders for wholesale grocery supply — see our valued customers.",
+    "Explore the trusted institutions, canteens, industries, and bulk partners who rely on Thirumalaai Traders for their daily wholesale grocery needs in Erode.",
   path: "/clients",
 });
 
 export default function ClientsPage() {
   const page = getPageContent("clients");
-  const list = page?.items?.length ? page.items.map((c) => c.title) : CLIENTS;
+  const list = page?.items?.length ? page.items.map((c: any) => c.title) : CLIENTS;
 
   return (
     <>
@@ -23,30 +23,41 @@ export default function ClientsPage() {
           { name: "Clients", path: "/clients" },
         ])}
       />
+
       <PageHero
-        title="Clients"
-        backgroundImage="/images/hero-nuts.jpg"
+        title={page?.heroTitle || "Our Valued Clients"}
+        backgroundImage={page?.heroImage || "/images/hero-warehouse.jpg"}
       />
 
-      <section className="section-pad bg-brand-soft">
+      <section className="section-pad bg-white">
         <div className="container-site">
-          <ul className="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {list.map((c) => (
-              <li key={c} className="card flex min-h-[120px] items-center justify-center p-8 text-center">
-                <span className="text-base font-bold uppercase tracking-wide text-brand-ink/80 sm:text-lg">
-                  {c}
-                </span>
-              </li>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
+              {page?.sectionHeading || "Trusted by Leading Institutions & Businesses"}
+            </h2>
+            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <p className="text-brand-muted">
+              {page?.sectionSubheading ||
+                "For over two decades, we have built lasting relationships by consistently supplying quality wholesale goods on schedule."}
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {list.map((clientName: string, index: number) => (
+              <div
+                key={index}
+                className="card flex items-center gap-4 p-6 border-l-4 border-l-brand-green"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-soft font-bold text-brand-green">
+                  {clientName.charAt(0)}
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-ink">{clientName}</h3>
+                  <p className="text-xs text-brand-muted">Bulk Wholesale Partner</p>
+                </div>
+              </div>
             ))}
-          </ul>
-          <p className="mx-auto mt-12 max-w-2xl text-center leading-relaxed text-brand-muted">
-            Alongside these organisations, more than <strong className="text-brand-ink">1000 customers</strong> —
-            including canteens, mills, factories and retail grocery shops — rely on
-            Thirumalaai Traders for their bulk grocery requirements.{" "}
-            <Link href="/enquiry" className="font-semibold text-brand-green hover:underline">
-              Join them today.
-            </Link>
-          </p>
+          </div>
         </div>
       </section>
     </>

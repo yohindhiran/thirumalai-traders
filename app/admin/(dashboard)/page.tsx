@@ -17,11 +17,11 @@ export const dynamic = "force-dynamic";
 
 export default function AdminDashboardPage() {
   const db = readDb();
-  const newCount = db.enquiries.filter((e) => e.status === "New").length;
-  const leads = new Set(db.enquiries.map((e) => e.phone.toLowerCase())).size;
-  const activeTestimonials = db.testimonials.filter((t) => t.status === "active").length;
-  const activeCustomers = db.valuedCustomers.filter((c) => c.status === "active").length;
-const activeShowcase = db.homeShowcase.filter((s: any) => s.status === "active").length;
+  const newCount = db.enquiries.filter((e: any) => e.status === "New").length;
+  const leads = new Set(db.enquiries.map((e: any) => e.phone.toLowerCase())).size;
+  const activeTestimonials = db.testimonials.filter((t: any) => t.status === "active").length;
+  const activeCustomers = db.valuedCustomers.filter((c: any) => c.status === "active").length;
+  const activeShowcase = db.homeShowcase.filter((s: any) => s.status === "active").length;
   const stats = [
     { label: "Total Products", value: db.products.length, icon: Boxes, href: "/admin/dashboard/products" },
     { label: "Total Categories", value: db.categories.length, icon: FolderTree, href: "/admin/dashboard/categories" },
@@ -87,7 +87,7 @@ const activeShowcase = db.homeShowcase.filter((s: any) => s.status === "active")
                 </tr>
               </thead>
               <tbody>
-                {db.enquiries.slice(0, 8).map((e) => (
+                {db.enquiries.slice(0, 8).map((e: any) => (
                   <tr key={e.id} className="border-b border-brand-line last:border-0 hover:bg-brand-soft/60">
                     <td className="px-5 py-3.5">
                       <p className="font-medium text-brand-ink">{e.name}</p>

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   const now = new Date().toISOString();
   const maxOrder = db.categories.reduce((m, c) => Math.max(m, c.displayOrder ?? 0), 0);
   const category: Category = {
-    id: newId("cat"),
+    id: newId(),
     slug,
     name,
     description:

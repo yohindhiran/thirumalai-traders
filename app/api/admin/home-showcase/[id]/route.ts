@@ -14,7 +14,7 @@ export async function PATCH(
   const { id } = await params;
   const body = await request.json().catch(() => null);
   const db = readDb();
-  const item = db.homeShowcase.find((s) => s.id === id);
+ const item = db.homeShowcase.find((s: any) => s.id === id);
   if (!item) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   if (typeof body?.image === "string" && body.image.trim()) item.image = body.image.trim();
@@ -37,7 +37,7 @@ export async function DELETE(
   const { id } = await params;
   const db = readDb();
   const before = db.homeShowcase.length;
-  db.homeShowcase = db.homeShowcase.filter((s) => s.id !== id);
+ db.homeShowcase = db.homeShowcase.filter((s: any) => s.id !== id);
   if (db.homeShowcase.length === before) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

@@ -1,24 +1,23 @@
-import { CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { WHY_CHOOSE_US } from "@/data/site";
 import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
-import PageHero from "@/components/PageHero";
-import StatsSection from "@/components/StatsSection";
 
 export const metadata = pageMetadata({
-  title: "Why Choose Us – Trusted Wholesale Grocery Supplier",
+  title: "Why Choose Us – Thirumalaai Traders Erode",
   description:
-    "25+ years of experience, 1000+ customers, consistent quality, competitive wholesale prices and timely delivery — why institutions choose Thirumalaai Traders.",
+    "Discover why leading businesses, institutions, and wholesale buyers choose Thirumalaai Traders for reliable grocery supply in Erode, Tamil Nadu.",
   path: "/why-choose-us",
 });
 
 export default function WhyChooseUsPage() {
   const page = getPageContent("why-choose-us");
-  const list = (
+  const reasons = (
     page?.sections?.length
       ? page.sections
-      : WHY_CHOOSE_US.map((w) => ({ heading: w.title, body: w.desc }))
-  ).map((s) => ({ title: s.heading, desc: s.body }));
+      : WHY_CHOOSE_US.map((w: any) => ({ heading: w.title, body: w.desc }))
+  ).map((s: any) => ({ title: s.heading, desc: s.body }));
 
   return (
     <>
@@ -28,29 +27,38 @@ export default function WhyChooseUsPage() {
           { name: "Why Choose Us", path: "/why-choose-us" },
         ])}
       />
+
       <PageHero
-        title="Why Choose Us"
-        backgroundImage="/images/hero-oil.jpg"
+        title={page?.heroTitle || "Why Choose Us"}
+        backgroundImage={page?.heroImage || "/images/about-warehouse.jpg"}
       />
 
-      <StatsSection />
-
       <section className="section-pad bg-white">
-        <div className="container-site">
-          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {list.map((w, i) => (
-              <li key={w.title} className="card group p-7">
-                <span className="flex h-11 w-11 items-center justify-center rounded-md bg-brand-green text-brand-gold">
-                  <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <span aria-hidden="true" className="mt-4 block text-xs font-bold tracking-widest text-brand-line">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h2 className="mt-1.5 font-semibold text-brand-ink">{w.title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-brand-muted">{w.desc}</p>
-              </li>
+        <div className="container-site max-w-4xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
+              {page?.sectionHeading || "Your Trusted Wholesale Partner"}
+            </h2>
+            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <p className="text-brand-muted leading-relaxed">
+              {page?.sectionSubheading ||
+                "We combine decades of market trust, transparent pricing, and dependable delivery to keep your kitchen or business running without interruption."}
+            </p>
+          </div>
+
+          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {reasons.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="card flex flex-col justify-between p-6 sm:p-8 border-l-4 border-l-brand-gold"
+              >
+                <div>
+                  <h3 className="text-xl font-bold text-brand-ink">{item.title}</h3>
+                  <p className="mt-3 text-brand-muted leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </section>
     </>

@@ -1,52 +1,44 @@
-import {
-  BadgeCheck,
-  ClipboardCheck,
-  Handshake,
-  Headset,
-  PackageCheck,
-  SearchCheck,
-  Timer,
-  Truck,
-} from "lucide-react";
+import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
-import PageHero from "@/components/PageHero";
+import { ShieldCheck, Award, CheckCircle2, Leaf } from "lucide-react";
 
 export const metadata = pageMetadata({
-  title: "Quality & Service – Our Wholesale Commitment",
+  title: "Quality Assurance & Standards – Thirumalaai Traders Erode",
   description:
-    "Careful supplier selection, quality checking, hygienic packing and dependable delivery — how Thirumalaai Traders maintains quality and service in wholesale supply.",
+    "Learn about our strict quality assurance, grading, and wholesale standards for pulses, grains, oils, and spices in Erode, Tamil Nadu.",
   path: "/quality",
 });
 
 const PILLARS = [
-  { icon: BadgeCheck, title: "Product Quality", desc: "We supply products that meet the consistent standard institutional kitchens depend on, order after order." },
-  { icon: SearchCheck, title: "Supplier Selection", desc: "We choose our sources carefully, working with established suppliers for reliable raw materials and brands." },
-  { icon: ClipboardCheck, title: "Quality Checking", desc: "Products are checked before they reach you — because a rejected consignment costs your kitchen time." },
-  { icon: PackageCheck, title: "Hygienic Packing", desc: "Goods are packed cleanly and securely to preserve quality through storage, transport and handling." },
-  { icon: Timer, title: "Reliable Supply", desc: "Consistent availability across our range means fewer substitutions and fewer shortfalls." },
-  { icon: Truck, title: "Timely Delivery", desc: "Delivery schedules built around your kitchen's planning — not the other way around." },
-  { icon: Headset, title: "Customer Support", desc: "A dedicated sales team that answers quickly and follows through on every requirement." },
-  { icon: Handshake, title: "Consistency", desc: "The same quality, pricing discipline and service — whether your order is small or in tonnes." },
+  {
+    title: "Rigorous Sourcing",
+    desc: "We handpick grains, pulses, and spices directly from trusted growers and mills.",
+  },
+  {
+    title: "Hygienic Processing",
+    desc: "All products undergo multi-stage cleaning, grading, and moisture control.",
+  },
+  {
+    title: "Consistent Grading",
+    desc: "Standardized size, purity, and quality across every wholesale batch we dispatch.",
+  },
+  {
+    title: "Safe Bulk Packaging",
+    desc: "Packed to preserve freshness, aroma, and shelf-life during commercial storage and transport.",
+  },
 ];
+
+const PILLAR_ICONS = [ShieldCheck, Award, CheckCircle2, Leaf];
 
 export default function QualityPage() {
   const page = getPageContent("quality");
-  const PILLAR_ICONS = [
-    BadgeCheck,
-    SearchCheck,
-    ClipboardCheck,
-    PackageCheck,
-    Timer,
-    Truck,
-    Headset,
-    Handshake,
-  ];
-  const list = (
+  const pillars = (
     page?.sections?.length
       ? page.sections
       : PILLARS.map((p) => ({ heading: p.title, body: p.desc }))
-  ).map((s, i) => ({
+  ).map((s: any, i: number) => ({
     title: s.heading,
     desc: s.body,
     icon: PILLAR_ICONS[i % PILLAR_ICONS.length],
@@ -57,27 +49,47 @@ export default function QualityPage() {
       <JsonLd
         data={breadcrumbSchema([
           { name: "Home", path: "/" },
-          { name: "Quality & Service", path: "/quality" },
+          { name: "Quality", path: "/quality" },
         ])}
       />
+
       <PageHero
-        title="Quality"
-        backgroundImage="/images/about-warehouse.jpg"
+        title={page?.heroTitle || "Quality Assurance & Standards"}
+        backgroundImage={page?.heroImage || "/images/about-warehouse.jpg"}
       />
 
       <section className="section-pad bg-white">
-        <div className="container-site">
-          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {list.map((p) => (
-              <li key={p.title} className="card p-7">
-                <span className="flex h-11 w-11 items-center justify-center rounded-md bg-brand-green/10 text-brand-green">
-                  <p.icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h2 className="mt-4 font-semibold text-brand-ink">{p.title}</h2>
-                <p className="mt-2 text-sm leading-relaxed text-brand-muted">{p.desc}</p>
-              </li>
-            ))}
-          </ul>
+        <div className="container-site max-w-4xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
+              {page?.sectionHeading || "Uncompromising Quality in Every Batch"}
+            </h2>
+            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <p className="text-brand-muted leading-relaxed">
+              {page?.sectionSubheading ||
+                "We adhere to strict sorting, grading, and storage protocols to ensure every grain, pulse, and spice meets high commercial standards."}
+            </p>
+          </div>
+
+          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {pillars.map((item: any, index: number) => {
+              const IconComponent = item.icon;
+              return (
+                <div
+                  key={index}
+                  className="card flex flex-col justify-between p-6 sm:p-8 border-l-4 border-l-brand-green"
+                >
+                  <div>
+                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-brand-green/10 text-brand-green">
+                      <IconComponent className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-xl font-bold text-brand-ink">{item.title}</h3>
+                    <p className="mt-3 text-brand-muted leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
     </>

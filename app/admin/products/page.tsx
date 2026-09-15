@@ -3,10 +3,21 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import type { Product } from "@/types";
+
+export interface ProductItem {
+  id: string;
+  name: string;
+  categoryId?: string;
+  categoryName?: string;
+  images?: string[];
+  price?: number;
+  stock?: number;
+  status?: string;
+  variants?: Array<{ price?: number }>;
+}
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductItem[]>([]);
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -16,7 +27,6 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Fetch products and categories via API to keep fs out of the browser bundle
   useEffect(() => {
     async function loadProducts() {
       try {
@@ -25,7 +35,7 @@ export default function ProductsPage() {
         let filtered = data.products || [];
 
         if (search) {
-          filtered = filtered.filter((p: Product) => 
+          filtered = filtered.filter((p: ProductItem) => 
             p.name.toLowerCase().includes(search.toLowerCase())
           );
         }
@@ -66,9 +76,18 @@ export default function ProductsPage() {
     setPage(1);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this product?")) {
-      setProducts(products.filter((p) => p.id !== id));
+      try {
+        const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
+        if (res.ok) {
+          setProducts((prev) => prev.filter((p) => p.id !== id));
+        } else {
+          alert("Failed to delete product.");
+        }
+      } catch (err) {
+        console.error("Delete error:", err);
+      }
     }
   };
 
@@ -172,7 +191,8 @@ export default function ProductsPage() {
                       )}
                     </td>
                     <td className="p-3 font-medium text-gray-800">{product.name}</td>
-<td className="p-3 text-gray-600">{product.categoryName || "Uncategorized"}</td>                    <td className="p-3 text-gray-600">₹{product.price ?? "-"}</td>
+                    <td className="p-3 text-gray-600">{product.categoryName || "Uncategorized"}</td>
+                    <td className="p-3 text-gray-600">₹{product.price ?? product.variants?.[0]?.price ?? "-"}</td>
                     <td className="p-3 text-gray-600">{product.stock ?? "-"}</td>
                     <td className="p-3">
                       <span

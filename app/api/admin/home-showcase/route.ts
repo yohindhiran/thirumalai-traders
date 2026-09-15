@@ -9,7 +9,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const items = readDb().homeShowcase.slice().sort((a, b) => a.displayOrder - b.displayOrder);
+  const items = readDb().homeShowcase.slice().sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
   return NextResponse.json({ items });
 }
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Image is required." }, { status: 400 });
   }
   const db = readDb();
-  const maxOrder = db.homeShowcase.reduce((m, s) => Math.max(m, s.displayOrder), 0);
+  const maxOrder = db.homeShowcase.reduce((m: number, s: any) => Math.max(m, s.displayOrder ?? 0), 0);
   const item: HomeShowcaseItem = {
     id: newId("show"),
     image,

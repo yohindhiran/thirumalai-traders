@@ -1,24 +1,23 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import PageHero from "@/components/PageHero";
 import { INDUSTRIES } from "@/data/site";
 import { getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
-import PageHero from "@/components/PageHero";
 
 export const metadata = pageMetadata({
-  title: "Industries We Serve – Canteen & Institutional Grocery Supply",
+  title: "Industries We Serve – Thirumalaai Traders Erode",
   description:
-    "Thirumalaai Traders supplies schools, colleges, industrial canteens, mill canteens, factories, grocery shops and bulk customers across Erode and Tamil Nadu.",
+    "Discover the diverse industries, commercial kitchens, canteens, and bulk buyers served by Thirumalaai Traders in Erode, Tamil Nadu.",
   path: "/industries-we-serve",
 });
 
-export default function IndustriesPage() {
+export default function IndustriesWeServePage() {
   const page = getPageContent("industries-we-serve");
-  const list = (
+  const industries = (
     page?.sections?.length
       ? page.sections
       : INDUSTRIES.map((i) => ({ heading: i.title, body: i.desc }))
-  ).map((s) => ({ title: s.heading, desc: s.body }));
+  ).map((s: any) => ({ title: s.heading, desc: s.body }));
 
   return (
     <>
@@ -28,33 +27,38 @@ export default function IndustriesPage() {
           { name: "Industries We Serve", path: "/industries-we-serve" },
         ])}
       />
+
       <PageHero
-        title="Industries We Serve"
-        backgroundImage="/images/hero-rice.jpg"
+        title={page?.heroTitle || "Industries We Serve"}
+        backgroundImage={page?.heroImage || "/images/about-warehouse.jpg"}
       />
 
       <section className="section-pad bg-white">
-        <div className="container-site space-y-6">
-          {list.map((ind, i) => (
-            <article
-              key={ind.title}
-              className={`card grid gap-4 p-8 sm:flex sm:items-center sm:justify-between lg:p-10 ${
-                i % 2 === 1 ? "sm:bg-brand-soft" : ""
-              }`}
-            >
-              <div className="max-w-2xl">
-                <h2 className="text-xl font-bold text-brand-ink">{ind.title}</h2>
-                <p className="mt-2 leading-relaxed text-brand-muted">{ind.desc}</p>
-              </div>
-              <Link
-                href={`/enquiry?category=${encodeURIComponent(ind.title)}`}
-                className="btn-primary shrink-0"
+        <div className="container-site max-w-4xl">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
+              {page?.sectionHeading || "Tailored Wholesale Supply Across Sectors"}
+            </h2>
+            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <p className="text-brand-muted leading-relaxed">
+              {page?.sectionSubheading ||
+                "We cater to a wide range of commercial and institutional kitchens with reliable, volume-based grocery supply."}
+            </p>
+          </div>
+
+          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {industries.map((item: any, index: number) => (
+              <div
+                key={index}
+                className="card flex flex-col justify-between p-6 sm:p-8 border-t-2 border-t-brand-gold"
               >
-                Request Enquiry
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-            </article>
-          ))}
+                <div>
+                  <h3 className="text-xl font-bold text-brand-ink">{item.title}</h3>
+                  <p className="mt-3 text-brand-muted leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>

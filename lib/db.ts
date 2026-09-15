@@ -1,64 +1,84 @@
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
+import { CATEGORY_SEEDS } from "@/data/categories";
+import { PRODUCT_SEEDS, slugify, productDescription } from "@/data/products-seed";
+import type {
+  Category,
+  Product,
+  Enquiry,
+  SiteContent,
+  HeroSlide,
+  Testimonial,
+  ValuedCustomer,
+  ProductRef,
+  Faq,
+  AboutContent,
+  CompanyPageContent,
+  SiteSettings,
+  ContactSettings,
+  DbData,
+} from "@/types";
 
-const DB_FILE = path.join(process.cwd(), 'data', 'database.json');
+const DB_FILE = path.join(process.cwd(), "data", "database.json");
 
-export const DEFAULT_CONTENT = {
-  heroTitle: "Wholesale Grocery Supplier",
-  heroSubtitle: "Trusted Quality for Over Two Decades",
+export const DEFAULT_CONTENT: SiteContent = {
+  heroHeadline: "Serving Quality. Delivering Trust.",
+  heroSubtext:
+    "Your Trusted Wholesale Partner for School, College & Industrial Canteens.",
+  aboutPreview:
+    "Thirumalaai Traders is a trusted wholesale grocery supplier in Erode with 25+ years of experience serving schools, colleges, industries, mills, grocery shops and bulk customers.",
+  highlights: [
+    "25+ Years of Experience",
+    "Trusted by 1000+ Customers",
+    "Specialized in Canteen & Institutional Supplies",
+    "Consistent Quality Assurance",
+  ],
+  officePhone: "93844 82007",
+  homeAboutImage: "/images/about-warehouse.jpg",
+  homeAboutHeading: "A Trusted Name in Wholesale Grocery",
+  homeAboutButtonText: "Know More About Us",
+  homeAboutButtonLink: "/about",
 };
 
-export const categories: any[] = [];
-export const products: any[] = [];
-export const heroSlides: any[] = [];
-export const testimonials: any[] = [];
-export const valuedCustomers: any[] = [];
-export const mostSelling: any[] = [];
-export const ourProducts: any[] = [];
-export const faqs: any[] = [];
-export const about: any = {};
-export const homeShowcase: any = {};
-export const pages: any[] = [];
-export const siteSettings: any = {};
-export const contactSettings: any = {};
-
-export interface DbData {
-  products: any[];
-  categories: any[];
-  enquiries: any[];
-  content: any;
-  heroSlides: any[];
-  testimonials: any[];
-  valuedCustomers: any[];
-  mostSelling: any[];
-  ourProducts: any[];
-  faqs: any[];
-  about: any;
-  homeShowcase: any;
-  pages: any[];
-  siteSettings: any;
-  contactSettings: any;
-  customers: any[];
-  hero: any[];
-}
-
-// Generate unique IDs for new records
-export function newId(): string {
-  return '_' + Math.random().toString(36).substr(2, 9);
+export function newId(prefix = "id"): string {
+  return `${prefix}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
 export function seedDb(): DbData {
-  const db: DbData = {
-    categories: [
-      { id: '1', name: 'Pulses & Lentils', slug: 'pulses-lentils' },
-      { id: '2', name: 'Spices & Masala', slug: 'spices-masala' },
-      { id: '3', name: 'Oils & Ghee', slug: 'oils-ghee' },
-      { id: '4', name: 'Grains & Rice', slug: 'grains-rice' }
-    ],
-    products: [
-      { id: '1', name: 'Coriander Powder / மல்லித்தூள்', categoryId: '2', categoryName: 'Spices & Masala', price: 75, stock: 100, status: 'active', variants: [{ size: '250 gm', price: 75 }, { size: '1 Kg', price: 280 }] },
-      { id: '2', name: 'Toor Dal / துவரம் பருப்பு', categoryId: '1', categoryName: 'Pulses & Lentils', price: 155, stock: 150, status: 'active', variants: [{ size: '1 Kg', price: 155 }] }
-    ],
+  const categories: Category[] = CATEGORY_SEEDS.map((c, i) => ({
+    id: `cat-${c.slug}`,
+    slug: c.slug,
+    name: c.name,
+    description: c.description,
+    status: "active",
+    displayOrder: i + 1,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  }));
+
+  const products: Product[] = [];
+  let pIdx = 1;
+  for (const cat of CATEGORY_SEEDS) {
+    const seeds = PRODUCT_SEEDS[cat.slug] || [];
+    for (const s of seeds) {
+      products.push({
+        id: `prod-${pIdx++}`,
+        slug: slugify(s.name),
+        name: s.name,
+        categoryId: `cat-${cat.slug}`,
+        subcategory: s.subcategory,
+        description: productDescription(s.name, cat.name),
+        status: "active",
+        displayOrder: products.length + 1,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+    }
+  }
+
+  return {
+    categories,
+    products,
     enquiries: [],
     content: DEFAULT_CONTENT,
     heroSlides: [],
@@ -67,21 +87,48 @@ export function seedDb(): DbData {
     mostSelling: [],
     ourProducts: [],
     faqs: [],
-    about: { title: "About Us", description: "Trusted wholesale grocery suppliers." },
-    homeShowcase: {},
-    pages: [],
-    siteSettings: { siteName: "Thirumalaai Traders", phone: "9384482007" },
-    contactSettings: { phone: "9384482007", email: "info@thirumalaaitraders.com" },
-    customers: [],
-    hero: []
+    about: {
+      content: DEFAULT_CONTENT.aboutPreview,
+      vision:
+        "To become one of the most trusted and preferred wholesale grocery partners for institutions, industries, canteens and businesses.",
+      mission: [
+        "Supply quality grocery and food products at competitive wholesale prices.",
+        "Ensure timely and reliable delivery for regular and bulk requirements.",
+      ],
+      coreValues: [
+        { title: "Quality", desc: "Focus on supplying reliable and quality products." },
+        { title: "Trust", desc: "Building long-term relationships through dependable business practices." },
+      ],
+      images: [],
+    },
+    homeShowcase: [],
+    pages: {},
+    siteSettings: {
+      companyName: "Thirumalaai Traders",
+      phone: "93844 82007",
+      whatsapp: "919384482007",
+      email: "thirumalaaigroupofcompanies@gmail.com",
+      addressLine1: "Varakappar Street, Janakiammal Layout,",
+      addressLine2: "Karungalpalayam, Erode,",
+      addressState: "Tamil Nadu – 638003, India",
+      footerText: "Trusted wholesale grocery supplier in Erode.",
+      copyrightYear: "2026",
+    },
+    contactSettings: {
+      phone: "93844 82007",
+      whatsapp: "919384482007",
+      email: "thirumalaaigroupofcompanies@gmail.com",
+      addressLine1: "Varakappar Street, Janakiammal Layout,",
+      addressLine2: "Karungalpalayam, Erode,",
+      addressState: "Tamil Nadu – 638003, India",
+      businessHours: "Monday – Saturday: 8:00 AM – 8:00 PM",
+    },
   };
-  return db;
 }
 
 export function readDb(): DbData {
   try {
-    if (typeof window !== 'undefined') {
-      // Safe fallback if called on browser side
+    if (typeof window !== "undefined") {
       return seedDb();
     }
     if (!fs.existsSync(DB_FILE)) {
@@ -91,7 +138,6 @@ export function readDb(): DbData {
     }
     const raw = fs.readFileSync(DB_FILE, "utf-8");
     const db = JSON.parse(raw) as DbData;
-    
     const seed = seedDb();
     for (const key of Object.keys(seed) as Array<keyof DbData>) {
       if (db[key] === undefined) {
@@ -100,15 +146,16 @@ export function readDb(): DbData {
       }
     }
     return db;
-  } catch (error) {
-    console.error("Error reading DB:", error);
-    return seedDb();
+  } catch {
+    const db = seedDb();
+    writeDb(db);
+    return db;
   }
 }
 
 export function writeDb(data: DbData): void {
   try {
-    if (typeof window !== 'undefined') return;
+    if (typeof window !== "undefined") return;
     const dir = path.dirname(DB_FILE);
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
@@ -119,15 +166,73 @@ export function writeDb(data: DbData): void {
   }
 }
 
-// Helper getters required by components and pages
-export function getAbout() { const db = readDb(); return db.about; }
-export function getActiveTestimonials() { const db = readDb(); return db.testimonials; }
-export function getContent() { const db = readDb(); return db.content; }
-export function getPageContent(slug: string) { const db = readDb(); return db.pages.find((p: any) => p.slug === slug); }
-export function getActiveFaqs() { const db = readDb(); return db.faqs; }
-export function getSiteSettings() { const db = readDb(); return db.siteSettings; }
-export function getContactSettings() { const db = readDb(); return db.contactSettings; }
-export function getProductForDisplay(slug: string) { const db = readDb(); return db.products.find((p: any) => p.slug === slug || p.id === slug); }
-export function getRelatedProducts(categoryId: string) { const db = readDb(); return db.products.filter((p: any) => p.categoryId === categoryId); }
-export function getMostSellingProducts() { const db = readDb(); return db.mostSelling; }
-export function getOurProducts() { const db = readDb(); return db.ourProducts; }
+// Helper getter functions required by public pages & layouts
+export function getAbout(): AboutContent {
+  return readDb().about;
+}
+
+export function getActiveTestimonials(): Testimonial[] {
+  return readDb().testimonials.filter((t) => t.status === "active");
+}
+
+export function getContent(): SiteContent {
+  return readDb().content;
+}
+
+export function getPageContent(slug: string): CompanyPageContent | undefined {
+  const db = readDb();
+  return db.pages?.[slug];
+}
+
+export function getActiveFaqs(): Faq[] {
+  return readDb().faqs.filter((f) => f.status === "active");
+}
+
+export function getSiteSettings(): SiteSettings {
+  return readDb().siteSettings;
+}
+
+export function getContactSettings(): ContactSettings {
+  return readDb().contactSettings;
+}
+
+export function getProductForDisplay(slug: string): Product | undefined {
+  const db = readDb();
+  return db.products.find((p) => p.slug === slug || p.id === slug);
+}
+
+export function getRelatedProducts(
+  productId: string,
+  categoryId?: string,
+  limit = 4
+): Product[] {
+  const db = readDb();
+  const targetCat = categoryId || db.products.find((p) => p.id === productId)?.categoryId;
+  return db.products
+    .filter((p) => p.id !== productId && (!targetCat || p.categoryId === targetCat))
+    .slice(0, limit);
+}
+
+export function getMostSellingProducts(): Product[] {
+  const db = readDb();
+  if (db.mostSelling?.length) {
+    return db.mostSelling
+      .map((ref) => db.products.find((p) => p.id === ref.productId))
+      .filter((p): p is Product => Boolean(p));
+  }
+  return db.products.slice(0, 4);
+}
+
+export function getOurProducts(): Product[] {
+  const db = readDb();
+  if (db.ourProducts?.length) {
+    return db.ourProducts
+      .map((ref) => db.products.find((p) => p.id === ref.productId))
+      .filter((p): p is Product => Boolean(p));
+  }
+  return db.products.slice(4, 12);
+}
+
+export function getHomeShowcase() {
+  return readDb().homeShowcase || [];
+}

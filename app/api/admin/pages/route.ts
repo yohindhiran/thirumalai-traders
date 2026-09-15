@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { readDb } from "@/lib/db";
 
 export async function GET() {
   if (!(await isAdmin())) {

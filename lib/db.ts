@@ -2,7 +2,11 @@ import fs from "fs";
 import path from "path";
 import { revalidatePath } from "next/cache";
 import { CATEGORY_SEEDS } from "@/data/categories";
-import { PRODUCT_SEEDS, slugify, productDescription } from "@/data/products-seed";
+import {
+  PRODUCT_SEEDS,
+  slugify,
+  productDescription,
+} from "@/data/products-seed";
 import type {
   Category,
   Product,
@@ -21,6 +25,30 @@ import type {
 } from "@/types";
 
 const DB_FILE = path.join(process.cwd(), "data", "database.json");
+
+/* -------------------------------------------------------------------------- */
+/*  In-memory global cache — survives across requests within the same server  */
+/*  container. On Vercel serverless cold starts the file is read once to       */
+/*  hydrate; all subsequent reads/writes go through this cache.               */
+/* -------------------------------------------------------------------------- */
+
+const CACHE_KEY = "__thirumalai_traders_db";
+
+type GlobalStore = Record<string, unknown>;
+
+function getCachedDb(): DbData | undefined {
+  const store = globalThis as unknown as GlobalStore;
+  const value = store[CACHE_KEY];
+  return typeof value === "object" && value !== null ? (value as DbData) : undefined;
+}
+
+function setCachedDb(db: DbData): void {
+  (globalThis as unknown as GlobalStore)[CACHE_KEY] = db;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Constants & helpers                                                       */
+/* -------------------------------------------------------------------------- */
 
 export const DEFAULT_CONTENT: SiteContent = {
   heroHeadline: "Serving Quality. Delivering Trust.",
@@ -44,6 +72,10 @@ export const DEFAULT_CONTENT: SiteContent = {
 export function newId(prefix = "id"): string {
   return `${prefix}_${Math.random().toString(36).substring(2, 9)}`;
 }
+
+/* -------------------------------------------------------------------------- */
+/*  Seed data — used on first run or when no file/cache exists                */
+/* -------------------------------------------------------------------------- */
 
 export function seedDb(): DbData {
   const categories: Category[] = CATEGORY_SEEDS.map((c, i) => ({
@@ -97,8 +129,14 @@ export function seedDb(): DbData {
         "Ensure timely and reliable delivery for regular and bulk requirements.",
       ],
       coreValues: [
-        { title: "Quality", desc: "Focus on supplying reliable and quality products." },
-        { title: "Trust", desc: "Building long-term relationships through dependable business practices." },
+        {
+          title: "Quality",
+          desc: "Focus on supplying reliable and quality products.",
+        },
+        {
+          title: "Trust",
+          desc: "Building long-term relationships through dependable business practices.",
+        },
       ],
       images: [],
     },
@@ -129,48 +167,96 @@ export function seedDb(): DbData {
   };
 }
 
-export function readDb(): DbData {
-  try {
-    if (typeof window !== "undefined") {
-      return seedDb();
+/* -------------------------------------------------------------------------- */
+/*  Backfill — ensure every key from the seed schema exists in a loaded row   */
+/* -------------------------------------------------------------------------- */
+
+function backfill(db: DbData): DbData {
+  const seed = seedDb();
+  for (const key of Object.keys(seed) as Array<keyof DbData>) {
+    if (db[key] === undefined) {
+      // @ts-expect-error dynamic backfill
+      db[key] = seed[key];
     }
-    if (!fs.existsSync(DB_FILE)) {
-      const db = seedDb();
-      writeDb(db);
+  }
+  return db;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  readDb — prefers the in-memory global cache, falls back to file,         */
+/*           then to seed.                                                    */
+/* -------------------------------------------------------------------------- */
+
+export function readDb(): DbData {
+  // Client components get seed data (no fs access).
+  if (typeof window !== "undefined") {
+    return seedDb();
+  }
+
+  // 1. Return the global in-memory cache if already hydrated.
+  const cached = getCachedDb();
+  if (cached) return cached;
+
+  // 2. Try loading from the JSON file on disk.
+  try {
+    if (fs.existsSync(DB_FILE)) {
+      const raw = fs.readFileSync(DB_FILE, "utf-8");
+      const db = backfill(JSON.parse(raw) as DbData);
+      setCachedDb(db);
       return db;
     }
-    const raw = fs.readFileSync(DB_FILE, "utf-8");
-    const db = JSON.parse(raw) as DbData;
-    const seed = seedDb();
-    for (const key of Object.keys(seed) as Array<keyof DbData>) {
-      if (db[key] === undefined) {
-        // @ts-expect-error dynamic backfill
-        db[key] = seed[key];
-      }
-    }
-    return db;
   } catch {
-    const db = seedDb();
-    writeDb(db);
-    return db;
+    // Corrupt file or parse error — fall through to seed.
   }
+
+  // 3. No file / corrupt file — hydrate from seed and persist to disk.
+  const db = seedDb();
+  setCachedDb(db);
+  try {
+    const dir = path.dirname(DB_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), "utf-8");
+  } catch {
+    // Filesystem read-only (Vercel) — that's fine, the global cache is populated.
+  }
+  return db;
 }
+
+/* -------------------------------------------------------------------------- */
+/*  writeDb — always updates the global cache, then attempts a file write.   */
+/*  On Vercel the file write silently fails but the cache persists across    */
+/*  requests within the same container.                                       */
+/* -------------------------------------------------------------------------- */
 
 export function writeDb(data: DbData): void {
-  try {
-    if (typeof window !== "undefined") return;
-    const dir = path.dirname(DB_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+  // 1. Always update the in-memory cache first.
+  setCachedDb(data);
+
+  // 2. Attempt to persist to disk (best-effort).
+  if (typeof window === "undefined") {
+    try {
+      const dir = path.dirname(DB_FILE);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+    } catch {
+      // Filesystem read-only (Vercel serverless) — in-memory cache is authoritative.
     }
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+  }
+
+  // 3. Invalidate Next.js caches so pages re-render on next request.
+  try {
     revalidatePath("/", "layout");
-  } catch (error) {
-    console.error("Error writing DB:", error);
+  } catch {
+    // revalidatePath only works inside request context; ignore during imports/seeds.
   }
 }
 
-// Helper getter functions required by public pages & layouts
+/* -------------------------------------------------------------------------- */
+/*  Public getter helpers — used by pages, layouts and components.            */
+/* -------------------------------------------------------------------------- */
+
 export function getAbout(): AboutContent {
   return readDb().about;
 }
@@ -183,9 +269,10 @@ export function getContent(): SiteContent {
   return readDb().content;
 }
 
-export function getPageContent(slug: string): CompanyPageContent | undefined {
-  const db = readDb();
-  return db.pages?.[slug];
+export function getPageContent(
+  slug: string
+): CompanyPageContent | undefined {
+  return readDb().pages?.[slug];
 }
 
 export function getActiveFaqs(): Faq[] {
@@ -211,9 +298,12 @@ export function getRelatedProducts(
   limit = 4
 ): Product[] {
   const db = readDb();
-  const targetCat = categoryId || db.products.find((p) => p.id === productId)?.categoryId;
+  const targetCat =
+    categoryId || db.products.find((p) => p.id === productId)?.categoryId;
   return db.products
-    .filter((p) => p.id !== productId && (!targetCat || p.categoryId === targetCat))
+    .filter(
+      (p) => p.id !== productId && (!targetCat || p.categoryId === targetCat)
+    )
     .slice(0, limit);
 }
 

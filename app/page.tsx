@@ -1,118 +1,194 @@
+import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight, MessageCircle, Phone, ShieldCheck, Truck } from "lucide-react";
+import AnnouncementBar from "@/components/AnnouncementBar";
+import ProductCarousel, { type CarouselProduct } from "@/components/ProductCarousel";
+import HomeTopSelling, { type HomeTopSellingItem } from "@/components/HomeTopSelling";
+import TrustStrip from "@/components/TrustStrip";
+import CategoryGrid from "@/components/CategoryGrid";
+import Testimonials, { type TestimonialItem } from "@/components/Testimonials";
+import ValuedCustomers, { type ValuedCustomerItem } from "@/components/ValuedCustomers";
+import ContactSection from "@/components/ContactSection";
 import { readDb } from "@/lib/db";
+import {
+  CATEGORY_IMAGES,
+  getAllProducts,
+  getProductImages,
+  MOST_SELLING,
+  resolveFeatured,
+} from "@/lib/catalog";
+import { telHref, whatsappHref } from "@/lib/utils";
 
 export default function Home() {
   const db = readDb();
-  const products = db.products || [];
-  const categories = db.categories || [];
+  const content = db.content;
+
+  const carouselProducts: CarouselProduct[] = getAllProducts()
+    .slice(0, 12)
+    .map((p) => ({
+      name: p.name,
+      slug: p.slug,
+      categoryName: p.categoryName,
+      categorySlug: p.categorySlug,
+      subcategory: p.subcategory,
+      image: CATEGORY_IMAGES[p.categorySlug ?? "spices"]?.src,
+    }));
+
+  const topSelling: HomeTopSellingItem[] = MOST_SELLING.map(resolveFeatured)
+    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+    .map((p) => ({
+      name: p.name,
+      slug: p.slug,
+      categoryName: p.categoryName ?? "Wholesale Grocery",
+      categorySlug: p.categorySlug ?? "spices",
+      description: p.description,
+      image: getProductImages(p.categorySlug ?? "spices")[0],
+    }));
+
+  const testimonials: TestimonialItem[] | undefined = db.testimonials.length
+    ? db.testimonials
+        .filter((t) => t.status === "active")
+        .map((t) => ({
+          quote: t.quote,
+          name: t.name,
+          role: t.company,
+          image: t.image,
+        }))
+    : undefined;
+
+  const customers: ValuedCustomerItem[] | undefined = db.valuedCustomers.length
+    ? db.valuedCustomers
+        .filter((c) => c.status === "active")
+        .map((c) => ({ name: c.name, logo: c.logo }))
+    : undefined;
+
+  const highlights = content.highlights ?? [];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-amber-700 to-amber-900 text-white py-12 px-4 shadow-sm">
-        <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">Thirumalaai Traders</h1>
-          <p className="text-amber-100 text-base md:text-lg max-w-2xl mx-auto mb-6">
-            Pure wholesale grains, pulses, spices, and oils. Direct order via phone or WhatsApp.
-          </p>
-          <div className="flex justify-center gap-4">
-            <a
-              href="tel:9384482007"
-              className="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-xl font-medium text-sm transition shadow"
-            >
-              📞 Call Now
-            </a>
-            <a
-              href="https://wa.me/919384482007?text=Hello%20Thirumalaai%20Traders,%20I%20would%20like%20to%20enquire%20about%20your%20products."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-2.5 rounded-xl font-medium text-sm transition shadow"
-            >
-              💬 WhatsApp Enquire
-            </a>
+    <>
+      <AnnouncementBar />
+
+      {/* Hero */}
+      <section className="relative overflow-hidden bg-brand-green-deep">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero-warehouse.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-green-deep via-brand-green-deep/85 to-brand-green/60" />
+        </div>
+
+        <div className="container-site relative py-16 sm:py-20 lg:py-24">
+          <div className="max-w-2xl">
+            <p className="inline-flex items-center gap-2 rounded-full border border-brand-gold/40 bg-brand-gold/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-brand-gold">
+              <ShieldCheck className="h-4 w-4" aria-hidden="true" />
+              25+ Years of Trusted Wholesale Supply
+            </p>
+            <h1 className="mt-5 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+              {content.heroHeadline}
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
+              {content.heroSubtext}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link
+                href="/products"
+                className="btn-gold !px-6 !py-3.5 !text-sm"
+              >
+                Browse Products
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <a
+                href={whatsappHref()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary !px-6 !py-3.5 !text-sm"
+              >
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                WhatsApp Enquiry
+              </a>
+              <a
+                href={telHref(content.officePhone || "9384482007")}
+                className="btn-outline !border-white/40 !bg-transparent !px-6 !py-3.5 !text-sm !text-white hover:!border-white hover:!text-white"
+              >
+                <Phone className="h-4 w-4" aria-hidden="true" />
+                {content.officePhone || "93844 82007"}
+              </a>
+            </div>
+
+            {highlights.length > 0 && (
+              <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3">
+                {highlights.slice(0, 4).map((h) => (
+                  <li
+                    key={h}
+                    className="flex items-center gap-2 text-xs font-medium text-white/75"
+                  >
+                    <Truck className="h-3.5 w-3.5 text-brand-gold" aria-hidden="true" />
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Main Catalog Section */}
-      <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Our Product Catalog</h2>
-          <Link
-            href="/admin"
-            className="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1.5 rounded-lg font-medium transition"
-          >
-            Admin Panel ⚙️
-          </Link>
-        </div>
+      <TrustStrip />
 
-        {/* Categories Bar */}
-        <div className="flex gap-2 overflow-x-auto pb-4 mb-8">
-          <div className="px-4 py-2 bg-amber-800 text-white rounded-xl text-xs font-medium whitespace-nowrap shadow">
-            All Categories
+      {/* Scrollable product carousel */}
+      <ProductCarousel products={carouselProducts} />
+
+      {/* Top selling section */}
+      <HomeTopSelling items={topSelling} />
+
+      {/* Shop by category */}
+      <CategoryGrid />
+
+      {/* About preview */}
+      <section className="section-pad bg-white">
+        <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="relative overflow-hidden rounded-xl">
+            <Image
+              src={content.homeAboutImage || "/images/about-warehouse.jpg"}
+              alt="Thirumalaai Traders warehouse and operations"
+              width={720}
+              height={480}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="h-full w-full object-cover"
+            />
           </div>
-          {categories.map((cat: any) => (
-            <div
-              key={cat.id}
-              className="px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl text-xs font-medium whitespace-nowrap shadow-sm hover:border-amber-700 transition"
+          <div>
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
+              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+              About Us
+            </p>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
+              {content.homeAboutHeading || "A Trusted Name in Wholesale Grocery"}
+            </h2>
+            <p className="mt-5 leading-relaxed text-brand-muted">
+              {content.aboutPreview}
+            </p>
+            <Link
+              href={content.homeAboutButtonLink || "/about"}
+              className="btn-primary mt-7"
             >
-              {cat.name}
-            </div>
-          ))}
+              {content.homeAboutButtonText || "Know More About Us"}
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
+      </section>
 
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product: any) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition flex flex-col justify-between"
-            >
-              <div>
-                <div className="h-44 w-full bg-gray-100 rounded-xl mb-3 overflow-hidden">
-                  {product.images?.[0] ? (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <div className="h-full w-full flex items-center justify-center text-xs text-gray-400">
-                      No Image
-                    </div>
-                  )}
-                </div>
-                <span className="text-[10px] bg-amber-50 text-amber-700 px-2 py-0.5 rounded font-medium">
-                  {product.categoryName || "Wholesale"}
-                </span>
-                <h3 className="font-semibold text-gray-800 mt-2 text-base line-clamp-1">
-                  {product.name}
-                </h3>
-                <p className="text-amber-800 font-bold mt-1 text-sm">
-                  ₹{product.price ?? "Contact for Price"}
-                </p>
-              </div>
+      <Testimonials items={testimonials} />
 
-              <div className="grid grid-cols-2 gap-2 mt-4">
-                <a
-                  href="tel:9384482007"
-                  className="text-center bg-emerald-700 text-white text-xs py-2 rounded-lg font-medium hover:bg-emerald-800 transition"
-                >
-                  📞 Call
-                </a>
-                <a
-                  href={`https://wa.me/919384482007?text=Hello,%20I%20want%20to%20enquire%20about%20${encodeURIComponent(product.name)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-center bg-green-600 text-white text-xs py-2 rounded-lg font-medium hover:bg-green-700 transition"
-                >
-                  💬 WhatsApp
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+      <ValuedCustomers customers={customers} />
+
+      <ContactSection withForm={false} />
+    </>
   );
 }

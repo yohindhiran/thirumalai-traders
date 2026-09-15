@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Loader2, Plus, Search, Trash2 } from "lucide-react";
+import ImageField from "@/components/admin/ImageField";
 import type { Category, Product } from "@/types";
 
 export default function ProductsManager() {
@@ -103,6 +104,7 @@ export default function ProductsManager() {
               <thead>
                 <tr className="border-b border-brand-line bg-brand-soft text-xs uppercase tracking-wide text-brand-muted">
                   <th className="px-5 py-3.5 font-semibold">Product</th>
+                  <th className="px-5 py-3.5 font-semibold">Image</th>
                   <th className="px-5 py-3.5 font-semibold">Category</th>
                   <th className="px-5 py-3.5 font-semibold">Subcategory</th>
                   <th className="px-5 py-3.5 font-semibold">Status</th>
@@ -113,6 +115,20 @@ export default function ProductsManager() {
                 {pageItems.map((p) => (
                   <tr key={p.id} className="border-b border-brand-line last:border-0 hover:bg-brand-soft/60">
                     <td className="px-5 py-3 font-medium text-brand-ink">{p.name}</td>
+                    <td className="px-5 py-3">
+                      {p.images?.[0] || p.mainImage ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={p.images?.[0] || p.mainImage}
+                          alt={p.name}
+                          className="h-10 w-14 rounded-md border border-brand-line object-cover"
+                        />
+                      ) : (
+                        <span className="inline-flex h-10 w-14 items-center justify-center rounded-md bg-brand-soft text-[10px] text-brand-muted">
+                          No image
+                        </span>
+                      )}
+                    </td>
                     <td className="px-5 py-3 text-brand-muted">{catName(p.categoryId)}</td>
                     <td className="px-5 py-3 text-brand-muted">{p.subcategory || "—"}</td>
                     <td className="px-5 py-3">
@@ -152,7 +168,7 @@ export default function ProductsManager() {
                 ))}
                 {pageItems.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-5 py-12 text-center text-brand-muted">
+                    <td colSpan={6} className="px-5 py-12 text-center text-brand-muted">
                       No products match your filters.
                     </td>
                   </tr>
@@ -285,6 +301,17 @@ function ProductModal({
           <div>
             <label htmlFor="pm-desc" className="label">Description</label>
             <textarea id="pm-desc" name="description" rows={4} defaultValue={product?.description} className="input resize-y" />
+          </div>
+          <div>
+            <ImageField
+              name="images"
+              label="Product Image"
+              value={product?.images?.[0] || product?.mainImage}
+              rounded="rounded-lg"
+            />
+            <p className="mt-1.5 text-xs text-brand-muted">
+              Choose a file to upload, or the image URL will be saved automatically.
+            </p>
           </div>
           <div>
             <label htmlFor="pm-status" className="label">Status</label>

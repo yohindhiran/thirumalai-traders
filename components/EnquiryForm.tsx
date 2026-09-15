@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { CATEGORY_SEEDS } from "@/data/categories";
 import { CUSTOMER_TYPES } from "@/data/site";
@@ -12,6 +12,28 @@ export default function EnquiryForm() {
   const presetCategory = params.get("category") || "";
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [categories, setCategories] = useState<string[]>(
+    CATEGORY_SEEDS.map((c) => c.name)
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/categories")
+      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
+      .then((data) => {
+        if (!cancelled && data?.categories?.length) {
+          setCategories(
+            data.categories.map((c: { name: string }) => c.name)
+          );
+        }
+      })
+      .catch(() => {
+        // Keep the seed fallback if the API is unreachable.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -128,10 +150,10 @@ export default function EnquiryForm() {
           className="input"
         >
           <option value="">Select a category</option>
-          {CATEGORY_SEEDS.map((c) => (
-            <option key={c.slug} value={c.name}>{c.name}</option>
+          {categories.map((name) => (
+            <option key={name} value={name}>{name}</option>
           ))}
-          {!CATEGORY_SEEDS.some((c) => c.name === presetCategory) && presetCategory && (
+          {!categories.includes(presetCategory) && presetCategory && (
             <option value={presetCategory}>{presetCategory}</option>
           )}
         </select>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE, MOST_SELLING, resolveFeatured } from "@/lib/catalog";
+import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 export interface MostSellingItem {
   name: string;
@@ -14,14 +14,11 @@ export interface MostSellingItem {
 }
 
 export default function MostSellingProducts({
-  items: provided,
+  items = [],
 }: {
   items?: MostSellingItem[];
 }) {
-  const fallback = MOST_SELLING.map(resolveFeatured)
-    .filter((p): p is NonNullable<typeof p> => Boolean(p))
-    .map((p) => ({ ...p, image: undefined }));
-  const items = provided && provided.length ? provided : fallback;
+  if (!items.length) return null;
 
   return (
     <section className="section-pad bg-white">

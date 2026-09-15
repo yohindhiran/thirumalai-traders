@@ -1,12 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import {
-  CATEGORY_IMAGES,
-  DEFAULT_PRODUCT_IMAGE,
-  OUR_PRODUCTS,
-  resolveFeatured,
-} from "@/lib/catalog";
+import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 export interface OurProductItem {
   name: string;
@@ -18,14 +13,11 @@ export interface OurProductItem {
 }
 
 export default function ProductGrid({
-  products: provided,
+  products = [],
 }: {
   products?: OurProductItem[];
 }) {
-  const fallback = OUR_PRODUCTS.map(resolveFeatured)
-    .filter((p): p is NonNullable<typeof p> => Boolean(p))
-    .map((p) => ({ ...p, image: undefined }));
-  const products = provided && provided.length ? provided : fallback;
+  if (!products.length) return null;
 
   return (
     <section className="section-pad bg-brand-soft">

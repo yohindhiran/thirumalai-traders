@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
-import { CATEGORY_SEEDS } from "@/data/categories";
 import { SITE } from "@/data/site";
+import { readDb } from "@/lib/db";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  const categories = readDb().categories.filter((c) => c.status === "active");
   const pages = [
     "",
     "/about",
@@ -20,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/careers",
     "/privacy-policy",
     "/terms",
-    ...CATEGORY_SEEDS.map((c) => `/products/${c.slug}`),
+    ...categories.map((c) => `/products/${c.slug}`),
   ];
   return pages.map((path) => ({
     url: `${SITE.url}${path}`,

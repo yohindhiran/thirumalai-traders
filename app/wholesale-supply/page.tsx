@@ -11,6 +11,9 @@ export const metadata = pageMetadata({
   path: "/wholesale-supply",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const CAPABILITIES = [
   {
     title: "Bulk Volume Supply",

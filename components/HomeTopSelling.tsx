@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { telHref, whatsappHref } from "@/lib/utils";
+import { DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 export interface HomeTopSellingItem {
   name: string;
@@ -42,7 +43,7 @@ export default function HomeTopSelling({
 
         <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {items.map((p) => {
-            const imgSrc = p.image || "/images/hero-warehouse.jpg";
+            const imgSrc = p.image || DEFAULT_PRODUCT_IMAGE;
             return (
               <li key={`${p.categorySlug}-${p.slug}`}>
                 <article className="card group flex h-full flex-col overflow-hidden bg-white transition-shadow hover:shadow-lift">

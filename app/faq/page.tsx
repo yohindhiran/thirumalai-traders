@@ -10,6 +10,9 @@ export const metadata = pageMetadata({
   path: "/faq",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function FaqPage() {
   const faqs = getActiveFaqs();
   const faqList = faqs.length

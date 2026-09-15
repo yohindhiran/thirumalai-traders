@@ -73,6 +73,7 @@ export async function POST(request: Request) {
   const now = new Date().toISOString();
   const maxOrder = db.products.reduce((m, p) => Math.max(m, p.displayOrder ?? 0), 0);
   const slug = `${cat.slug}-${slugify(name)}`;
+  const images = toArray(body?.images);
 
   const product: Product = {
     id: newId(), // Supports your db.ts export
@@ -91,8 +92,8 @@ export async function POST(request: Request) {
       typeof body?.description === "string" && body.description.trim()
         ? body.description.trim()
         : `Bulk wholesale supply of ${name.toLowerCase()} — part of our ${cat.name} range.`,
-    mainImage: typeof body?.mainImage === "string" ? body.mainImage : undefined,
-    images: toArray(body?.images),
+    mainImage: images[0] || undefined,
+    images,
     specs: toSpecs(body?.specs),
     purity: typeof body?.purity === "string" ? body.purity : undefined,
     color: typeof body?.color === "string" ? body.color : undefined,

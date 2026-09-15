@@ -11,6 +11,9 @@ export const metadata = pageMetadata({
   path: "/why-choose-us",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function WhyChooseUsPage() {
   const page = getPageContent("why-choose-us");
   const reasons = (

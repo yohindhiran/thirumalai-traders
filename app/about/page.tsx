@@ -13,6 +13,9 @@ export const metadata = pageMetadata({
   path: "/about",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const APPROACH = [
   {
     icon: ShieldCheck,

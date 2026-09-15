@@ -9,6 +9,9 @@ import EnquiryForm from "@/components/EnquiryForm";
 import { ShieldCheck, Truck, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 interface PageProps {
   params: Promise<{
     category: string;
@@ -128,7 +131,16 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <span aria-hidden="true" className="mx-auto mb-10 mt-4 block h-1 w-14 bg-brand-gold" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {relatedProducts.map((rel: any) => (
-                <ProductCard key={rel.id} product={rel} />
+                <ProductCard
+                  key={rel.id}
+                  product={{
+                    id: rel.id,
+                    name: rel.name,
+                    category: (rel as any).categoryName || "Wholesale Grocery",
+                    image: rel.images?.[0] || rel.mainImage || "",
+                    variants: rel.variants || [],
+                  }}
+                />
               ))}
             </div>
           </div>

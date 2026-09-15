@@ -6,9 +6,11 @@ import PageHero from "@/components/PageHero";
 import MostSellingProducts from "@/components/MostSellingProducts";
 import ProductGrid from "@/components/ProductGrid";
 import { JsonLd, breadcrumbSchema } from "@/lib/seo";
-import { CATEGORY_SEEDS } from "@/data/categories";
-import { CATEGORY_IMAGES, categoryProductCount } from "@/lib/catalog";
-import { getMostSellingProducts, getOurProducts } from "@/lib/db";
+import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
+import { getMostSellingProducts, getOurProducts, readDb } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Categories – Bulk Wholesale Grocery Catalog",
@@ -18,20 +20,29 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
-  const mostSelling = getMostSellingProducts().map((p: any) => ({
-    name: p.name,
-    slug: p.slug,
-    categoryName: p.categoryName || "Wholesale Grocery",
-    categorySlug: p.categorySlug || p.categoryId?.replace("cat-", "") || "spices",
-    image: p.images?.[0],
-  }));
-  const ourProducts = getOurProducts().map((p: any) => ({
-    name: p.name,
-    slug: p.slug,
-    categoryName: p.categoryName || "Wholesale Grocery",
-    categorySlug: p.categorySlug || p.categoryId?.replace("cat-", "") || "spices",
-    image: p.images?.[0],
-  }));
+  const db = readDb();
+  const catById = new Map(db.categories.map((c) => [c.id, c]));
+  const activeCategories = db.categories.filter((c) => c.status === "active");
+
+  const mapProduct = (p: any) => {
+    const cat = catById.get(p.categoryId);
+    const categorySlug =
+      cat?.slug || p.categoryId?.replace("cat-", "") || "spices";
+    return {
+      name: p.name,
+      slug: p.slug,
+      categoryName: cat?.name || "Wholesale Grocery",
+      categorySlug,
+      image:
+        p.images?.[0] ||
+        p.mainImage ||
+        CATEGORY_IMAGES[categorySlug]?.src ||
+        DEFAULT_PRODUCT_IMAGE,
+    };
+  };
+
+  const mostSelling = getMostSellingProducts().map((p: any) => mapProduct(p));
+  const ourProducts = getOurProducts().map((p: any) => mapProduct(p));
 
   return (
     <>
@@ -60,10 +71,17 @@ export default function ProductsPage() {
           </div>
 
           <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {CATEGORY_SEEDS.map((cat) => {
-              const img = CATEGORY_IMAGES[cat.slug];
+            {activeCategories.map((cat) => {
+              const img =
+                CATEGORY_IMAGES[cat.slug] ?? {
+                  src: DEFAULT_PRODUCT_IMAGE,
+                  alt: cat.name,
+                };
+              const count = db.products.filter(
+                (p) => p.categoryId === cat.id && p.status === "active"
+              ).length;
               return (
-                <li key={cat.slug}>
+                <li key={cat.id}>
                   <Link
                     href={`/products/${cat.slug}`}
                     className="card group block h-full overflow-hidden transition-shadow hover:shadow-lift"
@@ -86,7 +104,7 @@ export default function ProductsPage() {
                         {cat.name}
                       </h3>
                       <p className="mt-1 text-sm text-brand-muted">
-                        {categoryProductCount(cat.slug)}+ Products
+                        {count}+ Products
                       </p>
                       <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-green">
                         View Products

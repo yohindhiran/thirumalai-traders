@@ -11,6 +11,9 @@ export const metadata = pageMetadata({
   path: "/clients",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function ClientsPage() {
   const page = getPageContent("clients");
   const list = page?.items?.length ? page.items.map((c: any) => c.title) : CLIENTS;

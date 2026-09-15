@@ -9,40 +9,47 @@ import CategoryGrid from "@/components/CategoryGrid";
 import Testimonials, { type TestimonialItem } from "@/components/Testimonials";
 import ValuedCustomers, { type ValuedCustomerItem } from "@/components/ValuedCustomers";
 import ContactSection from "@/components/ContactSection";
-import { readDb } from "@/lib/db";
-import {
-  CATEGORY_IMAGES,
-  getAllProducts,
-  getProductImages,
-  MOST_SELLING,
-  resolveFeatured,
-} from "@/lib/catalog";
+import { getMostSellingProducts, readDb } from "@/lib/db";
+import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
+import type { Product } from "@/types";
 import { telHref, whatsappHref } from "@/lib/utils";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default function Home() {
   const db = readDb();
   const content = db.content;
 
-  const carouselProducts: CarouselProduct[] = getAllProducts()
+  const catById = new Map(db.categories.map((c) => [c.id, c]));
+  const imageOf = (p: Product) =>
+    p.images?.[0] ||
+    p.mainImage ||
+    CATEGORY_IMAGES[catById.get(p.categoryId)?.slug ?? "spices"]?.src ||
+    DEFAULT_PRODUCT_IMAGE;
+
+  const carouselProducts: CarouselProduct[] = db.products
+    .filter((p) => p.status === "active")
     .slice(0, 12)
     .map((p) => ({
       name: p.name,
       slug: p.slug,
-      categoryName: p.categoryName,
-      categorySlug: p.categorySlug,
+      categoryName: catById.get(p.categoryId)?.name,
+      categorySlug: catById.get(p.categoryId)?.slug,
       subcategory: p.subcategory,
-      image: CATEGORY_IMAGES[p.categorySlug ?? "spices"]?.src,
+      image: imageOf(p),
     }));
 
-  const topSelling: HomeTopSellingItem[] = MOST_SELLING.map(resolveFeatured)
-    .filter((p): p is NonNullable<typeof p> => Boolean(p))
+  const topSelling: HomeTopSellingItem[] = getMostSellingProducts()
+    .filter((p) => p.status === "active")
+    .slice(0, 8)
     .map((p) => ({
       name: p.name,
       slug: p.slug,
-      categoryName: p.categoryName ?? "Wholesale Grocery",
-      categorySlug: p.categorySlug ?? "spices",
-      description: p.description,
-      image: getProductImages(p.categorySlug ?? "spices")[0],
+      categoryName: catById.get(p.categoryId)?.name ?? "Wholesale Grocery",
+      categorySlug: catById.get(p.categoryId)?.slug ?? "spices",
+      description: p.shortDescription || p.description,
+      image: imageOf(p),
     }));
 
   const testimonials: TestimonialItem[] | undefined = db.testimonials.length

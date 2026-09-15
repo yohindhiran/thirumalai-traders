@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Phone, Play } from "lucide-react";
 import { telHref, whatsappHref } from "@/lib/utils";
+import { DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 export interface CarouselProduct {
   name: string;
@@ -188,7 +189,7 @@ export default function ProductCarousel({
                       aria-label={`View ${p.name}`}
                     >
                       <Image
-                        src={p.image || "/images/hero-warehouse.jpg"}
+                        src={p.image || DEFAULT_PRODUCT_IMAGE}
                         alt={p.name}
                         fill
                         sizes="(max-width: 640px) 60vw, (max-width: 1024px) 33vw, 16rem"

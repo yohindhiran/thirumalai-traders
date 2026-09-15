@@ -5,6 +5,9 @@ import {
   productDescription,
 } from "@/data/products-seed";
 import type { CatalogProduct as BrowserProduct } from "@/components/ProductsBrowser";
+
+export const DEFAULT_PRODUCT_IMAGE = "/images/hero-warehouse.jpg";
+
 export const CATEGORY_IMAGES: Record<string, { src: string; alt: string }> = {
   spices: {
     src: "/images/cat-spices.jpg",
@@ -126,7 +129,7 @@ export const PRODUCT_IMAGE_SET: Record<string, string[]> = {
 };
 
 export function getProductImages(categorySlug: string): string[] {
-  return PRODUCT_IMAGE_SET[categorySlug] ?? ["/images/hero-warehouse.jpg"];
+  return PRODUCT_IMAGE_SET[categorySlug] ?? [DEFAULT_PRODUCT_IMAGE];
 }
 
 export function getAllProducts(): BrowserProduct[] {

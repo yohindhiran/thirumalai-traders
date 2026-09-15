@@ -5,6 +5,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
 import { Search, X } from "lucide-react";
+import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 export interface CatalogProduct {
   id?: string;
@@ -123,22 +124,34 @@ export default function ProductsBrowser({
         </div>
       ) : (
         <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {filteredProducts.map((p) => (
-            <li key={`${p.categorySlug || p.categoryId}-${p.slug || p.id}`}>
-              <ProductCard
-                product={
-                  {
-                    ...p,
-                    id: p.slug || p.id,
-                    category: p.categorySlug || p.categoryId || "",
-                    image: p.image || p.images?.[0] || "/images/placeholder.jpg",
-                    images: p.images || [p.image || "/images/placeholder.jpg"],
-                    variants: p.variants || [],
-                  } as any
-                }
-              />
-            </li>
-          ))}
+          {filteredProducts.map((p) => {
+            const catSlug =
+              p.categorySlug ||
+              (p.categoryId || "").replace("cat-", "") ||
+              "spices";
+            const image =
+              p.image ||
+              p.images?.[0] ||
+              CATEGORY_IMAGES[catSlug]?.src ||
+              DEFAULT_PRODUCT_IMAGE;
+            const images = p.images?.length ? p.images : [image];
+            return (
+              <li key={`${p.categorySlug || p.categoryId}-${p.slug || p.id}`}>
+                <ProductCard
+                  product={
+                    {
+                      ...p,
+                      id: p.slug || p.id,
+                      category: p.categorySlug || p.categoryId || "",
+                      image,
+                      images,
+                      variants: p.variants || [],
+                    } as any
+                  }
+                />
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

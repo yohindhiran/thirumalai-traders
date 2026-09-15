@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CATEGORY_IMAGES, MOST_SELLING, resolveFeatured } from "@/lib/catalog";
+import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE, MOST_SELLING, resolveFeatured } from "@/lib/catalog";
 
 export interface MostSellingItem {
   name: string;
@@ -48,7 +48,10 @@ export default function MostSellingProducts({
             {items.map((p) => {
               const img = p.image
                 ? { src: p.image, alt: p.name }
-                : CATEGORY_IMAGES[p.categorySlug ?? "spices"];
+                : CATEGORY_IMAGES[p.categorySlug ?? "spices"] ?? {
+                    src: DEFAULT_PRODUCT_IMAGE,
+                    alt: p.name,
+                  };
               return (
                 <li key={`${p.categorySlug}-${p.slug}`}>
                   <article className="card group h-full overflow-hidden transition-shadow hover:shadow-card">

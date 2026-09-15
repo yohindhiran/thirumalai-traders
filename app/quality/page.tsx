@@ -11,6 +11,9 @@ export const metadata = pageMetadata({
   path: "/quality",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const PILLARS = [
   {
     title: "Rigorous Sourcing",

@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { revalidatePath } from "next/cache";
 import { CATEGORY_SEEDS } from "@/data/categories";
 import { PRODUCT_SEEDS, slugify, productDescription } from "@/data/products-seed";
 import type {
@@ -163,6 +164,7 @@ export function writeDb(data: DbData): void {
       fs.mkdirSync(dir, { recursive: true });
     }
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+    revalidatePath("/", "layout");
   } catch (error) {
     console.error("Error writing DB:", error);
   }

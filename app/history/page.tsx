@@ -10,6 +10,9 @@ export const metadata = pageMetadata({
   path: "/history",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const DEFAULT_MILESTONES = [
   {
     title: "Founded",

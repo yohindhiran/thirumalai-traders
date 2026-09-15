@@ -11,6 +11,9 @@ export const metadata = pageMetadata({
   path: "/industries-we-serve",
 });
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function IndustriesWeServePage() {
   const page = getPageContent("industries-we-serve");
   const industries = (

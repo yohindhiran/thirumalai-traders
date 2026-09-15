@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
   CATEGORY_IMAGES,
+  DEFAULT_PRODUCT_IMAGE,
   OUR_PRODUCTS,
   resolveFeatured,
 } from "@/lib/catalog";
@@ -52,7 +53,10 @@ export default function ProductGrid({
           {products.map((p) => {
             const img = p.image
               ? { src: p.image, alt: p.name }
-              : CATEGORY_IMAGES[p.categorySlug ?? "spices"];
+              : CATEGORY_IMAGES[p.categorySlug ?? "spices"] ?? {
+                  src: DEFAULT_PRODUCT_IMAGE,
+                  alt: p.name,
+                };
             return (
               <li key={`${p.categorySlug}-${p.slug}`}>
                 <article className="card group flex h-full flex-col overflow-hidden rounded-xl transition-shadow hover:shadow-lift">

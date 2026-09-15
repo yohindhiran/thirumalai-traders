@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
 import type { HeroSlide } from "@/types";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -9,7 +13,7 @@ export async function GET() {
   }
   const db = readDb();
   const slides = db.heroSlides.slice().sort((a, b) => a.displayOrder - b.displayOrder);
-  return NextResponse.json({ slides });
+  return noCacheJson({ slides });
 }
 
 export async function POST(request: Request) {

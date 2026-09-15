@@ -3,6 +3,9 @@ import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 import type { ProductSpec } from "@/types";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function str(value: unknown): string | undefined {
   return typeof value === "string" ? value : undefined;
 }

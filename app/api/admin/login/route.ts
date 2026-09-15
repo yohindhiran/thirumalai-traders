@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { setAdminCookie } from "@/lib/auth";
+import { noCacheResponse } from "@/lib/http";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function POST(request: Request) {
   const { email, password } = await request.json();
@@ -19,5 +23,5 @@ export async function POST(request: Request) {
 
 // Handle GET request (optional)
 export async function GET() {
-  return new NextResponse("Method Not Allowed", { status: 405 });
+  return noCacheResponse("Method Not Allowed", { status: 405 });
 }

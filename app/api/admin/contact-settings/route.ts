@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
 import type { ContactSettings } from "@/types";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const FIELDS: Array<keyof ContactSettings> = [
   "phone",
@@ -18,7 +22,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json({ settings: readDb().contactSettings });
+  return noCacheJson({ settings: readDb().contactSettings });
 }
 
 export async function PUT(request: Request) {

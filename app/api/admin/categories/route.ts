@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
 import { slugify } from "@/data/products-seed";
 import type { Category } from "@/types";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return NextResponse.json({ categories: readDb().categories });
+  return noCacheJson({ categories: readDb().categories });
 }
 
 export async function POST(request: Request) {

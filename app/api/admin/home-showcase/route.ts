@@ -1,16 +1,18 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
 import type { HomeShowcaseItem } from "@/types";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const items = readDb().homeShowcase.slice().sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
-  return NextResponse.json({ items });
+  return noCacheJson({ items });
 }
 
 export async function POST(request: Request) {

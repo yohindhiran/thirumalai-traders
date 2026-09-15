@@ -3,6 +3,9 @@ import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 import { slugify } from "@/data/products-seed";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }

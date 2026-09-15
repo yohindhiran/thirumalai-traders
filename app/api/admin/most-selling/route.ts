@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -8,7 +12,7 @@ export async function GET() {
   }
   const db = readDb();
   const items = db.mostSelling.slice().sort((a, b) => a.displayOrder - b.displayOrder);
-  return NextResponse.json({ items, products: db.products });
+  return noCacheJson({ items, products: db.products });
 }
 
 export async function POST(request: Request) {

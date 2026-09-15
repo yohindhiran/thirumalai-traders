@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET(
   request: Request,
@@ -14,7 +16,7 @@ export async function GET(
   if (!page) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  return NextResponse.json({ page });
+  return noCacheJson({ page });
 }
 
 export async function PUT(

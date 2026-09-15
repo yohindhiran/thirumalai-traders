@@ -5,6 +5,7 @@ import path from "path";
 import crypto from "crypto";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "images", "uploads");
 const MAX_BYTES = 5 * 1024 * 1024; // 5 MB

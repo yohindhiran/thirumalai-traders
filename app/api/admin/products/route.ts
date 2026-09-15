@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
 import { slugify } from "@/data/products-seed";
 import type { Product, ProductSpec } from "@/types";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function toArray(value: unknown): string[] {
   if (Array.isArray(value)) return value.map(String);
@@ -43,7 +47,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const db = readDb();
-  return NextResponse.json({
+  return noCacheJson({
     products: db.products,
     categories: db.categories,
   });

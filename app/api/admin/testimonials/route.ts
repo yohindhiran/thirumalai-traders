@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { noCacheJson } from "@/lib/http";
 import type { Testimonial } from "@/types";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -9,7 +13,7 @@ export async function GET() {
   }
   const db = readDb();
   const items = db.testimonials.slice().sort((a, b) => a.displayOrder - b.displayOrder);
-  return NextResponse.json({ items });
+  return noCacheJson({ items });
 }
 
 export async function POST(request: Request) {

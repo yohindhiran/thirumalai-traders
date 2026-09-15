@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -40,5 +40,6 @@ export async function PUT(request: Request) {
   if (typeof body?.visionImage === "string") about.visionImage = body.visionImage.trim() || undefined;
   if (typeof body?.missionImage === "string") about.missionImage = body.missionImage.trim() || undefined;
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ about });
 }

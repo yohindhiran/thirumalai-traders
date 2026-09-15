@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 import { slugify } from "@/data/products-seed";
 
 export async function PATCH(
@@ -40,6 +40,7 @@ export async function PATCH(
 
   category.updatedAt = new Date().toISOString();
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ category });
 }
 
@@ -67,5 +68,6 @@ export async function DELETE(
   }
   db.categories = db.categories.filter((c: any) => c.id !== id);
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

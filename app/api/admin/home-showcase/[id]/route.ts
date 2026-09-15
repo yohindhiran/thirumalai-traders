@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -24,6 +24,7 @@ export async function PATCH(
   if (typeof body?.displayOrder === "number") item.displayOrder = body.displayOrder;
 
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ item });
 }
 
@@ -42,5 +43,6 @@ export async function DELETE(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { newId, readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
 import type { ValuedCustomer } from "@/types";
 
 export async function GET() {
@@ -32,5 +32,6 @@ export async function POST(request: Request) {
   };
   db.valuedCustomers.push(item);
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ item }, { status: 201 });
 }

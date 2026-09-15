@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { newId, readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
 import { slugify } from "@/data/products-seed";
 import type { Category } from "@/types";
 
@@ -46,5 +46,6 @@ export async function POST(request: Request) {
   };
   db.categories.push(category);
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ category }, { status: 201 });
 }

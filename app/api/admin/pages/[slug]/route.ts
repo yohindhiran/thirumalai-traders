@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +41,7 @@ export async function PUT(
   };
 
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ page: pagesRecord[slug] });
 }
 
@@ -61,5 +62,6 @@ export async function DELETE(
 
   delete pagesRecord[slug];
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ success: true });
 }

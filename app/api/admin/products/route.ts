@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { newId, readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
 import { slugify } from "@/data/products-seed";
 import type { Product, ProductSpec } from "@/types";
 
@@ -109,5 +109,6 @@ export async function POST(request: Request) {
 
   db.products.unshift(product);
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ product }, { status: 201 });
 }

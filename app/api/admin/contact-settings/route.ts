@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 import type { ContactSettings } from "@/types";
 
 const FIELDS: Array<keyof ContactSettings> = [
@@ -34,5 +34,6 @@ export async function PUT(request: Request) {
     }
   }
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ settings: db.contactSettings });
 }

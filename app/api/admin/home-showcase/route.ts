@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { newId, readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
 import type { HomeShowcaseItem } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -34,5 +34,6 @@ export async function POST(request: Request) {
   };
   db.homeShowcase.push(item);
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ item }, { status: 201 });
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { newId, readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
 import type { Enquiry } from "@/types";
 
 export async function POST(request: Request) {
@@ -54,6 +54,7 @@ export async function POST(request: Request) {
     // keep the store bounded
     db.enquiries = db.enquiries.slice(0, 5000);
     writeDb(db);
+    invalidateProductCache();
 
     return NextResponse.json({ ok: true }, { status: 201 });
   } catch {

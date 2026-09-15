@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 
 export async function PATCH(
   request: Request,
@@ -17,6 +17,7 @@ export async function PATCH(
   if (body?.status === "active" || body?.status === "inactive") ref.status = body.status;
   if (typeof body?.displayOrder === "number") ref.displayOrder = body.displayOrder;
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ item: ref });
 }
 
@@ -34,5 +35,6 @@ export async function DELETE(
   if (db.mostSelling.length === before)
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

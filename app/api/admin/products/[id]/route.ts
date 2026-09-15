@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 import type { ProductSpec } from "@/types";
 
 function str(value: unknown): string | undefined {
@@ -82,6 +82,7 @@ export async function PATCH(
 
   product.updatedAt = new Date().toISOString();
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ product });
 }
 
@@ -103,5 +104,6 @@ export async function DELETE(
   db.mostSelling = db.mostSelling.filter((r) => r.productId !== id);
   db.ourProducts = db.ourProducts.filter((r) => r.productId !== id);
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

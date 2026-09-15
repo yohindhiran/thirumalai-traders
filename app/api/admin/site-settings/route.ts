@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 import type { SiteSettings } from "@/types";
 
 const FIELDS: Array<[keyof SiteSettings, "string" | "number"]> = [
@@ -41,5 +41,6 @@ export async function PUT(request: Request) {
     }
   }
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ settings: db.siteSettings });
 }

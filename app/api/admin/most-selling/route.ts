@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { readDb, writeDb } from "@/lib/db";
+import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -31,5 +31,6 @@ export async function POST(request: Request) {
   const ref = { productId, status: "active" as const, displayOrder: maxOrder + 1 };
   db.mostSelling.push(ref);
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ item: ref }, { status: 201 });
 }

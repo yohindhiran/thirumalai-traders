@@ -27,23 +27,38 @@ import type {
 const DB_FILE = path.join(process.cwd(), "data", "database.json");
 
 /* -------------------------------------------------------------------------- */
-/*  In-memory global cache — survives across requests within the same server  */
-/*  container. On Vercel serverless cold starts the file is read once to       */
-/*  hydrate; all subsequent reads/writes go through this cache.               */
+/*  In-memory global cache — a fast layer in front of the JSON file. On a    */
+/*  self-hosted server (writable disk) the FILE is the source of truth and    */
+/*  `readDb` re-reads it whenever its mtime changes (safe across processes),   */
+/*  so admin edits propagate to every worker instantly. On Vercel (read-only   */
+/*  fs) the cache is authoritative for the lifetime of the warm container.    */
 /* -------------------------------------------------------------------------- */
 
 const CACHE_KEY = "__thirumalai_traders_db";
+const CACHE_MTIME_KEY = "__thirumalai_traders_db_mtime";
 
 type GlobalStore = Record<string, unknown>;
 
 function getCachedDb(): DbData | undefined {
   const store = globalThis as unknown as GlobalStore;
   const value = store[CACHE_KEY];
-  return typeof value === "object" && value !== null ? (value as DbData) : undefined;
+  return typeof value === "object" && value !== null
+    ? (value as DbData)
+    : undefined;
 }
 
 function setCachedDb(db: DbData): void {
   (globalThis as unknown as GlobalStore)[CACHE_KEY] = db;
+}
+
+function getCachedMtime(): number | undefined {
+  const store = globalThis as unknown as GlobalStore;
+  const value = store[CACHE_MTIME_KEY];
+  return typeof value === "number" ? value : undefined;
+}
+
+function setCachedMtime(mtime: number): void {
+  (globalThis as unknown as GlobalStore)[CACHE_MTIME_KEY] = mtime;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -183,8 +198,10 @@ function backfill(db: DbData): DbData {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  readDb — prefers the in-memory global cache, falls back to file,         */
-/*           then to seed.                                                    */
+/*  readDb — prefers the JSON file (source of truth on self-hosted),         */
+/*           re-reading whenever the file changes on disk so edits made by   */
+/*           any process/worker are picked up without a restart. Falls back  */
+/*           to the global cache (warm container) then to seed.              */
 /* -------------------------------------------------------------------------- */
 
 export function readDb(): DbData {
@@ -193,46 +210,69 @@ export function readDb(): DbData {
     return seedDb();
   }
 
-  // 1. Return the global in-memory cache if already hydrated.
-  const cached = getCachedDb();
-  if (cached) return cached;
-
-  // 2. Try loading from the JSON file on disk.
-  try {
-    if (fs.existsSync(DB_FILE)) {
+  // 1. File exists — it is authoritative on writable disk. Re-read when the
+  //    tracked mtime differs so other workers' writes are observed.
+  if (fs.existsSync(DB_FILE)) {
+    try {
+      const stat = fs.statSync(DB_FILE);
+      const cached = getCachedDb();
+      if (cached && getCachedMtime() === stat.mtimeMs) {
+        return cached;
+      }
       const raw = fs.readFileSync(DB_FILE, "utf-8");
       const db = backfill(JSON.parse(raw) as DbData);
       setCachedDb(db);
+      setCachedMtime(stat.mtimeMs);
       return db;
+    } catch {
+      // Corrupt file or fs error — fall through to the global cache.
     }
-  } catch {
-    // Corrupt file or parse error — fall through to seed.
   }
 
-  // 3. No file / corrupt file — hydrate from seed and persist to disk.
+  // 2. No readable file — use the warm-container cache if available.
+  const cached = getCachedDb();
+  if (cached) return cached;
+
+  // 3. Nothing anywhere — hydrate from seed and try to persist.
   const db = seedDb();
   setCachedDb(db);
   try {
     const dir = path.dirname(DB_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), "utf-8");
+    setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
   } catch {
-    // Filesystem read-only (Vercel) — that's fine, the global cache is populated.
+    // Filesystem read-only (Vercel) — the global cache is populated.
   }
   return db;
 }
 
 /* -------------------------------------------------------------------------- */
-/*  writeDb — always updates the global cache, then attempts a file write.   */
-/*  On Vercel the file write silently fails but the cache persists across    */
-/*  requests within the same container.                                       */
+/*  invalidateProductCache — explicit Next.js cache invalidation. Called      */
+/*  from writeDb() (universal) and from every admin mutation route handler.   */
+/* -------------------------------------------------------------------------- */
+
+export function invalidateProductCache(): void {
+  try {
+    revalidatePath("/", "layout");
+    revalidatePath("/products", "layout");
+    revalidatePath("/products/[category]", "page");
+  } catch {
+    // revalidatePath only works inside request context; ignore elsewhere.
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/*  writeDb — always updates the global cache, persists to disk (best-effort) */
+/*  and invalidates cached routes so pages rebuild on the next request.       */
 /* -------------------------------------------------------------------------- */
 
 export function writeDb(data: DbData): void {
   // 1. Always update the in-memory cache first.
   setCachedDb(data);
 
-  // 2. Attempt to persist to disk (best-effort).
+  // 2. Persist to disk (best-effort). Also track mtime so other processes
+  //    pick the change up via readDb without a restart.
   if (typeof window === "undefined") {
     try {
       const dir = path.dirname(DB_FILE);
@@ -240,17 +280,14 @@ export function writeDb(data: DbData): void {
         fs.mkdirSync(dir, { recursive: true });
       }
       fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+      setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
     } catch {
       // Filesystem read-only (Vercel serverless) — in-memory cache is authoritative.
     }
   }
 
-  // 3. Invalidate Next.js caches so pages re-render on next request.
-  try {
-    revalidatePath("/", "layout");
-  } catch {
-    // revalidatePath only works inside request context; ignore during imports/seeds.
-  }
+  // 3. Invalidate Next.js caches so storefront pages re-render on next request.
+  invalidateProductCache();
 }
 
 /* -------------------------------------------------------------------------- */

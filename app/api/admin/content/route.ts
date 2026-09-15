@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { DEFAULT_CONTENT, getContent, readDb, writeDb } from "@/lib/db";
+import { DEFAULT_CONTENT, getContent, invalidateProductCache, readDb, writeDb } from "@/lib/db";
 
 export async function GET() {
   if (!(await isAdmin())) {
@@ -44,5 +44,6 @@ export async function PUT(request: Request) {
   }
 
   writeDb(db);
+  invalidateProductCache();
   return NextResponse.json({ content: getContent() });
 }

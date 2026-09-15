@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import ImageField from "@/components/admin/ImageField";
 
@@ -16,6 +17,7 @@ type HeroSlide = {
 };
 
 export default function HeroManager() {
+  const router = useRouter();
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -23,7 +25,7 @@ export default function HeroManager() {
 
   async function load() {
     setLoading(true);
-    const res = await fetch("/api/admin/hero");
+    const res = await fetch(`/api/admin/hero?t=${Date.now()}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       setSlides(data.slides as HeroSlide[]);
@@ -42,14 +44,19 @@ export default function HeroManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: next }),
     });
-    if (res.ok)
+    if (res.ok) {
       setSlides((l) => l.map((x) => (x.id === s.id ? { ...x, status: next } : x)));
+      router.refresh();
+    }
   }
 
   async function remove(id: string) {
     if (!confirm("Delete this slide permanently?")) return;
     const res = await fetch(`/api/admin/hero/${id}`, { method: "DELETE" });
-    if (res.ok) setSlides((l) => l.filter((s) => s.id !== id));
+    if (res.ok) {
+      setSlides((l) => l.filter((s) => s.id !== id));
+      router.refresh();
+    }
   }
 
   async function patchOrder(s: HeroSlide, displayOrder: number) {
@@ -58,7 +65,10 @@ export default function HeroManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ displayOrder }),
     });
-    if (res.ok) setSlides((l) => l.map((x) => (x.id === s.id ? { ...x, displayOrder } : x)));
+    if (res.ok) {
+      setSlides((l) => l.map((x) => (x.id === s.id ? { ...x, displayOrder } : x)));
+      router.refresh();
+    }
   }
 
   function move(s: HeroSlide, dir: -1 | 1) {
@@ -171,6 +181,7 @@ export default function HeroManager() {
           onSaved={(s) => {
             setSlides((l) => [...l, s]);
             setShowAdd(false);
+            router.refresh();
           }}
         />
       )}
@@ -181,6 +192,7 @@ export default function HeroManager() {
           onSaved={(s) => {
             setSlides((l) => l.map((x) => (x.id === s.id ? s : x)));
             setEditing(null);
+            router.refresh();
           }}
         />
       )}

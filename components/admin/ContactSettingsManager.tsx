@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { ContactSettings } from "@/types";
 
@@ -30,6 +31,7 @@ const TEXTAREA_FIELDS: Array<{ name: keyof ContactSettings; label: string; rows:
 ];
 
 export default function ContactSettingsManager() {
+  const router = useRouter();
   const [settings, setSettings] = useState<ContactSettings>(EMPTY);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -37,7 +39,7 @@ export default function ContactSettingsManager() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/admin/contact-settings")
+    fetch(`/api/admin/contact-settings?t=${Date.now()}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d: { settings: ContactSettings }) => setSettings({ ...EMPTY, ...(d.settings || {}) }))
       .catch(() => setError("Could not load contact settings."))
@@ -64,8 +66,10 @@ export default function ContactSettingsManager() {
       body: JSON.stringify(payload),
     });
     setSaving(false);
-    if (res.ok) setSaved(true);
-    else setError("Could not save settings. Please try again.");
+    if (res.ok) {
+      setSaved(true);
+      router.refresh();
+    } else setError("Could not save settings. Please try again.");
   }
 
   if (loading) {

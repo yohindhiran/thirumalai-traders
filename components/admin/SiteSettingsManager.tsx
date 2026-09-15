@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { SiteSettings } from "@/types";
 
@@ -44,6 +45,7 @@ const TEXTAREA_FIELDS: Array<{ name: keyof SiteSettings; label: string; rows: nu
 ];
 
 export default function SiteSettingsManager() {
+  const router = useRouter();
   const [settings, setSettings] = useState<SiteSettings>(EMPTY);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -51,7 +53,7 @@ export default function SiteSettingsManager() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/admin/site-settings")
+    fetch(`/api/admin/site-settings?t=${Date.now()}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d: { settings: SiteSettings }) => setSettings({ ...EMPTY, ...(d.settings || {}) }))
       .catch(() => setError("Could not load site settings."))
@@ -78,8 +80,10 @@ export default function SiteSettingsManager() {
       body: JSON.stringify(payload),
     });
     setSaving(false);
-    if (res.ok) setSaved(true);
-    else setError("Could not save settings. Please try again.");
+    if (res.ok) {
+      setSaved(true);
+      router.refresh();
+    } else setError("Could not save settings. Please try again.");
   }
 
   if (loading) {

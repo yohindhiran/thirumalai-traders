@@ -1,17 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { SiteContent } from "@/types";
 
 export default function ContentManager() {
+  const router = useRouter();
   const [content, setContent] = useState<SiteContent | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/admin/content")
+    fetch(`/api/admin/content?t=${Date.now()}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => setContent(d.content))
       .catch(() => setError("Could not load content."));
@@ -40,8 +42,10 @@ export default function ContentManager() {
       body: JSON.stringify(payload),
     });
     setSaving(false);
-    if (res.ok) setSaved(true);
-    else setError("Could not save content. Please try again.");
+    if (res.ok) {
+      setSaved(true);
+      router.refresh();
+    } else setError("Could not save content. Please try again.");
   }
 
   if (!content && !error) {

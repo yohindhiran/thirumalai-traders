@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { AboutContent } from "@/types";
 import ImageField from "@/components/admin/ImageField";
@@ -16,6 +17,7 @@ const EMPTY: AboutContent = {
 };
 
 export default function AboutManager() {
+  const router = useRouter();
   const [content, setContent] = useState<string>("");
   const [vision, setVision] = useState<string>("");
   const [mission, setMission] = useState<string>("");
@@ -30,7 +32,7 @@ export default function AboutManager() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/admin/about")
+    fetch(`/api/admin/about?t=${Date.now()}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d: { about: AboutContent }) => {
         const a = d.about || EMPTY;
@@ -80,8 +82,10 @@ export default function AboutManager() {
       body: JSON.stringify(payload),
     });
     setSaving(false);
-    if (res.ok) setSaved(true);
-    else setError("Could not save About content. Please try again.");
+    if (res.ok) {
+      setSaved(true);
+      router.refresh();
+    } else setError("Could not save About content. Please try again.");
   }
 
   if (loading) {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import ImageField from "@/components/admin/ImageField";
 
@@ -15,6 +16,7 @@ type Testimonial = {
 };
 
 export default function TestimonialsManager() {
+  const router = useRouter();
   const [items, setItems] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -22,7 +24,7 @@ export default function TestimonialsManager() {
 
   async function load() {
     setLoading(true);
-    const res = await fetch("/api/admin/testimonials");
+    const res = await fetch(`/api/admin/testimonials?t=${Date.now()}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       setItems(data.items as Testimonial[]);
@@ -41,14 +43,19 @@ export default function TestimonialsManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: next }),
     });
-    if (res.ok)
+    if (res.ok) {
       setItems((l) => l.map((x) => (x.id === t.id ? { ...x, status: next } : x)));
+      router.refresh();
+    }
   }
 
   async function remove(id: string) {
     if (!confirm("Delete this testimonial permanently?")) return;
     const res = await fetch(`/api/admin/testimonials/${id}`, { method: "DELETE" });
-    if (res.ok) setItems((l) => l.filter((t) => t.id !== id));
+    if (res.ok) {
+      setItems((l) => l.filter((t) => t.id !== id));
+      router.refresh();
+    }
   }
 
   return (
@@ -132,6 +139,7 @@ export default function TestimonialsManager() {
           onSaved={(t) => {
             setItems((l) => [...l, t]);
             setShowAdd(false);
+            router.refresh();
           }}
         />
       )}
@@ -142,6 +150,7 @@ export default function TestimonialsManager() {
           onSaved={(t) => {
             setItems((l) => l.map((x) => (x.id === t.id ? t : x)));
             setEditing(null);
+            router.refresh();
           }}
         />
       )}

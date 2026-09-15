@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import ImageField from "@/components/admin/ImageField";
 
@@ -14,6 +15,7 @@ type ValuedCustomer = {
 };
 
 export default function CustomersManager() {
+  const router = useRouter();
   const [items, setItems] = useState<ValuedCustomer[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -21,7 +23,7 @@ export default function CustomersManager() {
 
   async function load() {
     setLoading(true);
-    const res = await fetch("/api/admin/customers");
+    const res = await fetch(`/api/admin/customers?t=${Date.now()}`, { cache: "no-store" });
     if (res.ok) setItems((await res.json()).items);
     setLoading(false);
   }
@@ -37,7 +39,10 @@ export default function CustomersManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: next }),
     });
-    if (res.ok) setItems((l) => l.map((x) => (x.id === c.id ? { ...x, status: next } : x)));
+    if (res.ok) {
+      setItems((l) => l.map((x) => (x.id === c.id ? { ...x, status: next } : x)));
+      router.refresh();
+    }
   }
 
   async function patchOrder(c: ValuedCustomer, displayOrder: number) {
@@ -46,7 +51,10 @@ export default function CustomersManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ displayOrder }),
     });
-    if (res.ok) setItems((l) => l.map((x) => (x.id === c.id ? { ...x, displayOrder } : x)));
+    if (res.ok) {
+      setItems((l) => l.map((x) => (x.id === c.id ? { ...x, displayOrder } : x)));
+      router.refresh();
+    }
   }
 
   function move(c: ValuedCustomer, dir: -1 | 1) {
@@ -61,7 +69,10 @@ export default function CustomersManager() {
   async function remove(id: string) {
     if (!confirm("Delete this customer permanently?")) return;
     const res = await fetch(`/api/admin/customers/${id}`, { method: "DELETE" });
-    if (res.ok) setItems((l) => l.filter((c) => c.id !== id));
+    if (res.ok) {
+      setItems((l) => l.filter((c) => c.id !== id));
+      router.refresh();
+    }
   }
 
   const sorted = items.slice().sort((a, b) => a.displayOrder - b.displayOrder);
@@ -164,6 +175,7 @@ export default function CustomersManager() {
           onSaved={(c) => {
             setItems((l) => [...l, c]);
             setShowAdd(false);
+            router.refresh();
           }}
         />
       )}
@@ -174,6 +186,7 @@ export default function CustomersManager() {
           onSaved={(c) => {
             setItems((l) => l.map((x) => (x.id === c.id ? c : x)));
             setEditing(null);
+            router.refresh();
           }}
         />
       )}

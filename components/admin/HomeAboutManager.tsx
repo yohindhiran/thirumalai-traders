@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import ImageField from "@/components/admin/ImageField";
 
 export default function HomeAboutManager() {
+  const router = useRouter();
   const [image, setImage] = useState("");
   const [heading, setHeading] = useState("");
   const [buttonText, setButtonText] = useState("");
@@ -16,7 +18,7 @@ export default function HomeAboutManager() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/admin/content")
+    fetch(`/api/admin/content?t=${Date.now()}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d: any) => {
         const c = d.content || {};
@@ -47,8 +49,10 @@ export default function HomeAboutManager() {
       }),
     });
     setSaving(false);
-    if (res.ok) setSaved(true);
-    else setError("Could not save. Please try again.");
+    if (res.ok) {
+      setSaved(true);
+      router.refresh();
+    } else setError("Could not save. Please try again.");
   }
 
   if (loading) {

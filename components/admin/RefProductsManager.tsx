@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, Plus, Trash2, ArrowUp, ArrowDown } from "lucide-react";
 import type { Product } from "@/types";
 
@@ -17,6 +18,7 @@ export default function RefProductsManager({
   title: string;
   endpoint: string;
 }) {
+  const router = useRouter();
   const [items, setItems] = useState<ProductRef[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +28,7 @@ export default function RefProductsManager({
 
   async function load() {
     setLoading(true);
-    const res = await fetch(endpoint);
+    const res = await fetch(`${endpoint}?t=${Date.now()}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       setItems(data.items as ProductRef[]);
@@ -60,6 +62,7 @@ export default function RefProductsManager({
       setItems((l) =>
         l.map((x) => (x.productId === ref.productId ? { ...x, status: next } : x))
       );
+      router.refresh();
     }
   }
 
@@ -73,6 +76,7 @@ export default function RefProductsManager({
       setItems((l) =>
         l.map((x) => (x.productId === ref.productId ? { ...x, displayOrder } : x))
       );
+      router.refresh();
     }
   }
 
@@ -91,6 +95,7 @@ export default function RefProductsManager({
     const res = await fetch(`${endpoint}/${ref.productId}`, { method: "DELETE" });
     if (res.ok) {
       setItems((l) => l.filter((x) => x.productId !== ref.productId));
+      router.refresh();
     }
   }
 
@@ -107,6 +112,7 @@ export default function RefProductsManager({
       const data = await res.json();
       setItems((l) => [...l, data.item as ProductRef]);
       setSelected("");
+      router.refresh();
     } else {
       const data = await res.json().catch(() => null);
       setError(data?.error || "Could not add product.");

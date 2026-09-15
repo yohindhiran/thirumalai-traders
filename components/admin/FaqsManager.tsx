@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 
 type Faq = {
@@ -12,6 +13,7 @@ type Faq = {
 };
 
 export default function FaqsManager() {
+  const router = useRouter();
   const [items, setItems] = useState<Faq[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -19,7 +21,7 @@ export default function FaqsManager() {
 
   async function load() {
     setLoading(true);
-    const res = await fetch("/api/admin/faqs");
+    const res = await fetch(`/api/admin/faqs?t=${Date.now()}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       setItems(data.items as Faq[]);
@@ -38,14 +40,19 @@ export default function FaqsManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: next }),
     });
-    if (res.ok)
+    if (res.ok) {
       setItems((l) => l.map((x) => (x.id === f.id ? { ...x, status: next } : x)));
+      router.refresh();
+    }
   }
 
   async function remove(id: string) {
     if (!confirm("Delete this FAQ permanently?")) return;
     const res = await fetch(`/api/admin/faqs/${id}`, { method: "DELETE" });
-    if (res.ok) setItems((l) => l.filter((f) => f.id !== id));
+    if (res.ok) {
+      setItems((l) => l.filter((f) => f.id !== id));
+      router.refresh();
+    }
   }
 
   return (
@@ -116,6 +123,7 @@ export default function FaqsManager() {
           onSaved={(f) => {
             setItems((l) => [...l, f]);
             setShowAdd(false);
+            router.refresh();
           }}
         />
       )}
@@ -126,6 +134,7 @@ export default function FaqsManager() {
           onSaved={(f) => {
             setItems((l) => l.map((x) => (x.id === f.id ? f : x)));
             setEditing(null);
+            router.refresh();
           }}
         />
       )}

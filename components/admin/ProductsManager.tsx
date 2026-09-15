@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, Plus, Search, Trash2 } from "lucide-react";
 import ImageField from "@/components/admin/ImageField";
 import type { Category, Product } from "@/types";
 
 export default function ProductsManager() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ export default function ProductsManager() {
 
   async function load() {
     setLoading(true);
-    const res = await fetch("/api/admin/products");
+    const res = await fetch(`/api/admin/products?t=${Date.now()}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       setProducts(data.products);
@@ -54,13 +56,19 @@ export default function ProductsManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: next }),
     });
-    if (res.ok) setProducts((l) => l.map((x) => (x.id === p.id ? { ...x, status: next } : x)));
+    if (res.ok) {
+      setProducts((l) => l.map((x) => (x.id === p.id ? { ...x, status: next } : x)));
+      router.refresh();
+    }
   }
 
   async function remove(id: string) {
     if (!confirm("Delete this product permanently?")) return;
     const res = await fetch(`/api/admin/products/${id}`, { method: "DELETE" });
-    if (res.ok) setProducts((l) => l.filter((p) => p.id !== id));
+    if (res.ok) {
+      setProducts((l) => l.filter((p) => p.id !== id));
+      router.refresh();
+    }
   }
 
   return (
@@ -210,6 +218,7 @@ export default function ProductsManager() {
           onSaved={(p) => {
             setProducts((l) => [p, ...l]);
             setShowAdd(false);
+            router.refresh();
           }}
         />
       )}
@@ -221,6 +230,7 @@ export default function ProductsManager() {
           onSaved={(p) => {
             setProducts((l) => l.map((x) => (x.id === p.id ? p : x)));
             setEditing(null);
+            router.refresh();
           }}
         />
       )}

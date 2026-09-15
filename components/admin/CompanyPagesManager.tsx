@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import type { CompanyPageContent } from "@/types";
 
@@ -17,6 +18,7 @@ type Section = { heading: string; body: string };
 type Item = { title: string; body: string };
 
 export default function CompanyPagesManager() {
+  const router = useRouter();
   const [selected, setSelected] = useState<string>(SLUGS[0].slug);
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
@@ -32,7 +34,7 @@ export default function CompanyPagesManager() {
     setLoading(true);
     setSaved(false);
     setError("");
-    fetch(`/api/admin/pages/${selected}`)
+    fetch(`/api/admin/pages/${selected}?t=${Date.now()}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d: { page: CompanyPageContent }) => {
         const p = d.page;
@@ -76,8 +78,10 @@ export default function CompanyPagesManager() {
       body: JSON.stringify(payload),
     });
     setSaving(false);
-    if (res.ok) setSaved(true);
-    else setError("Could not save this page. Please try again.");
+    if (res.ok) {
+      setSaved(true);
+      router.refresh();
+    } else setError("Could not save this page. Please try again.");
   }
 
   return (

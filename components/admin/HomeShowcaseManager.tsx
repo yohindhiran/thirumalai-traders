@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowDown, ArrowUp, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import ImageField from "@/components/admin/ImageField";
 
@@ -14,6 +15,7 @@ type ShowcaseItem = {
 };
 
 export default function HomeShowcaseManager() {
+  const router = useRouter();
   const [items, setItems] = useState<ShowcaseItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
@@ -21,7 +23,7 @@ export default function HomeShowcaseManager() {
 
   async function load() {
     setLoading(true);
-    const res = await fetch("/api/admin/home-showcase");
+    const res = await fetch(`/api/admin/home-showcase?t=${Date.now()}`, { cache: "no-store" });
     if (res.ok) setItems((await res.json()).items);
     setLoading(false);
   }
@@ -37,7 +39,10 @@ export default function HomeShowcaseManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: next }),
     });
-    if (res.ok) setItems((l) => l.map((x) => (x.id === s.id ? { ...x, status: next } : x)));
+    if (res.ok) {
+      setItems((l) => l.map((x) => (x.id === s.id ? { ...x, status: next } : x)));
+      router.refresh();
+    }
   }
 
   async function patchOrder(s: ShowcaseItem, displayOrder: number) {
@@ -46,7 +51,10 @@ export default function HomeShowcaseManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ displayOrder }),
     });
-    if (res.ok) setItems((l) => l.map((x) => (x.id === s.id ? { ...x, displayOrder } : x)));
+    if (res.ok) {
+      setItems((l) => l.map((x) => (x.id === s.id ? { ...x, displayOrder } : x)));
+      router.refresh();
+    }
   }
 
   function move(s: ShowcaseItem, dir: -1 | 1) {
@@ -61,7 +69,10 @@ export default function HomeShowcaseManager() {
   async function remove(id: string) {
     if (!confirm("Delete this image from the showcase?")) return;
     const res = await fetch(`/api/admin/home-showcase/${id}`, { method: "DELETE" });
-    if (res.ok) setItems((l) => l.filter((x) => x.id !== id));
+    if (res.ok) {
+      setItems((l) => l.filter((x) => x.id !== id));
+      router.refresh();
+    }
   }
 
   return (
@@ -163,6 +174,7 @@ export default function HomeShowcaseManager() {
           onSaved={(s) => {
             setItems((l) => [...l, s]);
             setShowAdd(false);
+            router.refresh();
           }}
         />
       )}
@@ -173,6 +185,7 @@ export default function HomeShowcaseManager() {
           onSaved={(s) => {
             setItems((l) => l.map((x) => (x.id === s.id ? s : x)));
             setEditing(null);
+            router.refresh();
           }}
         />
       )}

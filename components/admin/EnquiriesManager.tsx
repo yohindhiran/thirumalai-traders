@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Loader2, Search, Trash2 } from "lucide-react";
 import type { Enquiry } from "@/types";
 import { ENQUIRY_STATUSES } from "@/data/site";
@@ -15,6 +16,7 @@ const STATUS_STYLE: Record<string, string> = {
 };
 
 export default function EnquiriesManager() {
+  const router = useRouter();
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
@@ -26,7 +28,8 @@ export default function EnquiriesManager() {
     const params = new URLSearchParams();
     if (status) params.set("status", status);
     if (query) params.set("q", query);
-    const res = await fetch(`/api/admin/enquiries?${params}`);
+    params.set("t", String(Date.now()));
+    const res = await fetch(`/api/admin/enquiries?${params}`, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       setEnquiries(data.enquiries);
@@ -50,6 +53,7 @@ export default function EnquiriesManager() {
         list.map((e) => (e.id === id ? { ...e, ...patch } as Enquiry : e))
       );
       setSelected((s) => (s && s.id === id ? ({ ...s, ...patch } as Enquiry) : s));
+      router.refresh();
     }
   }
 
@@ -59,6 +63,7 @@ export default function EnquiriesManager() {
     if (res.ok) {
       setEnquiries((l) => l.filter((e) => e.id !== id));
       setSelected(null);
+      router.refresh();
     }
   }
 

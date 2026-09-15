@@ -123,6 +123,8 @@ export function seedDb(): DbData {
       addressState: "Tamil Nadu – 638003, India",
       businessHours: "Monday – Saturday: 8:00 AM – 8:00 PM",
     },
+    customers: [],
+    hero: [],
   };
 }
 

@@ -38,17 +38,17 @@ export default function MostSellingProducts({
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
               Most Selling Products
             </h2>
-<span
-               aria-hidden="true"
-               className="mx-auto mt-4 block h-1 w-20 bg-brand-gold"
-             />
+            <span
+              aria-hidden="true"
+              className="mx-auto mt-4 block h-1 w-20 bg-brand-gold"
+            />
           </div>
 
           <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {items.map((p) => {
               const img = p.image
                 ? { src: p.image, alt: p.name }
-                : CATEGORY_IMAGES[p.categorySlug];
+                : CATEGORY_IMAGES[p.categorySlug ?? "spices"];
               return (
                 <li key={`${p.categorySlug}-${p.slug}`}>
                   <article className="card group h-full overflow-hidden transition-shadow hover:shadow-card">

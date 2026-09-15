@@ -49,10 +49,10 @@ export default function ProductGrid({
         </div>
 
         <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-           {products.map((p) => {
+          {products.map((p) => {
             const img = p.image
               ? { src: p.image, alt: p.name }
-              : CATEGORY_IMAGES[p.categorySlug];
+              : CATEGORY_IMAGES[p.categorySlug ?? "spices"];
             return (
               <li key={`${p.categorySlug}-${p.slug}`}>
                 <article className="card group flex h-full flex-col overflow-hidden rounded-xl transition-shadow hover:shadow-lift">

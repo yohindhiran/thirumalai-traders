@@ -79,9 +79,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <span className="text-2xl font-bold text-brand-green">
                 ₹{(product as any).price ?? (product as any).variants?.[0]?.price ?? "Contact for Pricing"}
               </span>
-              <span className="text-sm text-brand-muted">
-                {product.unit ? `/ ${product.unit}` : ""} (Wholesale & Bulk Rates Available)
-              </span>
+             <span className="text-sm text-brand-muted">
+  {(product as any).unit ? `/ ${(product as any).unit}` : ""} (Wholesale & Bulk Rates Available)
+</span>
             </div>
 
             <div className="mt-6 prose-site text-brand-muted leading-relaxed">

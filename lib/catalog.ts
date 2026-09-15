@@ -4,8 +4,7 @@ import {
   slugify,
   productDescription,
 } from "@/data/products-seed";
-import type { BrowserProduct } from "@/components/ProductsBrowser";
-
+import type { CatalogProduct as BrowserProduct } from "@/components/ProductsBrowser";
 export const CATEGORY_IMAGES: Record<string, { src: string; alt: string }> = {
   spices: {
     src: "/images/cat-spices.jpg",

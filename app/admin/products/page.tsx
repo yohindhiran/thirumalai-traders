@@ -3,21 +3,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-export interface ProductItem {
-  id: string;
-  name: string;
-  categoryId?: string;
-  categoryName?: string;
-  images?: string[];
-  price?: number;
-  stock?: number;
-  status?: string;
-  variants?: Array<{ price?: number }>;
-}
+import type { Product } from "@/types";
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<ProductItem[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -35,7 +24,7 @@ export default function ProductsPage() {
         let filtered = data.products || [];
 
         if (search) {
-          filtered = filtered.filter((p: ProductItem) => 
+          filtered = filtered.filter((p: Product) => 
             p.name.toLowerCase().includes(search.toLowerCase())
           );
         }
@@ -175,10 +164,11 @@ export default function ProductsPage() {
                   </td>
                 </tr>
               ) : (
-                products.map((product, index) => (
+                products.map((product: any, index: number) => (
                   <tr key={product.id || index} className="hover:bg-gray-50 transition">
                     <td className="p-3">
                       {product.images?.[0] ? (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img
                           src={product.images[0]}
                           alt={product.name}

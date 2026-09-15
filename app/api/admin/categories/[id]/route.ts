@@ -13,7 +13,7 @@ export async function PATCH(
   const { id } = await params;
   const body = await request.json().catch(() => null);
   const db = readDb();
-  const category = db.categories.find((c) => c.id === id);
+  const category = db.categories.find((c: any) => c.id === id);
   if (!category) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -28,7 +28,7 @@ export async function PATCH(
   if (typeof body?.slug === "string" && body.slug.trim()) {
     const slug = slugify(body.slug);
     if (slug && slug !== category.slug) {
-      if (db.categories.some((c) => c.slug === slug && c.id !== category.id)) {
+      if (db.categories.some((c: any) => c.slug === slug && c.id !== category.id)) {
         return NextResponse.json(
           { error: "Another category already uses this slug." },
           { status: 409 }
@@ -52,11 +52,11 @@ export async function DELETE(
   }
   const { id } = await params;
   const db = readDb();
-  const category = db.categories.find((c) => c.id === id);
+  const category = db.categories.find((c: any) => c.id === id);
   if (!category) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  const productCount = db.products.filter((p) => p.categoryId === id).length;
+  const productCount = db.products.filter((p: any) => p.categoryId === id).length;
   if (productCount > 0) {
     return NextResponse.json(
       {
@@ -65,7 +65,7 @@ export async function DELETE(
       { status: 409 }
     );
   }
-  db.categories = db.categories.filter((c) => c.id !== id);
+  db.categories = db.categories.filter((c: any) => c.id !== id);
   writeDb(db);
   return NextResponse.json({ ok: true });
 }

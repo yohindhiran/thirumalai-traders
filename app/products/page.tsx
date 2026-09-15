@@ -18,18 +18,18 @@ export const metadata: Metadata = {
 };
 
 export default function ProductsPage() {
-  const mostSelling = getMostSellingProducts().map((p) => ({
+  const mostSelling = getMostSellingProducts().map((p: any) => ({
     name: p.name,
     slug: p.slug,
-    categoryName: p.categoryName,
-    categorySlug: p.categorySlug,
+    categoryName: p.categoryName || "Wholesale Grocery",
+    categorySlug: p.categorySlug || p.categoryId?.replace("cat-", "") || "spices",
     image: p.images?.[0],
   }));
-  const ourProducts = getOurProducts().map((p) => ({
+  const ourProducts = getOurProducts().map((p: any) => ({
     name: p.name,
     slug: p.slug,
-    categoryName: p.categoryName,
-    categorySlug: p.categorySlug,
+    categoryName: p.categoryName || "Wholesale Grocery",
+    categorySlug: p.categorySlug || p.categoryId?.replace("cat-", "") || "spices",
     image: p.images?.[0],
   }));
 

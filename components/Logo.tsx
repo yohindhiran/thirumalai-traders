@@ -23,7 +23,7 @@ export default function Logo({
       {failed ? (
         <span className="inline-flex items-center gap-2.5">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-brand-gold font-bold text-brand-green-deep">
-            TT
+            U
           </span>
           <span className="flex flex-col leading-tight">
             <span
@@ -32,17 +32,17 @@ export default function Logo({
                 variant === "dark" ? "text-white" : "text-brand-ink"
               )}
             >
-              Thirumalaai Traders
+              Uravu
             </span>
             <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-muted">
-              Wholesale Grocery
+              Goodness that connects
             </span>
           </span>
         </span>
       ) : (
         <Image
-          src="/images/logo.png"
-          alt="Thirumalaai Traders"
+          src="/images/uravu-logo.png"
+          alt="Uravu"
           width={220}
           height={56}
           priority

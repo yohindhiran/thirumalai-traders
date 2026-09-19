@@ -37,6 +37,18 @@ export async function PUT(request: Request) {
       (db.contactSettings as any)[field] = v;
     }
   }
+  if (Array.isArray(body?.team)) {
+    db.contactSettings.team = body.team
+      .filter(
+        (m: any) =>
+          m && typeof m.name === "string" && m.name.trim() && typeof m.phone === "string" && m.phone.trim()
+      )
+      .map((m: any) => ({
+        name: m.name.trim(),
+        role: typeof m.role === "string" ? m.role.trim() : "",
+        phone: m.phone.trim(),
+      }));
+  }
   writeDb(db);
   invalidateProductCache();
   return NextResponse.json({ settings: db.contactSettings });

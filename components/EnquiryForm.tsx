@@ -10,6 +10,7 @@ export default function EnquiryForm() {
   const params = useSearchParams();
   const presetProduct = params.get("product") || "";
   const presetCategory = params.get("category") || "";
+  const presetCustomerType = params.get("customerType") || "";
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [categories, setCategories] = useState<string[]>(
@@ -130,11 +131,21 @@ export default function EnquiryForm() {
         <label htmlFor="customerType" className="label">
           Customer Type <span aria-hidden="true" className="text-red-500">*</span>
         </label>
-        <select id="customerType" name="customerType" required defaultValue="" className="input">
+        <select
+          id="customerType"
+          name="customerType"
+          required
+          key={`ctype-${presetCustomerType}`}
+          defaultValue={presetCustomerType}
+          className="input"
+        >
           <option value="" disabled>Select customer type</option>
           {CUSTOMER_TYPES.map((t) => (
             <option key={t} value={t}>{t}</option>
           ))}
+          {!CUSTOMER_TYPES.includes(presetCustomerType as never) && presetCustomerType && (
+            <option value={presetCustomerType}>{presetCustomerType}</option>
+          )}
         </select>
       </div>
 

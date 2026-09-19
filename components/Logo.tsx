@@ -8,11 +8,15 @@ import { cn } from "@/lib/utils";
 export default function Logo({
   variant = "light",
   className,
+  src,
 }: {
   variant?: "light" | "dark";
   className?: string;
+  // CMS-managed logo (Admin → Site Settings). Falls back to the default asset.
+  src?: string;
 }) {
   const [failed, setFailed] = useState(false);
+  const logoSrc = src || "/images/thirumalaai-traders-logo.png";
 
   return (
     <Link
@@ -23,7 +27,7 @@ export default function Logo({
       {failed ? (
         <span className="inline-flex items-center gap-2.5">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-brand-gold font-bold text-brand-green-deep">
-            U
+            T
           </span>
           <span className="flex flex-col leading-tight">
             <span
@@ -32,22 +36,23 @@ export default function Logo({
                 variant === "dark" ? "text-white" : "text-brand-ink"
               )}
             >
-              Uravu
+              Thirumalaai Traders
             </span>
             <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-muted">
-              Goodness that connects
+              Wholesale Grocery
             </span>
           </span>
         </span>
       ) : (
         <Image
-          src="/images/uravu-logo.png"
-          alt="Uravu"
+          key={logoSrc}
+          src={logoSrc}
+          alt="Thirumalaai Traders"
           width={220}
           height={56}
           priority
           onError={() => setFailed(true)}
-          className="h-auto w-[170px] object-contain sm:w-[190px] lg:w-[220px]"
+          className="h-auto w-[170px] bg-transparent object-contain sm:w-[190px] lg:w-[220px]"
         />
       )}
     </Link>

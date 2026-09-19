@@ -12,10 +12,11 @@ const MAIN_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/products", label: "Categories" },
+  { href: "/clients", label: "Clients" },
   { href: "/contact", label: "Contact" },
 ];
 
-export default function Header({ phone }: { phone?: string }) {
+export default function Header({ phone, logo }: { phone?: string; logo?: string }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -38,7 +39,7 @@ export default function Header({ phone }: { phone?: string }) {
     <header className="sticky top-0 z-50 border-b border-brand-line bg-white/95 shadow-sm backdrop-blur">
       <div className="container-site flex h-16 items-center justify-between gap-4 lg:h-20">
         {/* LEFT: logo + brand */}
-        <Logo />
+        <Logo src={logo} />
 
         {/* CENTER: primary navigation */}
         <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
@@ -68,6 +69,12 @@ export default function Header({ phone }: { phone?: string }) {
           </a>
           <Link href="/enquiry" className="btn-primary !py-2.5">
             Request Enquiry
+          </Link>
+          <Link
+            href="/admin/login"
+            className="text-sm font-medium text-brand-muted transition-colors hover:text-brand-green"
+          >
+            Admin
           </Link>
         </div>
 
@@ -124,6 +131,12 @@ export default function Header({ phone }: { phone?: string }) {
           <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
             WhatsApp Us
           </a>
+          <Link
+            href="/admin/login"
+            className="block text-center text-sm font-medium text-brand-muted transition-colors hover:text-brand-green"
+          >
+            Admin Panel
+          </Link>
         </div>
       </div>
     </header>

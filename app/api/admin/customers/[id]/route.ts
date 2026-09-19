@@ -19,6 +19,7 @@ export async function PATCH(
   if (!item) return NextResponse.json({ error: "Not found" }, { status: 404 });
   if (typeof body?.name === "string" && body.name.trim()) item.name = body.name.trim();
   if (typeof body?.logo === "string") item.logo = body.logo;
+  if (typeof body?.photo === "string") item.photo = body.photo;
   if (typeof body?.description === "string") item.description = body.description;
   if (body?.status === "active" || body?.status === "inactive") item.status = body.status;
   if (typeof body?.displayOrder === "number") item.displayOrder = body.displayOrder;

@@ -7,7 +7,7 @@ import MostSellingProducts from "@/components/MostSellingProducts";
 import ProductGrid from "@/components/ProductGrid";
 import { JsonLd, breadcrumbSchema } from "@/lib/seo";
 import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
-import { getMostSellingProducts, getOurProducts, readDb } from "@/lib/db";
+import { getMostSellingProducts, getOurProducts, getPageContent, readDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -21,6 +21,8 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   const db = readDb();
+  // Admin-managed hero (Admin → Company Pages → Products Page).
+  const page = getPageContent("products");
   const catById = new Map(db.categories.map((c) => [c.id, c]));
   const activeCategories = db.categories.filter((c) => c.status === "active");
 
@@ -54,7 +56,10 @@ export default function ProductsPage() {
       />
 
       {/* Hero */}
-      <PageHero title="Product Categories" backgroundImage="/images/hero-warehouse.jpg" />
+      <PageHero
+        title={page?.heroTitle || "Product Categories"}
+        backgroundImage={page?.heroImage || "/images/hero-warehouse.jpg"}
+      />
 
       {/* Shop by Category */}
       <section id="categories" className="section-pad bg-white">

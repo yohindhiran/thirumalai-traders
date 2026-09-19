@@ -9,6 +9,7 @@ type ValuedCustomer = {
   id: string;
   name: string;
   logo?: string;
+  photo?: string;
   description?: string;
   status: "active" | "inactive";
   displayOrder: number;
@@ -204,6 +205,7 @@ function CustomerModal({
   onSaved: (c: ValuedCustomer) => void;
 }) {
   const [logo, setLogo] = useState(customer?.logo || "");
+  const [photo, setPhoto] = useState(customer?.photo || "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -221,6 +223,7 @@ function CustomerModal({
           name: form.name,
           description: form.description,
           logo,
+          photo,
           status: form.status,
         }),
       }
@@ -253,6 +256,7 @@ function CustomerModal({
             <input id="cm-desc" name="description" defaultValue={customer?.description} placeholder="e.g. Leading college canteen" className="input" />
           </div>
           <ImageField name="logo" label="Customer Logo" value={logo} onChange={setLogo} rounded="rounded-md" />
+          <ImageField name="photo" label="Customer Photo (timeline image — blank uses default)" value={photo} onChange={setPhoto} rounded="rounded-md" />
           <div>
             <label htmlFor="cm-status" className="label">Status</label>
             <select id="cm-status" name="status" defaultValue={customer?.status ?? "active"} className="input">

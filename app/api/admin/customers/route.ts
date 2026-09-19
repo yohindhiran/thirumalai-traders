@@ -31,6 +31,8 @@ export async function POST(request: Request) {
     id: newId("vc"),
     name,
     logo: typeof body?.logo === "string" ? body.logo : "",
+    photo: typeof body?.photo === "string" ? body.photo : "",
+    description: typeof body?.description === "string" ? body.description : "",
     status: "active",
     displayOrder: maxOrder + 1,
   };

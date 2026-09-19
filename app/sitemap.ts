@@ -11,8 +11,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/history",
     "/products",
     "/industries-we-serve",
-    "/wholesale-supply",
-    "/why-choose-us",
     "/quality",
     "/clients",
     "/contact",

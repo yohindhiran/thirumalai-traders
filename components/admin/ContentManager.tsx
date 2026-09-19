@@ -25,16 +25,8 @@ export default function ContentManager() {
     setSaved(false);
     setError("");
     const form = new FormData(e.currentTarget);
-    const highlightsRaw = String(form.get("highlights") || "");
     const payload = {
-      heroHeadline: form.get("heroHeadline"),
-      heroSubtext: form.get("heroSubtext"),
       aboutPreview: form.get("aboutPreview"),
-      officePhone: form.get("officePhone"),
-      highlights: highlightsRaw
-        .split("\n")
-        .map((s) => s.trim())
-        .filter(Boolean),
     };
     const res = await fetch("/api/admin/content", {
       method: "PUT",
@@ -69,54 +61,13 @@ export default function ContentManager() {
         </p>
       )}
       <div>
-        <label htmlFor="ct-headline" className="label">Homepage Hero Headline</label>
-        <input
-          id="ct-headline"
-          name="heroHeadline"
-          defaultValue={content?.heroHeadline}
-          required
-          className="input"
-        />
-      </div>
-      <div>
-        <label htmlFor="ct-subtext" className="label">Homepage Hero Supporting Text</label>
-        <textarea
-          id="ct-subtext"
-          name="heroSubtext"
-          rows={2}
-          defaultValue={content?.heroSubtext}
-          className="input resize-y"
-        />
-      </div>
-      <div>
-        <label htmlFor="ct-highlights" className="label">
-          Hero Highlights (one per line)
-        </label>
-        <textarea
-          id="ct-highlights"
-          name="highlights"
-          rows={4}
-          defaultValue={content?.highlights.join("\n")}
-          className="input resize-y"
-        />
-      </div>
-      <div>
-        <label htmlFor="ct-about" className="label">About Preview Paragraph</label>
+        <label htmlFor="ct-about" className="label">About Preview Paragraph (shown on the homepage About section)</label>
         <textarea
           id="ct-about"
           name="aboutPreview"
           rows={6}
           defaultValue={content?.aboutPreview}
           className="input resize-y"
-        />
-      </div>
-      <div>
-        <label htmlFor="ct-phone" className="label">Office Phone (displayed in header)</label>
-        <input
-          id="ct-phone"
-          name="officePhone"
-          defaultValue={content?.officePhone}
-          className="input sm:max-w-xs"
         />
       </div>
       <button type="submit" disabled={saving} className="btn-primary w-full sm:w-auto sm:min-w-[200px]">

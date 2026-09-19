@@ -268,25 +268,23 @@ export function invalidateProductCache(): void {
 /* -------------------------------------------------------------------------- */
 
 export function writeDb(data: DbData): void {
-  // 1. Always update the in-memory cache first.
-  setCachedDb(data);
-
-  // 2. Persist to disk (best-effort). Also track mtime so other processes
-  //    pick the change up via readDb without a restart.
+  // Persist to disk FIRST so a failure throws before the cache is touched.
+  // This THROWS on failure (e.g. read-only filesystem) so API routes report
+  // an error instead of false success. Callers rely on the throw; do not
+  // re-add a silent catch here.
   if (typeof window === "undefined") {
-    try {
-      const dir = path.dirname(DB_FILE);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
-      setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
-    } catch {
-      // Filesystem read-only (Vercel serverless) — in-memory cache is authoritative.
+    const dir = path.dirname(DB_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
     }
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+    setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
   }
 
-  // 3. Invalidate Next.js caches so storefront pages re-render on next request.
+  // 1. Update the in-memory cache only after the disk write succeeded.
+  setCachedDb(data);
+
+  // 2. Invalidate Next.js caches so storefront pages re-render on next request.
   invalidateProductCache();
 }
 

@@ -38,8 +38,15 @@ export default function AboutPage() {
   const about = getAbout();
   const vision = about.vision || VISION;
   const mission = about.mission.length ? about.mission : MISSION;
-  const coreValues = (about.coreValues.length ? about.coreValues : CORE_VALUES)
-    .filter((v: any) => v.status !== "inactive")
+  // Merge saved values with the full default set so the complete
+  // Core Values section is always visible (saved list may be partial).
+  // Saved entries take precedence; defaults fill any missing values.
+  const coreValues = [...about.coreValues, ...CORE_VALUES.map((v) => ({ ...v }))]
+    .filter((v: any) => v && v.status !== "inactive" && v.title)
+    .filter(
+      (v: any, i: number, arr: any[]) =>
+        arr.findIndex((o: any) => o.title === v.title) === i
+    )
     .slice()
     .sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 

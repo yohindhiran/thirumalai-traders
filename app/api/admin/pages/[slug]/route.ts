@@ -30,11 +30,12 @@ export async function PUT(
   const body = await request.json().catch(() => null);
   const db = readDb();
   const pagesRecord = db.pages as Record<string, any>;
-  const existing = pagesRecord[slug];
-
-  if (!existing) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
+  const existing = pagesRecord[slug] ?? {
+    title: "",
+    intro: "",
+    sections: [],
+    images: [],
+  };
 
   pagesRecord[slug] = {
     ...existing,

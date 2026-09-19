@@ -1,6 +1,7 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { MANAGEMENT, OFFICE, SALES_TEAM, SITE } from "@/data/site";
-import { telHref, whatsappHref } from "@/lib/utils";
+import { getContactSettings, getSiteSettings } from "@/lib/db";
+import { telHref } from "@/lib/utils";
 import ContactInlineForm from "@/components/ContactInlineForm";
 
 function PersonCard({
@@ -29,7 +30,36 @@ function PersonCard({
   );
 }
 
+const DEFAULT_MAP_QUERY = "Karungalpalayam,+Erode,+Tamil+Nadu+638003";
+
+function mapSrc(mapsLink?: string): string {
+  const value = (mapsLink || "").trim();
+  if (!value) return `https://www.google.com/maps?q=${DEFAULT_MAP_QUERY}&output=embed`;
+  if (/^https?:\/\//i.test(value)) return value;
+  return `https://www.google.com/maps?q=${encodeURIComponent(value)}&output=embed`;
+}
+
 export default function ContactSection({ withForm = true }: { withForm?: boolean }) {
+  // Admin-managed contact details (Admin → Contact Settings); every field
+  // falls back to the long-standing hardcoded values when unsaved.
+  const contact = getContactSettings();
+  const site = getSiteSettings();
+
+  const companyName = site.companyName || SITE.name;
+  const line1 = contact.addressLine1 || SITE.address.line1;
+  const line2 = contact.addressLine2 || SITE.address.line2;
+  const state = contact.addressState || SITE.address.state;
+  const email = contact.email || SITE.email;
+  const officePhone = contact.phone || SITE.officePhone;
+  const whatsappDigits = (contact.whatsapp || "919384482007").replace(/\D/g, "");
+  const whatsappUrl = `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(
+    "Hello Thirumalaai Traders, I would like to enquire about wholesale grocery products."
+  )}`;
+
+  // Admin-managed team (Admin → Contact Settings → Team). When empty, the
+  // default Management + Sales Team blocks render exactly as before.
+  const team = (contact.team || []).filter((m: any) => m && m.name && m.phone);
+
   return (
     <section className="section-pad">
       <div className="container-site">
@@ -43,12 +73,12 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
                     <MapPin className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <address className="not-italic leading-relaxed text-brand-muted">
-                    <strong className="block text-brand-ink">{SITE.name}</strong>
-                    {SITE.address.line1}
+                    <strong className="block text-brand-ink">{companyName}</strong>
+                    {line1}
                     <br />
-                    {SITE.address.line2}
+                    {line2}
                     <br />
-                    {SITE.address.state}
+                    {state}
                   </address>
                 </li>
                 <li className="flex gap-4">
@@ -56,10 +86,10 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
                     <Mail className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <a
-                    href={`mailto:${SITE.email}`}
+                    href={`mailto:${email}`}
                     className="break-all leading-relaxed text-brand-muted hover:text-brand-green"
                   >
-                    {SITE.email}
+                    {email}
                   </a>
                 </li>
                 <li className="flex gap-4">
@@ -67,34 +97,47 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
                     <MessageCircle className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <a
-                    href={whatsappHref()}
+                    href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium text-brand-green hover:underline"
                   >
-                    WhatsApp Us — Office {SITE.officePhone}
+                    WhatsApp Us — Office {officePhone}
                   </a>
                 </li>
               </ul>
             </div>
 
-            <div>
-              <h2 className="text-lg font-bold text-brand-ink">Management</h2>
-              <div className="mt-4 space-y-3">
-                {[...MANAGEMENT, ...OFFICE].map((m) => (
-                  <PersonCard key={m.phone} {...m} />
-                ))}
+            {team.length ? (
+              <div>
+                <h2 className="text-lg font-bold text-brand-ink">Our Team</h2>
+                <div className="mt-4 space-y-3">
+                  {team.map((m: any) => (
+                    <PersonCard key={m.phone} name={m.name} role={m.role || ""} phone={m.phone} />
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <>
+                <div>
+                  <h2 className="text-lg font-bold text-brand-ink">Management</h2>
+                  <div className="mt-4 space-y-3">
+                    {[...MANAGEMENT, ...OFFICE].map((m) => (
+                      <PersonCard key={m.phone} {...m} />
+                    ))}
+                  </div>
+                </div>
 
-            <div>
-              <h2 className="text-lg font-bold text-brand-ink">Sales Team</h2>
-              <div className="mt-4 space-y-3">
-                {SALES_TEAM.map((m) => (
-                  <PersonCard key={m.phone} {...m} />
-                ))}
-              </div>
-            </div>
+                <div>
+                  <h2 className="text-lg font-bold text-brand-ink">Sales Team</h2>
+                  <div className="mt-4 space-y-3">
+                    {SALES_TEAM.map((m) => (
+                      <PersonCard key={m.phone} {...m} />
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
 
           {withForm && (
@@ -110,8 +153,8 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
 
         <div className="mt-14 overflow-hidden rounded-lg border border-brand-line">
           <iframe
-            title={`Map showing location of ${SITE.name} in Karungalpalayam, Erode`}
-            src="https://www.google.com/maps?q=Karungalpalayam,+Erode,+Tamil+Nadu+638003&output=embed"
+            title={`Map showing location of ${companyName} in Karungalpalayam, Erode`}
+            src={mapSrc(contact.mapsLink)}
             width="100%"
             height="380"
             loading="lazy"

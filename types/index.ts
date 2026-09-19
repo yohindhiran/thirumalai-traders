@@ -109,6 +109,7 @@ export interface ValuedCustomer {
   id: string;
   name: string;
   logo?: string;
+  photo?: string;
   description?: string;
   status: ProductStatus;
   displayOrder: number;
@@ -141,7 +142,11 @@ export interface AboutContent {
 
 export interface CompanyPageSection {
   heading: string;
+  subtitle?: string;
   body: string;
+  image?: string;
+  status?: ProductStatus;
+  displayOrder?: number;
 }
 
 export interface CompanyPageContent {
@@ -183,6 +188,7 @@ export interface ContactSettings {
   addressState: string;
   businessHours: string;
   mapsLink?: string;
+  team?: { name: string; role: string; phone: string }[];
 }
 
 export interface DbData {

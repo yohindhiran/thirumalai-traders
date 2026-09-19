@@ -250,22 +250,9 @@ function HeroModal({
         )}
         <div className="mt-6 space-y-4">
           <ImageField name="image" label="Slide Image" value={slide?.image || ""} />
-          <div>
-            <label htmlFor="hm-title" className="label">Title</label>
-            <input id="hm-title" name="title" defaultValue={slide?.title} className="input" />
-          </div>
-          <div>
-            <label htmlFor="hm-subtitle" className="label">Subtitle</label>
-            <input id="hm-subtitle" name="subtitle" defaultValue={slide?.subtitle} className="input" />
-          </div>
-          <div>
-            <label htmlFor="hm-buttonText" className="label">Button Text</label>
-            <input id="hm-buttonText" name="buttonText" defaultValue={slide?.buttonText} className="input" />
-          </div>
-          <div>
-            <label htmlFor="hm-buttonLink" className="label">Button Link</label>
-            <input id="hm-buttonLink" name="buttonLink" defaultValue={slide?.buttonLink} placeholder="/products" className="input" />
-          </div>
+          <p className="text-xs leading-relaxed text-brand-muted">
+            Slides are image-only on the website — no titles, text or buttons are shown.
+          </p>
           <div>
             <label htmlFor="hm-status" className="label">Status</label>
             <select id="hm-status" name="status" defaultValue={slide?.status ?? "active"} className="input">

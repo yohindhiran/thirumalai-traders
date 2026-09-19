@@ -188,29 +188,12 @@ export default function Testimonials({
                     <blockquote className="flex-1 leading-relaxed text-brand-muted">
                       &ldquo;{t.quote}&rdquo;
                     </blockquote>
-                    <figcaption className="mt-6 flex items-center gap-3 border-t border-brand-line pt-5">
-                      <span
-                        aria-hidden="true"
-                        className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand-green text-sm font-bold text-brand-gold"
-                      >
-                        {t.image ? (
-                          <span
-                            role="img"
-                            aria-label={t.name}
-                            className="block h-full w-full bg-white bg-contain bg-center bg-no-repeat"
-                            style={{ backgroundImage: `url(${t.image})` }}
-                          />
-                        ) : (
-                          "&ldquo;"
-                        )}
+                    <figcaption className="mt-6 border-t border-brand-line pt-5">
+                      <span className="block font-semibold text-brand-ink">
+                        {t.name}
                       </span>
-                      <span>
-                        <span className="block font-semibold text-brand-ink">
-                          {t.name}
-                        </span>
-                        <span className="block text-xs text-brand-muted">
-                          {t.role}
-                        </span>
+                      <span className="mt-0.5 block text-xs text-brand-muted">
+                        {t.role}
                       </span>
                     </figcaption>
                   </figure>

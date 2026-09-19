@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 
-const SLIDES = [
+const DEFAULT_SLIDES = [
   {
     src: "/images/hero-warehouse.jpg",
     alt: "Wholesale grocery warehouse with stocked racks and bulk inventory",
@@ -33,7 +33,13 @@ const SLIDES = [
 
 const AUTOPLAY_MS = 3000;
 
-export default function HeroSlider() {
+export interface HeroSliderSlide {
+  src: string;
+  alt: string;
+}
+
+export default function HeroSlider({ slides }: { slides?: HeroSliderSlide[] }) {
+  const SLIDES = slides?.length ? slides : DEFAULT_SLIDES;
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -49,7 +55,11 @@ export default function HeroSlider() {
 
   const go = useCallback((next: number) => {
     setIndex((next + SLIDES.length) % SLIDES.length);
-  }, []);
+  }, [SLIDES.length]);
+
+  useEffect(() => {
+    setIndex((i) => (SLIDES.length ? i % SLIDES.length : 0));
+  }, [SLIDES.length]);
 
   useEffect(() => {
     if (timer.current) clearInterval(timer.current);

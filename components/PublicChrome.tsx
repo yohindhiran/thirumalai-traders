@@ -21,7 +21,7 @@ export default function PublicChrome({
 
   return (
     <>
-      <Header phone={contact.phone || site.phone} />
+      <Header phone={contact.phone || site.phone} logo={site.logo} />
       <main className="flex-1">{children}</main>
       <Footer
         contact={{

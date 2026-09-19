@@ -35,8 +35,6 @@ export const NAV_LINKS = [
   { href: "/about", label: "About" },
   { href: "/products", label: "Products" },
   { href: "/industries-we-serve", label: "Industries" },
-  { href: "/wholesale-supply", label: "Wholesale" },
-  { href: "/why-choose-us", label: "Why Us" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
@@ -46,8 +44,6 @@ export const QUICK_LINKS = [
   { href: "/history", label: "History" },
   { href: "/products", label: "Products" },
   { href: "/industries-we-serve", label: "Industries We Serve" },
-  { href: "/wholesale-supply", label: "Wholesale Supply" },
-  { href: "/why-choose-us", label: "Why Choose Us" },
   { href: "/quality", label: "Quality" },
   { href: "/clients", label: "Clients" },
   { href: "/faq", label: "FAQ" },
@@ -97,21 +93,6 @@ export const INDUSTRIES = [
     title: "Bulk Customers",
     desc: "Flexible, large-volume supply arrangements for bulk and institutional buyers.",
   },
-] as const;
-
-export const WHY_CHOOSE_US = [
-  { title: "25+ Years of Experience", desc: "Over two decades of wholesale grocery supply expertise." },
-  { title: "Trusted by 1000+ Customers", desc: "Long-standing relationships across institutions and businesses." },
-  { title: "Specialized in Canteen & Institutional Supplies", desc: "Deep understanding of institutional kitchen requirements." },
-  { title: "Consistent Quality Assurance", desc: "Careful sourcing and quality checks on every consignment." },
-  { title: "Competitive Wholesale Prices", desc: "Value-driven pricing built for volume purchasing." },
-  { title: "Timely Delivery", desc: "Dependable delivery schedules you can plan around." },
-  { title: "Bulk Supply Capability", desc: "Capacity to fulfil large and recurring orders." },
-  { title: "Hygienic Packing", desc: "Clean, careful packing that protects product quality." },
-  { title: "Trusted Brands", desc: "Established, reliable product brands sourced responsibly." },
-  { title: "Dedicated Customer Support", desc: "A responsive sales team that knows your business." },
-  { title: "Long-Term Partnerships", desc: "We grow with our customers, year after year." },
-  { title: "Flexible Supply for Small & Bulk Orders", desc: "Order quantities tailored to your requirement." },
 ] as const;
 
 export const CLIENTS = [

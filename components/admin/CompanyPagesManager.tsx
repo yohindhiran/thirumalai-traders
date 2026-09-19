@@ -2,26 +2,40 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Loader2, Plus, Trash2 } from "lucide-react";
 import type { CompanyPageContent } from "@/types";
+import ImageField from "@/components/admin/ImageField";
 
 const SLUGS: { slug: string; label: string }[] = [
-  { slug: "wholesale-supply", label: "Wholesale Supply" },
   { slug: "history", label: "Our History" },
   { slug: "industries-we-serve", label: "Industries We Serve" },
-  { slug: "why-choose-us", label: "Why Choose Us" },
   { slug: "clients", label: "Our Clients" },
   { slug: "quality", label: "Quality" },
+  { slug: "products", label: "Products Page" },
+  { slug: "contact", label: "Contact Page" },
 ];
 
-type Section = { heading: string; body: string };
+type Section = {
+  heading: string;
+  subtitle?: string;
+  body: string;
+  image?: string;
+  status?: "active" | "inactive";
+  displayOrder?: number;
+};
 type Item = { title: string; body: string };
+
+const EMPTY_SECTION: Section = { heading: "", body: "", image: "", status: "active" };
 
 export default function CompanyPagesManager() {
   const router = useRouter();
   const [selected, setSelected] = useState<string>(SLUGS[0].slug);
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
+  const [heroTitle, setHeroTitle] = useState("");
+  const [heroImage, setHeroImage] = useState("");
+  const [sectionHeading, setSectionHeading] = useState("");
+  const [sectionSubheading, setSectionSubheading] = useState("");
   const [sections, setSections] = useState<Section[]>([]);
   const [items, setItems] = useState<Item[]>([]);
   const [images, setImages] = useState("");
@@ -36,20 +50,63 @@ export default function CompanyPagesManager() {
     setError("");
     fetch(`/api/admin/pages/${selected}?t=${Date.now()}`, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d: { page: CompanyPageContent }) => {
+        .then((d: { page: CompanyPageContent }) => {
         const p = d.page;
         setTitle(p.title || "");
         setIntro(p.intro || "");
-        setSections(p.sections || []);
+        setHeroTitle(p.heroTitle || "");
+        setHeroImage(p.heroImage || "");
+        setSectionHeading(p.sectionHeading || "");
+        setSectionSubheading(p.sectionSubheading || "");
+        setSections(
+          (p.sections || []).map((s: any) => ({
+            heading: s.heading || "",
+            subtitle: s.subtitle || "",
+            body: s.body || "",
+            image: s.image || "",
+            status: s.status === "inactive" ? "inactive" : "active",
+            displayOrder: s.displayOrder ?? 0,
+          }))
+        );
         setItems(p.items || []);
         setImages((p.images || []).join("\n"));
       })
-      .catch(() => setError("Could not load this page."))
+      .catch(() => {
+        // New slugs start blank; PUT creates them on first save.
+        setTitle("");
+        setIntro("");
+        setHeroTitle("");
+        setHeroImage("");
+        setSectionHeading("");
+        setSectionSubheading("");
+        setSections([]);
+        setItems([]);
+        setImages("");
+        setError("");
+      })
       .finally(() => setLoading(false));
   }, [selected]);
 
-  function updateSection(idx: number, key: keyof Section, value: string) {
+  function updateSection(idx: number, key: "heading" | "subtitle" | "body" | "image", value: string) {
     setSections((l) => l.map((s, i) => (i === idx ? { ...s, [key]: value } : s)));
+  }
+
+  function toggleSection(idx: number) {
+    setSections((l) =>
+      l.map((s, i) =>
+        i === idx ? { ...s, status: s.status === "inactive" ? "active" : "inactive" } : s
+      )
+    );
+  }
+
+  function moveSection(idx: number, dir: -1 | 1) {
+    setSections((l) => {
+      const next = l.slice();
+      const swap = idx + dir;
+      if (swap < 0 || swap >= next.length) return l;
+      [next[idx], next[swap]] = [next[swap], next[idx]];
+      return next;
+    });
   }
 
   function updateItem(idx: number, key: keyof Item, value: string) {
@@ -64,8 +121,19 @@ export default function CompanyPagesManager() {
     const payload = {
       title,
       intro,
+      heroTitle,
+      heroImage,
+      sectionHeading,
+      sectionSubheading,
       sections: sections
-        .map((s) => ({ heading: s.heading.trim(), body: s.body.trim() }))
+        .map((s, i) => ({
+          heading: s.heading.trim(),
+          subtitle: (s.subtitle || "").trim(),
+          body: s.body.trim(),
+          image: (s.image || "").trim(),
+          status: s.status === "inactive" ? "inactive" : "active",
+          displayOrder: i,
+        }))
         .filter((s) => s.heading || s.body),
       items: items
         .map((s) => ({ title: s.title.trim(), body: s.body.trim() }))
@@ -139,12 +207,46 @@ export default function CompanyPagesManager() {
             />
           </div>
 
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label htmlFor="cp-hero-title" className="label">Hero Title (blank = page default)</label>
+              <input
+                id="cp-hero-title"
+                value={heroTitle}
+                onChange={(e) => setHeroTitle(e.target.value)}
+                className="input"
+              />
+            </div>
+            <ImageField name="heroImage" label="Hero Image (blank = page default)" value={heroImage} onChange={setHeroImage} />
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label htmlFor="cp-section-heading" className="label">Section Heading (blank = page default)</label>
+              <input
+                id="cp-section-heading"
+                value={sectionHeading}
+                onChange={(e) => setSectionHeading(e.target.value)}
+                className="input"
+              />
+            </div>
+            <div>
+              <label htmlFor="cp-section-subheading" className="label">Section Subheading (blank = page default)</label>
+              <input
+                id="cp-section-subheading"
+                value={sectionSubheading}
+                onChange={(e) => setSectionSubheading(e.target.value)}
+                className="input"
+              />
+            </div>
+          </div>
+
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <span className="label mb-0">Sections (heading + body)</span>
+              <span className="label mb-0">Sections (heading + body + optional image)</span>
               <button
                 type="button"
-                onClick={() => setSections((l) => [...l, { heading: "", body: "" }])}
+                onClick={() => setSections((l) => [...l, { ...EMPTY_SECTION }])}
                 className="btn-outline !py-1.5 text-xs"
               >
                 <Plus className="h-3.5 w-3.5" aria-hidden="true" /> Add Section
@@ -156,11 +258,40 @@ export default function CompanyPagesManager() {
                   <div className="flex items-start gap-2">
                     <input
                       aria-label="Section heading"
-                      placeholder="Heading"
+                      placeholder="Heading (History timeline: year, e.g. 2000)"
                       value={s.heading}
                       onChange={(e) => updateSection(idx, "heading", e.target.value)}
                       className="input flex-1"
                     />
+                    <button
+                      type="button"
+                      onClick={() => moveSection(idx, -1)}
+                      disabled={idx === 0}
+                      aria-label="Move section up"
+                      className="rounded p-2 text-brand-muted hover:text-brand-green disabled:opacity-30"
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveSection(idx, 1)}
+                      disabled={idx === sections.length - 1}
+                      aria-label="Move section down"
+                      className="rounded p-2 text-brand-muted hover:text-brand-green disabled:opacity-30"
+                    >
+                      <ArrowDown className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => toggleSection(idx)}
+                      className={`rounded-full border px-2.5 py-1 text-xs font-medium ${
+                        s.status === "inactive"
+                          ? "border-gray-200 bg-gray-100 text-gray-500"
+                          : "border-green-200 bg-green-50 text-green-700"
+                      }`}
+                    >
+                      {s.status === "inactive" ? "inactive" : "active"}
+                    </button>
                     <button
                       type="button"
                       onClick={() => setSections((l) => l.filter((_, i) => i !== idx))}
@@ -170,6 +301,13 @@ export default function CompanyPagesManager() {
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
+                  <input
+                    aria-label="Section subtitle"
+                    placeholder="Subtitle / second line (optional — History timeline uses it as the milestone title)"
+                    value={s.subtitle || ""}
+                    onChange={(e) => updateSection(idx, "subtitle", e.target.value)}
+                    className="input"
+                  />
                   <textarea
                     aria-label="Section body"
                     placeholder="Body"
@@ -177,6 +315,12 @@ export default function CompanyPagesManager() {
                     value={s.body}
                     onChange={(e) => updateSection(idx, "body", e.target.value)}
                     className="input resize-y"
+                  />
+                  <ImageField
+                    name={`section-image-${idx}`}
+                    label="Section Image (optional)"
+                    value={s.image || ""}
+                    onChange={(v) => updateSection(idx, "image", v)}
                   />
                 </div>
               ))}

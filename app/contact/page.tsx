@@ -1,4 +1,5 @@
 import { SITE } from "@/data/site";
+import { getPageContent } from "@/lib/db";
 import { JsonLd, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import ContactSection from "@/components/ContactSection";
@@ -11,6 +12,8 @@ export const metadata = pageMetadata({
 });
 
 export default function ContactPage() {
+  // Admin-managed hero (Admin → Company Pages → Contact Page).
+  const page = getPageContent("contact");
   return (
     <>
       <JsonLd
@@ -24,8 +27,8 @@ export default function ContactPage() {
         }}
       />
       <PageHero
-        title="Contact"
-        backgroundImage="/images/hero-warehouse.jpg"
+        title={page?.heroTitle || "Contact"}
+        backgroundImage={page?.heroImage || "/images/hero-warehouse.jpg"}
       />
       <ContactSection />
     </>

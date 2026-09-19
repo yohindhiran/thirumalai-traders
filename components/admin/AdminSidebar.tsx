@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import NextImage from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BadgeCheck,
   Boxes,
   Building2,
+  Factory,
   FileText,
   FolderTree,
   Flame,
   HelpCircle,
+  History,
   Image,
   Inbox,
   LayoutDashboard,
@@ -37,7 +41,6 @@ const GROUPS: Group[] = [
     items: [
       { href: "/admin/dashboard/hero", label: "Home Hero", icon: Image },
       { href: "/admin/dashboard/home-about", label: "Home About Section", icon: Building2 },
-      { href: "/admin/dashboard/home-showcase", label: "What We Supply", icon: LayoutGrid },
       { href: "/admin/dashboard/customers", label: "Valued Customers", icon: Users },
       { href: "/admin/dashboard/content", label: "Home Content", icon: FileText },
     ],
@@ -61,7 +64,10 @@ const GROUPS: Group[] = [
   {
     title: "Other Pages",
     items: [
-      { href: "/admin/dashboard/pages", label: "Company Pages", icon: FileText },
+      { href: "/admin/dashboard/pages/history", label: "History", icon: History },
+      { href: "/admin/dashboard/pages/industries-we-serve", label: "Industries We Serve", icon: Factory },
+      { href: "/admin/dashboard/pages/quality", label: "Quality", icon: BadgeCheck },
+      { href: "/admin/dashboard/customers", label: "Clients", icon: Users },
       { href: "/admin/dashboard/faqs", label: "FAQ", icon: HelpCircle },
       { href: "/admin/dashboard/enquiries", label: "Enquiries", icon: Inbox },
       { href: "/admin/dashboard/contact-settings", label: "Contact Settings", icon: Phone },
@@ -161,17 +167,19 @@ export default function AdminSidebar() {
 
 function SidebarBrand() {
   return (
-    <Link href="/admin" className="flex items-center gap-3 px-5 py-5">
-      <span className="flex h-9 w-9 items-center justify-center rounded-md bg-brand-gold font-bold text-brand-green-deep">
-        TT
+    <Link href="/admin" className="flex flex-col gap-2 px-5 py-5">
+      <span className="flex items-center justify-center rounded-md bg-white px-3 py-2">
+        <NextImage
+          src="/images/thirumalaai-traders-logo.png"
+          alt="Thirumalaai Traders"
+          width={240}
+          height={62}
+          priority
+          className="h-12 w-auto object-contain"
+        />
       </span>
-      <span className="flex flex-col leading-tight">
-        <span className="text-sm font-bold uppercase tracking-wide text-white">
-          Thirumalaai Traders
-        </span>
-        <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">
-          Admin Panel
-        </span>
+      <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/50">
+        Admin Panel
       </span>
     </Link>
   );

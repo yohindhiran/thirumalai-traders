@@ -40,6 +40,16 @@ export async function PUT(request: Request) {
   if (typeof body?.homeAboutButtonLink === "string") {
     db.content.homeAboutButtonLink = body.homeAboutButtonLink.trim() || DEFAULT_CONTENT.homeAboutButtonLink;
   }
+  if (Array.isArray(body?.stats)) {
+    const stats = body.stats
+      .filter(
+        (s: unknown) =>
+          s && typeof (s as any).value === "string" && typeof (s as any).label === "string"
+      )
+      .slice(0, 4)
+      .map((s: any) => ({ value: s.value.trim(), label: s.label.trim() }));
+    if (stats.length === 4) db.content.stats = stats;
+  }
   if (Array.isArray(body?.highlights)) {
     const highlights = body.highlights
       .filter((h: unknown) => typeof h === "string" && h.trim())

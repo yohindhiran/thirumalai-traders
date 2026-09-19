@@ -78,17 +78,33 @@ export default function CatalogBrowser({
       src: p.image || p.images?.[0] || "/images/hero-warehouse.jpg",
       alt: p.name,
     };
+    const detailHref =
+      p.slug && (p.categorySlug || p.categoryId)
+        ? `/products/${p.categorySlug || (p.categoryId || "").replace(/^cat-/, "")}/${p.slug}`
+        : undefined;
     return (
       <li key={`${p.categorySlug || ""}-${p.slug}`}>
         <article className="card group flex h-full flex-col overflow-hidden transition-shadow hover:shadow-lift">
           <div className="relative h-40 overflow-hidden bg-brand-soft">
-            <Image
-              src={imgObj.src}
-              alt={imgObj.alt || p.name}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-            />
+            {detailHref ? (
+              <Link href={detailHref} aria-label={`View ${p.name}`}>
+                <Image
+                  src={imgObj.src}
+                  alt={imgObj.alt || p.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </Link>
+            ) : (
+              <Image
+                src={imgObj.src}
+                alt={imgObj.alt || p.name}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
             <span
               aria-hidden="true"
               className="absolute inset-x-0 bottom-0 h-1 bg-brand-gold opacity-0 transition-opacity group-hover:opacity-100"
@@ -99,9 +115,17 @@ export default function CatalogBrowser({
               {p.categoryName || "Grocery"}
               {p.subcategory ? ` · ${p.subcategory}` : ""}
             </p>
-            <h3 className="mt-1.5 text-base font-semibold text-brand-ink">
-              {p.name}
-            </h3>
+            {detailHref ? (
+              <Link href={detailHref} className="hover:underline">
+                <h3 className="mt-1.5 text-base font-semibold text-brand-ink">
+                  {p.name}
+                </h3>
+              </Link>
+            ) : (
+              <h3 className="mt-1.5 text-base font-semibold text-brand-ink">
+                {p.name}
+              </h3>
+            )}
             <Link
               href={`/enquiry?product=${encodeURIComponent(p.name)}&category=${encodeURIComponent(
                 p.categoryName || ""

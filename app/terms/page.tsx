@@ -1,4 +1,5 @@
 import { SITE } from "@/data/site";
+import { getPageContent } from "@/lib/db";
 import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 
@@ -40,15 +41,24 @@ const SECTIONS = [
 ];
 
 export default function TermsPage() {
+  // Admin-managed sections (Admin → Company Pages → Terms & Conditions).
+  const page = getPageContent("terms");
+  const sections = page?.sections?.length
+    ? page.sections
+        .filter((s: any) => s.status !== "inactive" && (s.heading || s.body))
+        .slice()
+        .sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+        .map((s: any) => ({ h: s.heading, p: s.body }))
+    : SECTIONS;
   return (
     <>
       <PageHero
-        title="Terms & Conditions"
-        backgroundImage="/images/hero-warehouse.jpg"
+        title={page?.heroTitle || "Terms & Conditions"}
+        backgroundImage={page?.heroImage || "/images/hero-warehouse.jpg"}
       />
       <section className="section-pad bg-white">
         <div className="container-site max-w-3xl">
-          {SECTIONS.map((s) => (
+          {sections.map((s) => (
             <div key={s.h} className="mb-8">
               <h2 className="text-lg font-semibold text-brand-ink">{s.h}</h2>
               <p className="mt-2 leading-relaxed text-brand-muted">{s.p}</p>

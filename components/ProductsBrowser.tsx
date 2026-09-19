@@ -138,6 +138,7 @@ export default function ProductsBrowser({
             return (
               <li key={`${p.categorySlug || p.categoryId}-${p.slug || p.id}`}>
                 <ProductCard
+                  href={`/products/${catSlug}/${p.slug || p.id}`}
                   product={
                     {
                       ...p,

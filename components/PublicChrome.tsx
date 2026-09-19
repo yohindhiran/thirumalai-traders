@@ -24,6 +24,8 @@ export default function PublicChrome({
       <Header phone={contact.phone || site.phone} logo={site.logo} />
       <main className="flex-1">{children}</main>
       <Footer
+        footerText={site.footerText}
+        copyrightYear={site.copyrightYear}
         contact={{
           name: site.companyName,
           phone: contact.phone,

@@ -4,7 +4,6 @@ import {
   Boxes,
   Flame,
   FolderTree,
-  Image,
   Inbox,
   LayoutGrid,
   MessageSquareQuote,
@@ -15,7 +14,6 @@ import { formatDate } from "@/lib/utils";
 import type {
   Enquiry,
   EnquiryStatus,
-  HomeShowcaseItem,
   Testimonial,
   ValuedCustomer,
 } from "@/types";
@@ -45,9 +43,6 @@ export default function AdminDashboardPage() {
   const activeCustomers = (db.valuedCustomers ?? []).filter(
     (c: ValuedCustomer) => c.status === "active"
   ).length;
-  const activeShowcase = (db.homeShowcase ?? []).filter(
-    (s: HomeShowcaseItem) => s.status === "active"
-  ).length;
 
   const stats = [
     { label: "Total Products", value: db.products.length, icon: Boxes, href: "/admin/dashboard/products" },
@@ -56,7 +51,6 @@ export default function AdminDashboardPage() {
     { label: "Our Products", value: db.ourProducts.length, icon: LayoutGrid, href: "/admin/dashboard/our-products" },
     { label: "Testimonials", value: activeTestimonials, icon: MessageSquareQuote, href: "/admin/dashboard/testimonials" },
     { label: "Valued Customers", value: activeCustomers, icon: Users, href: "/admin/dashboard/customers" },
-    { label: "Home Showcase", value: activeShowcase, icon: Image, href: "/admin/dashboard/home-showcase" },
     { label: "Total Enquiries", value: enquiries.length, icon: Inbox, href: "/admin/dashboard/enquiries" },
     { label: "New Enquiries", value: newCount, icon: Inbox, href: "/admin/dashboard/enquiries?status=New" },
     { label: "Total Leads", value: leads, icon: Users, href: "/admin/dashboard/enquiries" },

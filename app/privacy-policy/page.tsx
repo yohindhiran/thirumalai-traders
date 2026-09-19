@@ -1,4 +1,5 @@
 import { SITE } from "@/data/site";
+import { getContactSettings, getPageContent } from "@/lib/db";
 import { pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 
@@ -40,15 +41,27 @@ const SECTIONS = [
 ];
 
 export default function PrivacyPolicyPage() {
+  // Admin-managed sections (Admin → Company Pages → Privacy Policy).
+  const page = getPageContent("privacy-policy");
+  const contact = getContactSettings();
+  const email = contact.email || SITE.email;
+  const officePhone = contact.phone || SITE.officePhone;
+  const sections = page?.sections?.length
+    ? page.sections
+        .filter((s: any) => s.status !== "inactive" && (s.heading || s.body))
+        .slice()
+        .sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
+        .map((s: any) => ({ h: s.heading, p: s.body }))
+    : SECTIONS;
   return (
     <>
       <PageHero
-        title="Privacy Policy"
-        backgroundImage="/images/about-warehouse.jpg"
+        title={page?.heroTitle || "Privacy Policy"}
+        backgroundImage={page?.heroImage || "/images/about-warehouse.jpg"}
       />
       <section className="section-pad bg-white">
         <div className="container-site max-w-3xl">
-          {SECTIONS.map((s) => (
+          {sections.map((s) => (
             <div key={s.h} className="mb-8">
               <h2 className="text-lg font-semibold text-brand-ink">{s.h}</h2>
               <p className="mt-2 leading-relaxed text-brand-muted">{s.p}</p>
@@ -56,10 +69,10 @@ export default function PrivacyPolicyPage() {
           ))}
           <div className="rounded-md border border-brand-line bg-brand-soft p-5 text-sm text-brand-muted">
             Questions about this policy? Email us at{" "}
-            <a href={`mailto:${SITE.email}`} className="font-medium text-brand-green hover:underline">
-              {SITE.email}
+            <a href={`mailto:${email}`} className="font-medium text-brand-green hover:underline">
+              {email}
             </a>{" "}
-            or call our office at {SITE.officePhone}.
+            or call our office at {officePhone}.
           </div>
         </div>
       </section>

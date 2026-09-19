@@ -165,7 +165,8 @@ export function seedDb(): DbData {
       addressLine1: "Varakappar Street, Janakiammal Layout,",
       addressLine2: "Karungalpalayam, Erode,",
       addressState: "Tamil Nadu – 638003, India",
-      footerText: "Trusted wholesale grocery supplier in Erode.",
+      footerText:
+        "Trusted wholesale grocery supplier with 25+ years of experience serving institutions, industries, mills, grocery shops and bulk customers across Erode, Tamil Nadu.",
       copyrightYear: "2026",
     },
     contactSettings: {
@@ -322,9 +323,14 @@ export function getContactSettings(): ContactSettings {
   return readDb().contactSettings;
 }
 
-export function getProductForDisplay(slug: string): Product | undefined {
+export function getProductForDisplay(slug: string, categorySlug?: string): Product | undefined {
   const db = readDb();
-  return db.products.find((p) => p.slug === slug || p.id === slug);
+  const matches = db.products.filter((p) => p.slug === slug || p.id === slug);
+  if (!categorySlug) return matches[0];
+  // Slugs can repeat across categories (e.g. toor-dal) — prefer the product
+  // that actually belongs to the URL category, fall back to first match.
+  const cat = db.categories.find((c) => c.slug === categorySlug);
+  return (cat && matches.find((p) => p.categoryId === cat.id)) || matches[0];
 }
 
 export function getRelatedProducts(

@@ -75,15 +75,14 @@ export default function IndustriesWeServePage() {
       : INDUSTRIES.map((i) => ({ heading: i.title, body: i.desc }))
   );
   const industries = raw.map((s: any, index: number) => {
-    const meta =
-      INDUSTRY_META[s.heading as string] ??
-      FALLBACK_META[index % FALLBACK_META.length];
+    const known = INDUSTRY_META[s.heading as string];
+    const meta = known ?? FALLBACK_META[index % FALLBACK_META.length];
     return {
       title: s.heading,
       desc: s.body,
       image: s.image || meta.image,
       alt: s.heading || meta.alt,
-      customerType: (meta as { customerType?: string }).customerType || "Other",
+      customerType: known?.customerType || "Other",
     };
   });
 

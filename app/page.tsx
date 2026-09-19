@@ -2,10 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import HeroSlider from "@/components/HeroSlider";
-import ProductShowcase from "@/components/ProductShowcase";
 import ProductCarousel, { type CarouselProduct } from "@/components/ProductCarousel";
 import HomeTopSelling, { type HomeTopSellingItem } from "@/components/HomeTopSelling";
-import TrustStrip from "@/components/TrustStrip";
 import CategoryGrid from "@/components/CategoryGrid";
 import ValuedCustomers, { type ValuedCustomerItem } from "@/components/ValuedCustomers";
 import { getMostSellingProducts, readDb } from "@/lib/db";
@@ -66,11 +64,6 @@ export default function Home() {
     <>
       {/* Hero: clean image-focused slider, no text panel */}
       <HeroSlider slides={heroSlides.length ? heroSlides : undefined} />
-
-      <TrustStrip />
-
-      {/* What We Supply — managed via Admin → Home → What We Supply */}
-      <ProductShowcase />
 
       {/* Scrollable product carousel */}
       <ProductCarousel products={carouselProducts} />

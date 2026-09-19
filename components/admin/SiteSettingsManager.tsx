@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import type { SiteSettings } from "@/types";
+import ImageField from "@/components/admin/ImageField";
 
 const EMPTY: SiteSettings = {
   companyName: "",
@@ -25,8 +26,6 @@ const EMPTY: SiteSettings = {
 
 const STRING_FIELDS: Array<{ name: keyof SiteSettings; label: string; type?: string }> = [
   { name: "companyName", label: "Company Name" },
-  { name: "logo", label: "Logo URL", type: "url" },
-  { name: "favicon", label: "Favicon URL", type: "url" },
   { name: "phone", label: "Phone" },
   { name: "whatsapp", label: "WhatsApp" },
   { name: "email", label: "Email" },
@@ -74,6 +73,9 @@ export default function SiteSettingsManager() {
       const v = settings[k];
       if (typeof v === "string" && v !== "") payload[k] = v;
     });
+    // Logo/favicon must round-trip even when cleared (blank = default asset).
+    payload.logo = settings.logo || "";
+    payload.favicon = settings.favicon || "";
     const res = await fetch("/api/admin/site-settings", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -106,6 +108,21 @@ export default function SiteSettingsManager() {
           Site settings saved successfully.
         </p>
       )}
+
+      <div className="grid gap-5 sm:grid-cols-2">
+        <ImageField
+          name="logo"
+          label="Website Logo (upload or keep blank for default)"
+          value={settings.logo || ""}
+          onChange={(v) => setField("logo", v)}
+        />
+        <ImageField
+          name="favicon"
+          label="Favicon (upload or keep blank for default)"
+          value={settings.favicon || ""}
+          onChange={(v) => setField("favicon", v)}
+        />
+      </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         {STRING_FIELDS.map((f) => (

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductForDisplay, getRelatedProducts } from "@/lib/db";
+import { getProductForDisplay, getRelatedProducts, readDb } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import ProductGallery from "@/components/ProductGallery";
 import ProductCard from "@/components/ProductCard";
@@ -21,7 +21,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category, slug } = await params;
-  const product = getProductForDisplay(slug);
+  const product = getProductForDisplay(slug, category);
   if (!product) return {};
   return pageMetadata({
     title: `${product.name} – Bulk Wholesale ${(product as any).categoryName || "Grocery"} in Erode`,
@@ -32,13 +32,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { category, slug } = await params;
-  const product = getProductForDisplay(slug);
+  const product = getProductForDisplay(slug, category);
 
   if (!product) {
     notFound();
   }
 
   const relatedProducts = getRelatedProducts(product.id);
+  const catById = new Map(readDb().categories.map((c) => [c.id, c.slug]));
 
   return (
     <>
@@ -133,6 +134,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               {relatedProducts.map((rel: any) => (
                 <ProductCard
                   key={rel.id}
+                  href={`/products/${catById.get(rel.categoryId) || (rel.categoryId || "").replace(/^cat-/, "") || "spices"}/${rel.slug || rel.id}`}
                   product={{
                     id: rel.id,
                     name: rel.name,

@@ -73,6 +73,7 @@ export interface SiteContent {
   homeAboutHeading?: string;
   homeAboutButtonText?: string;
   homeAboutButtonLink?: string;
+  stats?: { value: string; label: string }[];
 }
 
 export interface HomeShowcaseItem {
@@ -138,6 +139,8 @@ export interface AboutContent {
   heroImage?: string;
   visionImage?: string;
   missionImage?: string;
+  whoWeAre?: string[];
+  approaches?: { title: string; desc: string }[];
 }
 
 export interface CompanyPageSection {

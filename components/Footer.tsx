@@ -23,7 +23,15 @@ export interface FooterContact {
   addressState?: string;
 }
 
-export default function Footer({ contact }: { contact?: FooterContact }) {
+export default function Footer({
+  contact,
+  footerText,
+  copyrightYear,
+}: {
+  contact?: FooterContact;
+  footerText?: string;
+  copyrightYear?: string;
+}) {
   const name = contact?.name || SITE.name;
   const phone = contact?.phone || SITE.officePhone;
   const email = contact?.email || SITE.email;
@@ -35,9 +43,8 @@ export default function Footer({ contact }: { contact?: FooterContact }) {
       <div className="container-site grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-16">
         <div>
           <p className="text-sm leading-relaxed text-white/70">
-            Trusted wholesale grocery supplier with 25+ years of experience serving
-            institutions, industries, mills, grocery shops and bulk customers across
-            Erode, Tamil Nadu.
+            {footerText ||
+              "Trusted wholesale grocery supplier with 25+ years of experience serving institutions, industries, mills, grocery shops and bulk customers across Erode, Tamil Nadu."}
           </p>
           <a
             href={whatsappHref()}
@@ -123,7 +130,7 @@ export default function Footer({ contact }: { contact?: FooterContact }) {
 
       <div className="border-t border-white/10">
         <div className="container-site flex flex-col items-center justify-between gap-2 py-5 text-xs text-white/60 sm:flex-row">
-          <p>© 2026 Thirumalaai Traders. All Rights Reserved.</p>
+          <p>© {copyrightYear || "2026"} Thirumalaai Traders. All Rights Reserved.</p>
           <p className="flex items-center gap-2">
             <Link href="/privacy-policy" className="hover:text-brand-gold">
               Privacy Policy

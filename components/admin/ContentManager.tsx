@@ -25,8 +25,13 @@ export default function ContentManager() {
     setSaved(false);
     setError("");
     const form = new FormData(e.currentTarget);
+    const stats = [0, 1, 2, 3].map((i) => ({
+      value: String(form.get(`statValue${i}`) || "").trim(),
+      label: String(form.get(`statLabel${i}`) || "").trim(),
+    }));
     const payload = {
       aboutPreview: form.get("aboutPreview"),
+      stats,
     };
     const res = await fetch("/api/admin/content", {
       method: "PUT",
@@ -69,6 +74,29 @@ export default function ContentManager() {
           defaultValue={content?.aboutPreview}
           className="input resize-y"
         />
+      </div>
+      <div>
+        <span className="label">Trust Stats (homepage strip below the hero — value + label)</span>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="flex gap-2">
+              <input
+                aria-label={`Stat ${i + 1} value`}
+                name={`statValue${i}`}
+                defaultValue={content?.stats?.[i]?.value}
+                placeholder={["25+", "1000+", "Bulk", "Reliable"][i]}
+                className="input w-24 shrink-0"
+              />
+              <input
+                aria-label={`Stat ${i + 1} label`}
+                name={`statLabel${i}`}
+                defaultValue={content?.stats?.[i]?.label}
+                placeholder={["Years Experience", "Customers", "Supply", "Delivery"][i]}
+                className="input flex-1"
+              />
+            </div>
+          ))}
+        </div>
       </div>
       <button type="submit" disabled={saving} className="btn-primary w-full sm:w-auto sm:min-w-[200px]">
         {saving && <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />}

@@ -16,7 +16,7 @@ export const metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const APPROACH = [
+const DEFAULT_APPROACH = [
   {
     icon: ShieldCheck,
     title: "Quality Commitment",
@@ -34,6 +34,11 @@ const APPROACH = [
   },
 ];
 
+const DEFAULT_WHO_WE_ARE = [
+  "Thirumalaai Traders is a trusted wholesale grocery supplier based in Karungalpalayam, Erode, Tamil Nadu. For over 25 years we have been supplying grocery and food products to a wide range of customers — school and college canteens, industrial kitchens, mills, grocery shops and bulk buyers.",
+  "Our approach has always been relationship-first. Many of our customers have been with us for years because we consistently deliver on three things: quality products, competitive wholesale pricing and dependable, timely supply.",
+];
+
 export default function AboutPage() {
   const about = getAbout();
   const vision = about.vision || VISION;
@@ -41,14 +46,25 @@ export default function AboutPage() {
   // Merge saved values with the full default set so the complete
   // Core Values section is always visible (saved list may be partial).
   // Saved entries take precedence; defaults fill any missing values.
-  const coreValues = [...about.coreValues, ...CORE_VALUES.map((v) => ({ ...v }))]
+  const coreValues = (about.coreValues.length ? about.coreValues : CORE_VALUES)
     .filter((v: any) => v && v.status !== "inactive" && v.title)
-    .filter(
-      (v: any, i: number, arr: any[]) =>
-        arr.findIndex((o: any) => o.title === v.title) === i
-    )
     .slice()
     .sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
+
+  // Admin-managed Who We Are + approach cards (Admin → About); fall back
+  // to the approved copy when unsaved.
+  const whoWeAre =
+    about.whoWeAre?.length
+      ? about.whoWeAre
+      : DEFAULT_WHO_WE_ARE;
+  const approachIcons = [ShieldCheck, Handshake, Compass];
+  const approach = about.approaches?.length
+    ? about.approaches.map((a: any, i: number) => ({
+        icon: approachIcons[i % approachIcons.length],
+        title: a.title,
+        desc: a.desc,
+      }))
+    : DEFAULT_APPROACH;
 
   return (
     <>
@@ -71,24 +87,14 @@ export default function AboutPage() {
             </h2>
             <span aria-hidden="true" className="mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
             <div className="prose-site">
-              <p>
-                Thirumalaai Traders is a trusted wholesale grocery supplier based
-                in Karungalpalayam, Erode, Tamil Nadu. For over 25 years we have
-                been supplying grocery and food products to a wide range of
-                customers — school and college canteens, industrial kitchens,
-                mills, grocery shops and bulk buyers.
-              </p>
-              <p>
-                Our approach has always been relationship-first. Many of our
-                customers have been with us for years because we consistently
-                deliver on three things: quality products, competitive wholesale
-                pricing and dependable, timely supply.
-              </p>
+              {whoWeAre.map((p: string, i: number) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
 
           <ul className="space-y-5">
-            {APPROACH.map((a) => (
+            {approach.map((a) => (
               <li key={a.title} className="card flex gap-4 p-6">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-brand-green/10 text-brand-green">
                   <a.icon className="h-5 w-5" aria-hidden="true" />

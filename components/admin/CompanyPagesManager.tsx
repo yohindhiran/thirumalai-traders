@@ -13,6 +13,10 @@ const SLUGS: { slug: string; label: string }[] = [
   { slug: "quality", label: "Quality" },
   { slug: "products", label: "Products Page" },
   { slug: "contact", label: "Contact Page" },
+  { slug: "faq", label: "FAQ" },
+  { slug: "careers", label: "Careers" },
+  { slug: "terms", label: "Terms & Conditions" },
+  { slug: "privacy-policy", label: "Privacy Policy" },
 ];
 
 type Section = {
@@ -27,9 +31,19 @@ type Item = { title: string; body: string };
 
 const EMPTY_SECTION: Section = { heading: "", body: "", image: "", status: "active" };
 
-export default function CompanyPagesManager() {
+export default function CompanyPagesManager({
+  initialSlug,
+  hideSelector,
+}: {
+  initialSlug?: string;
+  // Hides the "Choose Company Page" dropdown so a dedicated page shows
+  // only its own editing content. The generic /pages route keeps it.
+  hideSelector?: boolean;
+}) {
   const router = useRouter();
-  const [selected, setSelected] = useState<string>(SLUGS[0].slug);
+  const [selected, setSelected] = useState<string>(
+    initialSlug && SLUGS.some((s) => s.slug === initialSlug) ? initialSlug : SLUGS[0].slug
+  );
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
   const [heroTitle, setHeroTitle] = useState("");
@@ -154,19 +168,21 @@ export default function CompanyPagesManager() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <label htmlFor="cp-select" className="label">Choose Company Page</label>
-        <select
-          id="cp-select"
-          value={selected}
-          onChange={(e) => setSelected(e.target.value)}
-          className="input sm:max-w-xs"
-        >
-          {SLUGS.map((s) => (
-            <option key={s.slug} value={s.slug}>{s.label}</option>
-          ))}
-        </select>
-      </div>
+      {!hideSelector && (
+        <div>
+          <label htmlFor="cp-select" className="label">Choose Company Page</label>
+          <select
+            id="cp-select"
+            value={selected}
+            onChange={(e) => setSelected(e.target.value)}
+            className="input sm:max-w-xs"
+          >
+            {SLUGS.map((s) => (
+              <option key={s.slug} value={s.slug}>{s.label}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {loading ? (
         <div className="card flex items-center justify-center gap-2 p-16 text-sm text-brand-muted">

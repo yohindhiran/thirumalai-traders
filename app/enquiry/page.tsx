@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { SITE } from "@/data/site";
 import { telHref } from "@/lib/utils";
+import { getContactSettings } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import EnquiryForm from "@/components/EnquiryForm";
@@ -13,6 +13,14 @@ export const metadata = pageMetadata({
 });
 
 export default function EnquiryPage() {
+  // Admin-managed contact details (Admin → Contact Settings) with fallback
+  // to the long-standing values.
+  const contact = getContactSettings();
+  const officePhone = contact.phone || "93844 82007";
+  const whatsappDigits = (contact.whatsapp || "919384482007").replace(/\D/g, "");
+  const whatsappUrl = `https://wa.me/${whatsappDigits}?text=${encodeURIComponent(
+    "Hello Thirumalaai Traders, I would like to enquire about wholesale grocery products."
+  )}`;
   return (
     <>
       <JsonLd
@@ -38,11 +46,11 @@ export default function EnquiryPage() {
               Call our office or message us on WhatsApp — we are happy to discuss your
               requirement directly.
             </p>
-            <a href={telHref(SITE.officePhone)} className="btn-primary mt-5 w-full !text-sm">
-              Call Office: {SITE.officePhone}
+            <a href={telHref(officePhone)} className="btn-primary mt-5 w-full !text-sm">
+              Call Office: {officePhone}
             </a>
             <a
-              href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(SITE.whatsappMessage)}`}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-outline mt-3 w-full !text-sm"

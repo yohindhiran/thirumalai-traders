@@ -81,7 +81,10 @@
       "status": "active",
       "displayOrder": 1,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T05:24:04.085Z",
+      "images": [
+        "/images/uploads/1789795441868-78834a110588b030dee5c4dc.jpg"
+      ]
     },
     {
       "id": "prod-2",
@@ -92,7 +95,10 @@
       "status": "active",
       "displayOrder": 2,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:14:14.965Z",
+      "images": [
+        "/images/uploads/1789809253541-94a04b717de694456c2da606.jpg"
+      ]
     },
     {
       "id": "prod-3",
@@ -103,7 +109,10 @@
       "status": "active",
       "displayOrder": 3,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:19:45.885Z",
+      "images": [
+        "/images/uploads/1789809583080-73969004a10cc243247ab616.jpg"
+      ]
     },
     {
       "id": "prod-4",
@@ -114,7 +123,10 @@
       "status": "active",
       "displayOrder": 4,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:19:54.238Z",
+      "images": [
+        "/images/uploads/1789809592525-b212003e28486a142083848d.jpg"
+      ]
     },
     {
       "id": "prod-5",
@@ -125,7 +137,10 @@
       "status": "active",
       "displayOrder": 5,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:23:55.569Z",
+      "images": [
+        "/images/uploads/1789809832851-46997a29836580ac7fa0a60e.jpg"
+      ]
     },
     {
       "id": "prod-6",
@@ -136,7 +151,10 @@
       "status": "active",
       "displayOrder": 6,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:24:05.539Z",
+      "images": [
+        "/images/uploads/1789809843913-98123844bd0efed9cda7007d.jpg"
+      ]
     },
     {
       "id": "prod-7",
@@ -158,7 +176,10 @@
       "status": "active",
       "displayOrder": 8,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:24:27.472Z",
+      "images": [
+        "/images/uploads/1789809865996-db907dbc2c09aa0104286223.jpg"
+      ]
     },
     {
       "id": "prod-9",
@@ -180,7 +201,10 @@
       "status": "active",
       "displayOrder": 10,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T05:22:26.458Z",
+      "images": [
+        "/images/uploads/1789795343895-f2e54fa755501fb1427d7edd.jpg"
+      ]
     },
     {
       "id": "prod-11",
@@ -191,7 +215,10 @@
       "status": "active",
       "displayOrder": 11,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:26:22.493Z",
+      "images": [
+        "/images/uploads/1789809980821-76841b5acd777059f71f1c99.jpg"
+      ]
     },
     {
       "id": "prod-12",
@@ -202,7 +229,10 @@
       "status": "active",
       "displayOrder": 12,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:26:49.654Z",
+      "images": [
+        "/images/uploads/1789810008162-451da75dc600182ab895d51e.jpg"
+      ]
     },
     {
       "id": "prod-13",
@@ -213,7 +243,10 @@
       "status": "active",
       "displayOrder": 13,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:27:19.455Z",
+      "images": [
+        "/images/uploads/1789810038187-7d248c6d304b6a40a3c5927c.jpg"
+      ]
     },
     {
       "id": "prod-14",
@@ -246,7 +279,10 @@
       "status": "active",
       "displayOrder": 16,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:28:27.674Z",
+      "images": [
+        "/images/uploads/1789810106016-1f3b9a3c2306b18a25be4787.jpg"
+      ]
     },
     {
       "id": "prod-17",
@@ -356,7 +392,10 @@
       "status": "active",
       "displayOrder": 26,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:43:22.293Z",
+      "images": [
+        "/images/uploads/1789811000011-d271fc16013781a2afe4363c.jpg"
+      ]
     },
     {
       "id": "prod-27",
@@ -367,7 +406,10 @@
       "status": "active",
       "displayOrder": 27,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:43:31.028Z",
+      "images": [
+        "/images/uploads/1789811008813-adb3639ad8e1563694d20cb8.jpg"
+      ]
     },
     {
       "id": "prod-28",
@@ -378,7 +420,10 @@
       "status": "active",
       "displayOrder": 28,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:43:39.278Z",
+      "images": [
+        "/images/uploads/1789811017637-a0e1c0fd14dda74bb7098888.jpg"
+      ]
     },
     {
       "id": "prod-29",
@@ -389,7 +434,10 @@
       "status": "active",
       "displayOrder": 29,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:45:29.311Z",
+      "images": [
+        "/images/uploads/1789811126684-d1a04aeb82c4cdf7eae6280c.jpg"
+      ]
     },
     {
       "id": "prod-30",
@@ -400,7 +448,10 @@
       "status": "active",
       "displayOrder": 30,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:44:58.970Z",
+      "images": [
+        "/images/uploads/1789811097278-3c94bb549d3c3381764bfe53.jpg"
+      ]
     },
     {
       "id": "prod-31",
@@ -412,7 +463,10 @@
       "status": "active",
       "displayOrder": 31,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:31:40.667Z",
+      "images": [
+        "/images/uploads/1789810299145-2555554eb259fa0441a15bd2.jpg"
+      ]
     },
     {
       "id": "prod-32",
@@ -460,7 +514,10 @@
       "status": "active",
       "displayOrder": 35,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:46:13.335Z",
+      "images": [
+        "/images/uploads/1789811171814-96f5be2533a14d3846eaa5fa.jpg"
+      ]
     },
     {
       "id": "prod-36",
@@ -484,7 +541,10 @@
       "status": "active",
       "displayOrder": 37,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-19T09:46:43.276Z",
+      "images": [
+        "/images/uploads/1789811201644-3b2f3cd132a5df8f467b292b.jpg"
+      ]
     },
     {
       "id": "prod-38",
@@ -508,7 +568,10 @@
       "status": "active",
       "displayOrder": 39,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-19T09:47:35.110Z",
+      "images": [
+        "/images/uploads/1789811253687-772770d9d9aea52292fa1fbc.jpg"
+      ]
     },
     {
       "id": "prod-40",
@@ -520,7 +583,10 @@
       "status": "active",
       "displayOrder": 40,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-19T09:48:31.081Z",
+      "images": [
+        "/images/uploads/1789811308982-3c56d305c5460851724ae024.jpg"
+      ]
     },
     {
       "id": "prod-41",
@@ -1897,7 +1963,7 @@
   "content": {
     "heroHeadline": "Serving Quality. Delivering Trust.",
     "heroSubtext": "Your Trusted Wholesale Partner for School, College & Industrial Canteens.",
-    "aboutPreview": "Thirumalaai Traders is a trusted wholesale grocery supplier in Erode with 25+ years of experience serving schools, colleges, industries, mills, grocery shops and bulk customers.",
+    "aboutPreview": "Thirumalaai Traders is a trusted wholesale grocery supplier in Erode with 25+ years of experience.\nWe supply quality grocery and food products to schools, colleges, industries, mills and grocery shops.\nOur wide product range is carefully selected to meet everyday and bulk requirements.\nWe focus on delivering consistent quality at competitive wholesale prices.\nWith reliable sourcing and timely delivery, we support businesses and institutions with confidence.\nOur experienced team understands the needs of bulk customers and provides dependable service.\nWe believe in building long-term relationships through quality, trust and commitment.\nServing Quality. Delivering Trust.",
     "highlights": [
       "25+ Years of Experience",
       "Trusted by 1000+ Customers",
@@ -1908,14 +1974,322 @@
     "homeAboutImage": "/images/about-warehouse.jpg",
     "homeAboutHeading": "A Trusted Name in Wholesale Grocery",
     "homeAboutButtonText": "Know More About Us",
-    "homeAboutButtonLink": "/about"
+    "homeAboutButtonLink": "/about",
+    "stats": [
+      {
+        "value": "25+",
+        "label": "Years Experience"
+      },
+      {
+        "value": "1000+",
+        "label": "Customers"
+      },
+      {
+        "value": "Bulk",
+        "label": "Supply"
+      },
+      {
+        "value": "Reliable",
+        "label": "Delivery"
+      }
+    ]
   },
-  "heroSlides": [],
-  "testimonials": [],
-  "valuedCustomers": [],
-  "mostSelling": [],
-  "ourProducts": [],
-  "faqs": [],
+  "heroSlides": [
+    {
+      "id": "hs_umumkc2",
+      "image": "/images/uploads/1789787768878-f7d2b37bbf0e100dda643b1d.jpg",
+      "title": "",
+      "subtitle": "",
+      "buttonText": "",
+      "buttonLink": "",
+      "status": "active",
+      "displayOrder": 1
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "t-seed-1",
+      "name": "Ravi S.",
+      "company": "Hostel Mess Manager, Erode",
+      "quote": "We have been taking rice, dals and oil from them for our hostel mess for nearly six years now. Quality has been steady throughout ��� if there is ever an issue with a bag, one phone call is enough and they replace it in the next trip.",
+      "image": "",
+      "status": "active",
+      "displayOrder": 1
+    },
+    {
+      "id": "t-seed-2",
+      "name": "Meena K.",
+      "company": "Grocery Store Owner, Karungalpalayam",
+      "quote": "For a small shop like mine, getting stock on time matters more than anything. They send my weekly load without fail, and the billing is proper with GST invoice every time. Rates are fair compared to the Erode market.",
+      "image": "",
+      "status": "active",
+      "displayOrder": 2
+    },
+    {
+      "id": "t-seed-3",
+      "name": "Senthil P.",
+      "company": "Industrial Canteen Contractor",
+      "quote": "We run a canteen feeding around 400 workers daily, so we order in bulk every month. They plan the delivery around our schedule and have never held up our kitchen in three years. That consistency is why we continue with them.",
+      "image": "",
+      "status": "active",
+      "displayOrder": 3
+    },
+    {
+      "id": "t-seed-4",
+      "name": "Divya R.",
+      "company": "School Canteen In-charge, Erode",
+      "quote": "What I appreciate is that they pick up the phone. Whenever the school strength changes and I need extra quantity mid-month, they adjust the supply without any fuss. Very easy people to work with.",
+      "image": "",
+      "status": "active",
+      "displayOrder": 4
+    },
+    {
+      "id": "t-seed-5",
+      "name": "Arun M.",
+      "company": "Bulk Buyer, Erode",
+      "quote": "I compared wholesale prices from three suppliers before finalising. Their rates for atta, sugar and pulses were the best of the lot, and the weighment has always been correct. No complaints in two years of buying.",
+      "image": "",
+      "status": "active",
+      "displayOrder": 5
+    },
+    {
+      "id": "t-seed-6",
+      "name": "Kavitha S.",
+      "company": "Restaurant Owner, Erode",
+      "quote": "During the festival season our requirement almost doubles and most suppliers struggle. They arranged extra stock of ghee, dry fruits and rice at short notice last Diwali. That kind of support is hard to find.",
+      "image": "",
+      "status": "active",
+      "displayOrder": 6
+    }
+  ],
+  "valuedCustomers": [
+    {
+      "id": "vc-seed-1",
+      "name": "Sagar",
+      "logo": "",
+      "photo": "",
+      "description": "A valued bulk wholesale partner served with regular grocery supply at competitive wholesale prices. Scheduled deliveries and consistent product quality support their day-to-day requirements without interruption.",
+      "status": "active",
+      "displayOrder": 1
+    },
+    {
+      "id": "vc-seed-2",
+      "name": "CMS",
+      "logo": "",
+      "photo": "",
+      "description": "Supplied with staple grains, pulses and everyday grocery essentials in dependable volumes. Our team plans recurring requirements with them so their operations never run short of stock.",
+      "status": "active",
+      "displayOrder": 2
+    },
+    {
+      "id": "vc-seed-3",
+      "name": "Erode Sengunthar Engineering College",
+      "logo": "/images/clients/erode-sengunthar.png",
+      "photo": "",
+      "description": "An institutional customer served with scheduled wholesale grocery supply for its campus canteen. Rice, dals, oils and spices are delivered on a regular plan suited to student kitchen volumes.",
+      "status": "active",
+      "displayOrder": 3
+    },
+    {
+      "id": "vc-seed-4",
+      "name": "Pallavaa Group",
+      "logo": "",
+      "photo": "",
+      "description": "A bulk buyer relationship built on steady supply and fair wholesale pricing. We handle their recurring grocery indents with careful order preparation and on-time delivery.",
+      "status": "active",
+      "displayOrder": 4
+    },
+    {
+      "id": "vc-seed-5",
+      "name": "SPK",
+      "logo": "",
+      "photo": "",
+      "description": "Supplied with rice, lentils and kitchen staples matched to their consumption pattern. Consistent quality across consignments keeps their kitchen running smoothly through the month.",
+      "status": "active",
+      "displayOrder": 5
+    },
+    {
+      "id": "vc-seed-6",
+      "name": "PSG College",
+      "logo": "/images/clients/psg-college.png",
+      "photo": "",
+      "description": "One of the educational institutions we serve with planned canteen supply. Monthly grocery requirements are fulfilled on schedule with dependable quality in every delivery.",
+      "status": "active",
+      "displayOrder": 6
+    },
+    {
+      "id": "vc-seed-7",
+      "name": "Hindusthan College",
+      "logo": "/images/clients/hindusthan.png",
+      "photo": "",
+      "description": "An institutional canteen customer receiving regular bulk grocery supply. We coordinate delivery schedules with their kitchen team to keep stocks steady during working terms.",
+      "status": "active",
+      "displayOrder": 7
+    },
+    {
+      "id": "vc-seed-8",
+      "name": "Best Corporation",
+      "logo": "",
+      "photo": "",
+      "description": "A corporate bulk buyer served with wholesale grocery and cooking essentials in volume. Clear billing and reliable timelines make reordering simple for their purchase team.",
+      "status": "active",
+      "displayOrder": 8
+    },
+    {
+      "id": "vc-seed-9",
+      "name": "SCM Mills",
+      "logo": "",
+      "photo": "",
+      "description": "A mill customer supported with grocery supply for its workforce kitchens. Flour, staples and provisions are delivered on a recurring plan suited to mill operations.",
+      "status": "active",
+      "displayOrder": 9
+    },
+    {
+      "id": "vc-seed-10",
+      "name": "SKL Mill",
+      "logo": "",
+      "photo": "",
+      "description": "Supplied with pulses, grains and daily grocery needs for mill canteen requirements. Regular schedules and steady availability help their kitchens serve every shift.",
+      "status": "active",
+      "displayOrder": 10
+    }
+  ],
+  "mostSelling": [
+    {
+      "productId": "prod-1",
+      "status": "active",
+      "displayOrder": 1
+    },
+    {
+      "productId": "prod-2",
+      "status": "active",
+      "displayOrder": 2
+    },
+    {
+      "productId": "prod-3",
+      "status": "active",
+      "displayOrder": 3
+    },
+    {
+      "productId": "prod-4",
+      "status": "active",
+      "displayOrder": 4
+    }
+  ],
+  "ourProducts": [
+    {
+      "productId": "prod-5",
+      "status": "active",
+      "displayOrder": 1
+    },
+    {
+      "productId": "prod-6",
+      "status": "active",
+      "displayOrder": 2
+    },
+    {
+      "productId": "prod-7",
+      "status": "active",
+      "displayOrder": 3
+    },
+    {
+      "productId": "prod-8",
+      "status": "active",
+      "displayOrder": 4
+    },
+    {
+      "productId": "prod-9",
+      "status": "active",
+      "displayOrder": 5
+    },
+    {
+      "productId": "prod-10",
+      "status": "active",
+      "displayOrder": 6
+    },
+    {
+      "productId": "prod-11",
+      "status": "active",
+      "displayOrder": 7
+    },
+    {
+      "productId": "prod-12",
+      "status": "active",
+      "displayOrder": 8
+    }
+  ],
+  "faqs": [
+    {
+      "id": "faq-seed-01",
+      "question": "Do you supply in bulk?",
+      "answer": "Yes. Bulk supply is our core business. We serve institutions, canteens, mills, factories and retail businesses with large-volume and recurring grocery requirements.",
+      "status": "active",
+      "displayOrder": 1
+    },
+    {
+      "id": "faq-seed-02",
+      "question": "Do you supply to colleges?",
+      "answer": "Yes, we are specialised suppliers to college canteens and kitchens, including several leading institutions in the region.",
+      "status": "active",
+      "displayOrder": 2
+    },
+    {
+      "id": "faq-seed-03",
+      "question": "Do you supply to school canteens?",
+      "answer": "Yes. We provide reliable, regular grocery supply to school canteens with quality products suited to institutional kitchens.",
+      "status": "active",
+      "displayOrder": 3
+    },
+    {
+      "id": "faq-seed-04",
+      "question": "Do you supply to industrial canteens?",
+      "answer": "Yes. Industrial canteens are one of our key segments, with scheduled deliveries and consistent supply for employee kitchens.",
+      "status": "active",
+      "displayOrder": 4
+    },
+    {
+      "id": "faq-seed-05",
+      "question": "Do you supply grocery shops?",
+      "answer": "Yes. We are a wholesale source for retail grocery shops, offering competitive wholesale pricing across our product range.",
+      "status": "active",
+      "displayOrder": 5
+    },
+    {
+      "id": "faq-seed-06",
+      "question": "Can we request wholesale pricing?",
+      "answer": "Yes. Please submit an enquiry through our website, call our office or message us on WhatsApp with your requirements and we will share our wholesale price list.",
+      "status": "active",
+      "displayOrder": 6
+    },
+    {
+      "id": "faq-seed-07",
+      "question": "Do you provide regular supply?",
+      "answer": "Yes. We support scheduled, recurring supply arrangements for canteens and institutions so your kitchen never runs short.",
+      "status": "active",
+      "displayOrder": 7
+    },
+    {
+      "id": "faq-seed-08",
+      "question": "Do you deliver within Erode?",
+      "answer": "Yes, we deliver across Erode including Karungalpalayam and surrounding areas. For locations outside Erode, please contact our sales team to discuss your requirement.",
+      "status": "active",
+      "displayOrder": 8
+    },
+    {
+      "id": "faq-seed-09",
+      "question": "Can we enquire for large quantities?",
+      "answer": "Absolutely. Large-quantity enquiries are welcome. Share your approximate quantity and delivery location and our team will respond with details.",
+      "status": "active",
+      "displayOrder": 9
+    },
+    {
+      "id": "faq-seed-10",
+      "question": "How can we contact the sales team?",
+      "answer": "You can call our office at 93844 82007, reach our sales managers directly through the numbers on our Contact page, email us, or send us a WhatsApp message.",
+      "status": "active",
+      "displayOrder": 10
+    }
+  ],
   "about": {
     "content": "Thirumalaai Traders is a trusted wholesale grocery supplier in Erode with 25+ years of experience serving schools, colleges, industries, mills, grocery shops and bulk customers.",
     "vision": "To become one of the most trusted and preferred wholesale grocery partners for institutions, industries, canteens and businesses.",
@@ -1926,17 +2300,252 @@
     "coreValues": [
       {
         "title": "Quality",
-        "desc": "Focus on supplying reliable and quality products."
+        "desc": "Focus on supplying reliable and quality products.",
+        "status": "active",
+        "displayOrder": 1
       },
       {
         "title": "Trust",
-        "desc": "Building long-term relationships through dependable business practices."
+        "desc": "Building long-term relationships through dependable business practices.",
+        "status": "active",
+        "displayOrder": 2
+      },
+      {
+        "title": "Reliability",
+        "desc": "Ensuring consistent supply and timely delivery.",
+        "status": "active",
+        "displayOrder": 1
+      },
+      {
+        "title": "Customer Partnership",
+        "desc": "Understanding and supporting the requirements of every customer.",
+        "status": "active",
+        "displayOrder": 2
+      },
+      {
+        "title": "Value",
+        "desc": "Providing competitive wholesale pricing and dependable service.",
+        "status": "active",
+        "displayOrder": 3
       }
     ],
-    "images": []
+    "images": [],
+    "whoWeAre": [],
+    "approaches": []
   },
   "homeShowcase": [],
-  "pages": {},
+  "pages": {
+    "history": {
+      "title": "Our History",
+      "intro": "",
+      "heroTitle": "",
+      "heroImage": "",
+      "sectionHeading": "",
+      "sectionSubheading": "",
+      "sections": [
+        {
+          "heading": "2000",
+          "subtitle": "The Beginning",
+          "body": "Thirumalaai Traders began its journey with a simple vision — to supply quality grocery products at fair prices and build lasting relationships with our customers.",
+          "image": "/images/cat-spices.jpg",
+          "status": "active",
+          "displayOrder": 0
+        },
+        {
+          "heading": "2003",
+          "subtitle": "Building Our Network",
+          "body": "With growing trust, we expanded our supplier network and product range, serving more grocery shops and local businesses in and around Erode.",
+          "image": "/images/cat-grains-pulses.jpg",
+          "status": "active",
+          "displayOrder": 1
+        },
+        {
+          "heading": "2008",
+          "subtitle": "Growing Stronger",
+          "body": "We started supplying to schools, colleges and industrial canteens, becoming a trusted wholesale partner for institutions with consistent quality and service.",
+          "image": "/images/hero-rice.jpg",
+          "status": "active",
+          "displayOrder": 2
+        },
+        {
+          "heading": "2012",
+          "subtitle": "Expanding Our Range",
+          "body": "We expanded our product categories to meet the diverse requirements of our customers, including grains, pulses, spices, masalas, oils and other essential grocery products.",
+          "image": "/images/hero-spices.jpg",
+          "status": "active",
+          "displayOrder": 3
+        },
+        {
+          "heading": "2016",
+          "subtitle": "Modern Infrastructure",
+          "body": "We strengthened our storage and handling facilities to support better quality control, efficient processing and reliable, timely delivery.",
+          "image": "/images/about-warehouse.jpg",
+          "status": "active",
+          "displayOrder": 4
+        },
+        {
+          "heading": "2020",
+          "subtitle": "Serving More Communities",
+          "body": "During challenging times, we remained committed to our customers and continued supporting schools, colleges, industries and local businesses with dependable grocery supplies.",
+          "image": "/images/hero-pulses.jpg",
+          "status": "active",
+          "displayOrder": 5
+        },
+        {
+          "heading": "2023",
+          "subtitle": "Digital Transformation",
+          "body": "We enhanced our systems and processes to serve customers better, with improved inventory management, communication and faster order fulfilment.",
+          "image": "/images/hero-oil.jpg",
+          "status": "active",
+          "displayOrder": 6
+        },
+        {
+          "heading": "2025",
+          "subtitle": "25+ Years of Trust",
+          "body": "Today, we proudly stand with 25+ years of experience, serving communities and institutions across Erode and beyond with quality products, dependable supply and trusted service.",
+          "image": "/images/hero-nuts.jpg",
+          "status": "active",
+          "displayOrder": 7
+        }
+      ],
+      "items": [],
+      "images": []
+    },
+    "industries-we-serve": {
+      "title": "Industries We Serve",
+      "intro": "",
+      "heroTitle": "",
+      "heroImage": "",
+      "sectionHeading": "",
+      "sectionSubheading": "",
+      "sections": [
+        {
+          "heading": "School Canteens",
+          "body": "Reliable grocery supply for school canteens, with consistent quality and scheduled deliveries.",
+          "image": "/images/cat-rice-lentils.jpg",
+          "status": "active",
+          "displayOrder": 0
+        },
+        {
+          "heading": "College Canteens",
+          "body": "Bulk grocery requirements for college kitchens and canteens, supplied at competitive wholesale prices.",
+          "image": "/images/hero-pulses.jpg",
+          "status": "active",
+          "displayOrder": 1
+        },
+        {
+          "heading": "Industrial Canteens",
+          "body": "Regular, dependable supply for employee and industrial kitchens of every scale.",
+          "image": "/images/hero-warehouse.jpg",
+          "status": "active",
+          "displayOrder": 2
+        },
+        {
+          "heading": "Mill Canteens",
+          "body": "Consistent grocery supply supporting mill operations and their workforce.",
+          "image": "/images/cat-atta-flour-grocery.jpg",
+          "status": "active",
+          "displayOrder": 3
+        },
+        {
+          "heading": "Factories",
+          "body": "Bulk food and grocery requirements for factories, delivered on schedule.",
+          "image": "/images/about-warehouse.jpg",
+          "status": "active",
+          "displayOrder": 4
+        },
+        {
+          "heading": "Grocery Shops",
+          "body": "Wholesale supply for retail grocery businesses with flexible order quantities.",
+          "image": "/images/cat-spices.jpg",
+          "status": "active",
+          "displayOrder": 5
+        },
+        {
+          "heading": "Bulk Customers",
+          "body": "Flexible, large-volume supply arrangements for bulk and institutional buyers.",
+          "image": "/images/hero-oil.jpg",
+          "status": "active",
+          "displayOrder": 6
+        }
+      ],
+      "items": [],
+      "images": []
+    },
+    "quality": {
+      "title": "Quality",
+      "intro": "",
+      "heroTitle": "",
+      "heroImage": "",
+      "sectionHeading": "",
+      "sectionSubheading": "",
+      "sections": [
+        {
+          "heading": "Careful Sourcing",
+          "body": "Products are sourced from reliable suppliers based on quality and consistency.",
+          "status": "active",
+          "displayOrder": 0
+        },
+        {
+          "heading": "Product Selection",
+          "body": "Products are checked for overall condition, freshness and suitability before supply.",
+          "status": "active",
+          "displayOrder": 1
+        },
+        {
+          "heading": "Storage & Handling",
+          "body": "Products are handled and stored appropriately to help maintain quality.",
+          "status": "active",
+          "displayOrder": 2
+        },
+        {
+          "heading": "Order Preparation",
+          "body": "Bulk orders are prepared carefully according to customer requirements.",
+          "status": "active",
+          "displayOrder": 3
+        },
+        {
+          "heading": "Final Quality Check",
+          "body": "Orders are reviewed before dispatch.",
+          "status": "active",
+          "displayOrder": 4
+        },
+        {
+          "heading": "Reliable Delivery",
+          "body": "Products are supplied to customers in a timely and organized manner.",
+          "status": "active",
+          "displayOrder": 5
+        }
+      ],
+      "items": [
+        {
+          "title": "Freshness",
+          "body": "Stock is rotated sensibly so customers receive products in good, fresh condition."
+        },
+        {
+          "title": "Consistent Quality",
+          "body": "The same dependable standard, order after order, across all categories."
+        },
+        {
+          "title": "Hygienic Handling",
+          "body": "Clean storage and careful handling from our floor to your kitchen."
+        },
+        {
+          "title": "Reliable Sourcing",
+          "body": "Long-standing relationships with suppliers we know and trust."
+        },
+        {
+          "title": "Careful Packaging",
+          "body": "Packed to protect quality during storage and transport."
+        },
+        {
+          "title": "Timely Supply",
+          "body": "Deliveries planned around your schedule, month after month."
+        }
+      ],
+      "images": []
+    }
+  },
   "siteSettings": {
     "companyName": "Thirumalaai Traders",
     "phone": "93844 82007",
@@ -1945,8 +2554,9 @@
     "addressLine1": "Varakappar Street, Janakiammal Layout,",
     "addressLine2": "Karungalpalayam, Erode,",
     "addressState": "Tamil Nadu – 638003, India",
-    "footerText": "Trusted wholesale grocery supplier in Erode.",
-    "copyrightYear": "2026"
+    "footerText": "Trusted wholesale grocery supplier with 25+ years of experience serving institutions, industries, mills, grocery shops and bulk customers across Erode, Tamil Nadu.",
+    "copyrightYear": "2026",
+    "logo": ""
   },
   "contactSettings": {
     "phone": "93844 82007",

@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 interface ProductVariant {
@@ -14,7 +15,13 @@ interface Product {
   variants: ProductVariant[];
 }
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({
+  product,
+  href,
+}: {
+  product: Product;
+  href?: string;
+}) {
   const whatsappMessage = encodeURIComponent(
     `Hello Thirumalaai Traders, I would like to enquire about ${product.name}.`
   );
@@ -23,16 +30,32 @@ export default function ProductCard({ product }: { product: Product }) {
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition flex flex-col justify-between">
       <div>
         <div className="relative h-44 w-full mb-3 overflow-hidden rounded-lg bg-gray-100">
-          <img
-            src={product.image || DEFAULT_PRODUCT_IMAGE}
-            alt={product.name}
-            className="h-full w-full object-cover hover:scale-105 transition duration-300"
-          />
+          {href ? (
+            <Link href={href} aria-label={`View ${product.name}`}>
+              <img
+                src={product.image || DEFAULT_PRODUCT_IMAGE}
+                alt={product.name}
+                className="h-full w-full object-cover hover:scale-105 transition duration-300"
+              />
+            </Link>
+          ) : (
+            <img
+              src={product.image || DEFAULT_PRODUCT_IMAGE}
+              alt={product.name}
+              className="h-full w-full object-cover hover:scale-105 transition duration-300"
+            />
+          )}
           <span className="absolute top-2 left-2 text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded font-medium">
             {product.category}
           </span>
         </div>
-        <h3 className="font-semibold text-gray-800 text-base line-clamp-1">{product.name}</h3>
+        {href ? (
+          <Link href={href} className="hover:underline">
+            <h3 className="font-semibold text-gray-800 text-base line-clamp-1">{product.name}</h3>
+          </Link>
+        ) : (
+          <h3 className="font-semibold text-gray-800 text-base line-clamp-1">{product.name}</h3>
+        )}
 
         {product.variants?.length ? (
           <div className="my-3">

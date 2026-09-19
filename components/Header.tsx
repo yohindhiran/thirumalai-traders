@@ -70,12 +70,6 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
           <Link href="/enquiry" className="btn-primary !py-2.5">
             Request Enquiry
           </Link>
-          <Link
-            href="/admin/login"
-            className="text-sm font-medium text-brand-muted transition-colors hover:text-brand-green"
-          >
-            Admin
-          </Link>
         </div>
 
         {/* MOBILE actions */}
@@ -131,12 +125,6 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
           <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="btn-outline w-full">
             WhatsApp Us
           </a>
-          <Link
-            href="/admin/login"
-            className="block text-center text-sm font-medium text-brand-muted transition-colors hover:text-brand-green"
-          >
-            Admin Panel
-          </Link>
         </div>
       </div>
     </header>

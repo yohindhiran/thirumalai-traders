@@ -1,5 +1,5 @@
 import { FAQS } from "@/data/site";
-import { getActiveFaqs } from "@/lib/db";
+import { getActiveFaqs, getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 
@@ -18,6 +18,8 @@ export default function FaqPage() {
   const faqList = faqs.length
     ? faqs.map((f) => ({ q: f.question, a: f.answer }))
     : FAQS.map((f) => ({ q: f.q, a: f.a }));
+  // Admin-managed hero (Admin → Company Pages → FAQ).
+  const page = getPageContent("faq");
 
   return (
     <>
@@ -31,8 +33,8 @@ export default function FaqPage() {
         ]}
       />
       <PageHero
-        title="FAQ"
-        backgroundImage="/images/cat-masala.jpg"
+        title={page?.heroTitle || "FAQ"}
+        backgroundImage={page?.heroImage || "/images/cat-masala.jpg"}
       />
       <section className="section-pad bg-white">
         <div className="container-site max-w-4xl">

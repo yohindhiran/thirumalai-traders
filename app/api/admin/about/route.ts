@@ -23,6 +23,14 @@ export async function PUT(request: Request) {
 
   if (typeof body?.content === "string") about.content = body.content;
   if (typeof body?.vision === "string") about.vision = body.vision;
+  if (Array.isArray(body?.whoWeAre)) {
+    about.whoWeAre = body.whoWeAre.map((x: unknown) => String(x)).filter((x: string) => x.trim());
+  }
+  if (Array.isArray(body?.approaches)) {
+    about.approaches = body.approaches
+      .map((c: any) => ({ title: String(c?.title ?? "").trim(), desc: String(c?.desc ?? "").trim() }))
+      .filter((c: { title: string }) => c.title);
+  }
   if (Array.isArray(body?.mission)) {
     const m = body.mission.map((x: unknown) => String(x)).filter((x: string) => x.trim());
     if (m.length) about.mission = m;

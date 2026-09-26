@@ -122,6 +122,28 @@ export interface ProductRef {
   displayOrder: number;
 }
 
+/**
+ * 1 KG Packages home-section membership. References a master product by id
+ * (single source of truth — no duplicated product records) while keeping its
+ * own enabled/disabled state, display order and optional display overrides.
+ * Deleting an entry removes it from the section only, never the master product.
+ */
+export interface KgPackageRef extends ProductRef {
+  customName?: string;
+  customImage?: string;
+}
+
+/**
+ * Standalone configuration for the Home "1 KG PACKAGES" section.
+ * Owned exclusively by the "1 KG Packages" admin page — nothing else reads
+ * or writes these values, so edits here can never affect Bestsellers,
+ * Product Categories or the main Products catalogue.
+ */
+export interface KgPackagesSection {
+  title: string;
+  description: string;
+}
+
 export interface Faq {
   id: string;
   question: string;
@@ -204,6 +226,8 @@ export interface DbData {
   valuedCustomers: ValuedCustomer[];
   mostSelling: ProductRef[];
   ourProducts: ProductRef[];
+  kgPackages: KgPackageRef[];
+  kgPackagesSection: KgPackagesSection;
   faqs: Faq[];
   about: AboutContent;
   homeShowcase: HomeShowcaseItem[];

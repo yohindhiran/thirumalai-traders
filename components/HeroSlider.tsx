@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 
 const DEFAULT_SLIDES = [
@@ -100,6 +101,16 @@ export default function HeroSlider({ slides }: { slides?: HeroSliderSlide[] }) {
             />
           </div>
         ))}
+
+        {/* Centered call-to-action below the hero content */}
+        <div className="absolute inset-x-0 bottom-16 flex justify-center sm:bottom-20">
+          <Link
+            href="/products"
+            className="inline-flex items-center justify-center rounded-full bg-brand-green-deep px-8 py-3 text-sm font-semibold text-white shadow-lift transition-colors hover:bg-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          >
+            Shop Now
+          </Link>
+        </div>
 
         {/* Controls */}
         <div className="absolute inset-x-0 bottom-5">

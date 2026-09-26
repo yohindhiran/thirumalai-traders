@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import HeroSlider from "@/components/HeroSlider";
-import ProductCarousel, { type CarouselProduct } from "@/components/ProductCarousel";
+import HomeKgPackages, { type HomeKgPackageItem } from "@/components/HomeKgPackages";
 import HomeTopSelling, { type HomeTopSellingItem } from "@/components/HomeTopSelling";
 import CategoryGrid from "@/components/CategoryGrid";
 import ValuedCustomers, { type ValuedCustomerItem } from "@/components/ValuedCustomers";
-import { getMostSellingProducts, readDb } from "@/lib/db";
+import { getKgPackages, getKgPackagesSection, getMostSellingProducts, readDb } from "@/lib/db";
 import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 import type { Product } from "@/types";
 
@@ -24,17 +24,18 @@ export default function Home() {
     CATEGORY_IMAGES[catById.get(p.categoryId)?.slug ?? "spices"]?.src ||
     DEFAULT_PRODUCT_IMAGE;
 
-  const carouselProducts: CarouselProduct[] = db.products
-    .filter((p) => p.status === "active")
-    .slice(0, 12)
-    .map((p) => ({
-      name: p.name,
-      slug: p.slug,
-      categoryName: catById.get(p.categoryId)?.name,
-      categorySlug: catById.get(p.categoryId)?.slug,
-      subcategory: p.subcategory,
-      image: imageOf(p),
-    }));
+  const kgSection = getKgPackagesSection();
+
+  const kgItems: HomeKgPackageItem[] = getKgPackages().map(
+    ({ ref, product, displayName }) => ({
+      name: displayName,
+      slug: product.slug,
+      categoryName: catById.get(product.categoryId)?.name ?? "Wholesale Grocery",
+      categorySlug: catById.get(product.categoryId)?.slug ?? "spices",
+      description: product.shortDescription || product.description,
+      image: ref.customImage?.trim() || imageOf(product),
+    })
+  );
 
   const topSelling: HomeTopSellingItem[] = getMostSellingProducts()
     .filter((p) => p.status === "active")
@@ -65,13 +66,20 @@ export default function Home() {
       {/* Hero: clean image-focused slider, no text panel */}
       <HeroSlider slides={heroSlides.length ? heroSlides : undefined} />
 
-      {/* Scrollable product carousel */}
-      <ProductCarousel products={carouselProducts} />
+      {/* 1 KG Packages — Our Products (directly below Hero) */}
+      <HomeKgPackages
+        items={kgItems}
+        title={kgSection.title}
+        description={kgSection.description}
+      />
 
-      {/* Top selling section */}
+      {/* Bestsellers — Top selling section */}
       <HomeTopSelling items={topSelling} />
 
-      {/* About section (occupies the Product Categories position) */}
+      {/* Product Categories */}
+      <CategoryGrid />
+
+      {/* About section */}
       <section className="section-pad bg-brand-green-deep">
         <div className="container-site grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="relative overflow-hidden rounded-xl">
@@ -105,9 +113,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Product Categories (restored) */}
-      <CategoryGrid />
 
       {/* Valued Customers (restored) */}
       <ValuedCustomers customers={customers} />

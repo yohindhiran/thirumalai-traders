@@ -16,6 +16,8 @@ import type {
   Testimonial,
   ValuedCustomer,
   ProductRef,
+  KgPackageRef,
+  KgPackagesSection,
   Faq,
   AboutContent,
   CompanyPageContent,
@@ -65,8 +67,7 @@ function setCachedMtime(mtime: number): void {
 /*  Constants & helpers                                                       */
 /* -------------------------------------------------------------------------- */
 
-export const DEFAULT_CONTENT: SiteContent = {
-  heroHeadline: "Serving Quality. Delivering Trust.",
+export const DEFAULT_CONTENT: SiteContent = {  heroHeadline: "Serving Quality. Delivering Trust.",
   heroSubtext:
     "Your Trusted Wholesale Partner for School, College & Industrial Canteens.",
   aboutPreview:
@@ -84,8 +85,58 @@ export const DEFAULT_CONTENT: SiteContent = {
   homeAboutButtonLink: "/about",
 };
 
+/* Default copy for the standalone Home "1 KG PACKAGES" section. */
+export const DEFAULT_KG_PACKAGES_SECTION: KgPackagesSection = {
+  title: "Our Products",
+  description:
+    "Wholesale-quality spices, dals, pulses, dry fruits and nuts packed in convenient 1 kg packages — ready for retail shops, canteens and bulk buyers.",
+};
+
 export function newId(prefix = "id"): string {
   return `${prefix}_${Math.random().toString(36).substring(2, 9)}`;
+}
+
+/* -------------------------------------------------------------------------- */
+/*  1 KG Packages seed — the 16 launch products for the Home "1 KG PACKAGES / */
+/*  Our Products" section. Each entry references a master product (reusing    */
+/*  existing catalogue data/images) with its own display label, status and    */
+/*  order. Resolved by (category slug, product slug) so fresh installs seed   */
+/*  deterministically.                                                         */
+/* -------------------------------------------------------------------------- */
+
+const KG_PACKAGE_SEEDS: Array<[string, string, string]> = [
+  ["spices", "cumin-seeds", "Cumin Seed"],
+  ["spices", "fenugreek", "Fenugreek Seed"],
+  ["spices", "fennel-seeds", "Fennel Seed"],
+  ["spices", "mustard-seeds", "Mustard Seed"],
+  ["spices", "green-cardamom", "Cardamom Seed"],
+  ["spices", "cloves", "Clove Seed"],
+  ["spices", "star-anise", "Star Anise Seed"],
+  ["dry-fruits-nuts", "pistachio", "Pista"],
+  ["dry-fruits-nuts", "raisins", "Raisins"],
+  ["dry-fruits-nuts", "almond", "Badam"],
+  ["dry-fruits-nuts", "cashew", "Cashew"],
+  ["grains-pulses", "toor-dal", "Toor Dal"],
+  ["grains-pulses", "kabuli-chana", "White Chickpea"],
+  ["grains-pulses", "moong-dal", "Moong Dal"],
+  ["grains-pulses", "urad-dal", "Urad Dal"],
+  ["grains-pulses", "black-chana", "Black Chickpea"],
+];
+
+function buildKgPackageSeeds(products: Product[]): KgPackageRef[] {
+  const byKey = new Map(products.map((p) => [`${p.categoryId}|${p.slug}`, p]));
+  const refs: KgPackageRef[] = [];
+  KG_PACKAGE_SEEDS.forEach(([catSlug, slug, customName], i) => {
+    const product = byKey.get(`cat-${catSlug}|${slug}`);
+    if (!product) return;
+    refs.push({
+      productId: product.id,
+      status: "active",
+      displayOrder: i + 1,
+      customName,
+    });
+  });
+  return refs;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -134,6 +185,8 @@ export function seedDb(): DbData {
     valuedCustomers: [],
     mostSelling: [],
     ourProducts: [],
+    kgPackages: buildKgPackageSeeds(products),
+    kgPackagesSection: { ...DEFAULT_KG_PACKAGES_SECTION },
     faqs: [],
     about: {
       content: DEFAULT_CONTENT.aboutPreview,
@@ -366,6 +419,47 @@ export function getOurProducts(): Product[] {
       .filter((p): p is Product => Boolean(p));
   }
   return db.products.slice(4, 12);
+}
+
+export interface KgPackageDisplayItem {
+  ref: KgPackageRef;
+  product: Product;
+  displayName: string;
+}
+
+/**
+ * Resolved 1 KG Packages for the Home page: enabled section entries in
+ * display order, each joined to its master product. Disabled entries (or
+ * entries whose master product is inactive/missing) are excluded from the
+ * storefront but remain in the DB for the Admin Panel.
+ */
+export function getKgPackages(): KgPackageDisplayItem[] {  const db = readDb();
+  return (db.kgPackages ?? [])
+    .slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .map((ref) => {
+      const product = db.products.find((p) => p.id === ref.productId);
+      if (!product || product.status !== "active" || ref.status !== "active") {
+        return undefined;
+      }
+      const displayName =
+        ref.customName?.trim() || product.name;
+      return { ref, product, displayName };
+    })
+    .filter((x): x is KgPackageDisplayItem => Boolean(x));
+}
+
+/**
+ * Copy (title/description) for the standalone Home "1 KG PACKAGES" section.
+ * Falls back to defaults when the key is missing (older databases).
+ */
+export function getKgPackagesSection(): KgPackagesSection {
+  const section = readDb().kgPackagesSection;
+  return {
+    title: section?.title?.trim() || DEFAULT_KG_PACKAGES_SECTION.title,
+    description:
+      section?.description?.trim() || DEFAULT_KG_PACKAGES_SECTION.description,
+  };
 }
 
 export function getHomeShowcase() {

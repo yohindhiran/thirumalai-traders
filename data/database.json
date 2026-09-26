@@ -2568,5 +2568,123 @@
     "businessHours": "Monday – Saturday: 8:00 AM – 8:00 PM"
   },
   "customers": [],
-  "hero": []
+  "hero": [],
+  "kgPackages": [
+    {
+      "productId": "prod-2",
+      "status": "active",
+      "displayOrder": 1,
+      "customName": "Cumin Seed",
+      "customImage": "/images/uploads/1790438084181-444c6f9a2e789a610ab6900c.jpg"
+    },
+    {
+      "productId": "prod-4",
+      "status": "active",
+      "displayOrder": 2,
+      "customName": "Fenugreek Seed",
+      "customImage": "/images/uploads/1790438139731-e993a78ddcfcc4ee3f9089ae.jpg"
+    },
+    {
+      "productId": "prod-3",
+      "status": "active",
+      "displayOrder": 3,
+      "customName": "Fennel Seed",
+      "customImage": "/images/uploads/1790438210301-fc236dc60a32e2085f693856.jpg"
+    },
+    {
+      "productId": "prod-5",
+      "status": "active",
+      "displayOrder": 4,
+      "customName": "Mustard Seed",
+      "customImage": "/images/uploads/1790438290800-0e8f1b8b094fb349d9ed2bab.jpg"
+    },
+    {
+      "productId": "prod-8",
+      "status": "active",
+      "displayOrder": 5,
+      "customName": "Cardamom Seed",
+      "customImage": "/images/uploads/1790438302635-c9eddc70d46ed7b8181e82bb.jpg"
+    },
+    {
+      "productId": "prod-10",
+      "status": "active",
+      "displayOrder": 6,
+      "customName": "Clove Seed",
+      "customImage": "/images/uploads/1790438471093-0d972d01b4c650ff69a12c96.jpg"
+    },
+    {
+      "productId": "prod-12",
+      "status": "active",
+      "displayOrder": 7,
+      "customName": "Star Anise Seed",
+      "customImage": "/images/uploads/1790438421235-012010899b43213f6990de57.jpg"
+    },
+    {
+      "productId": "prod-116",
+      "status": "active",
+      "displayOrder": 8,
+      "customName": "Pista",
+      "customImage": "/images/uploads/1790438494858-3994724632137265626c46ab.jpg"
+    },
+    {
+      "productId": "prod-107",
+      "status": "active",
+      "displayOrder": 9,
+      "customName": "Raisins",
+      "customImage": "/images/uploads/1790438442479-85124304608feed354840f86.jpg"
+    },
+    {
+      "productId": "prod-106",
+      "status": "active",
+      "displayOrder": 10,
+      "customName": "Badam",
+      "customImage": "/images/uploads/1790438577975-3124f52c1107b41036834fa9.jpg"
+    },
+    {
+      "productId": "prod-105",
+      "status": "active",
+      "displayOrder": 11,
+      "customName": "Cashew",
+      "customImage": "/images/uploads/1790438591938-de86080c241bc4573c5d371f.jpg"
+    },
+    {
+      "productId": "prod-31",
+      "status": "active",
+      "displayOrder": 12,
+      "customName": "Toor Dal",
+      "customImage": "/images/uploads/1790438609833-ee00a8bda1fadab16abfe8ea.jpg"
+    },
+    {
+      "productId": "prod-51",
+      "status": "active",
+      "displayOrder": 13,
+      "customName": "White Chickpea",
+      "customImage": "/images/uploads/1790438620408-46bab21ecbbde728b375cc68.jpg"
+    },
+    {
+      "productId": "prod-38",
+      "status": "active",
+      "displayOrder": 14,
+      "customName": "Moong Dal",
+      "customImage": "/images/uploads/1790438737044-8b6a769e1b07e512b5c0f662.jpg"
+    },
+    {
+      "productId": "prod-34",
+      "status": "active",
+      "displayOrder": 15,
+      "customName": "Urad Dal",
+      "customImage": "/images/uploads/1790438758709-4f156853e9cce6d4e30cffbf.jpg"
+    },
+    {
+      "productId": "prod-52",
+      "status": "active",
+      "displayOrder": 16,
+      "customName": "Black Chickpea",
+      "customImage": "/images/uploads/1790438781387-6532b26e07a690aa7f0d8405.jpg"
+    }
+  ],
+  "kgPackagesSection": {
+    "title": "Our Products",
+    "description": "Wholesale-quality spices, dals, pulses, dry fruits and nuts packed in convenient 1 kg packages — ready for retail shops, canteens and bulk buyers."
+  }
 }

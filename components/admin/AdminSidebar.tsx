@@ -60,7 +60,7 @@ const GROUPS: Group[] = [
       { href: "/admin/dashboard/categories", label: "Categories", icon: FolderTree },
       { href: "/admin/dashboard/most-selling", label: "Most Selling", icon: Flame },
       { href: "/admin/dashboard/our-products", label: "Our Products", icon: LayoutGrid },
-      { href: "/admin/dashboard/kg-packages", label: "1 KG Packages", icon: Package },
+      { href: "/admin/dashboard/kg-packages", label: "KG Packages", icon: Package },
     ],
   },
   {

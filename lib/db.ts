@@ -17,6 +17,7 @@ import type {
   ValuedCustomer,
   ProductRef,
   KgPackageRef,
+  KgPackageSize,
   KgPackagesSection,
   Faq,
   AboutContent,
@@ -85,11 +86,11 @@ export const DEFAULT_CONTENT: SiteContent = {  heroHeadline: "Serving Quality. D
   homeAboutButtonLink: "/about",
 };
 
-/* Default copy for the standalone Home "1 KG PACKAGES" section. */
+/* Default copy for the standalone Home "KG PACKAGES" section. */
 export const DEFAULT_KG_PACKAGES_SECTION: KgPackagesSection = {
   title: "Our Products",
   description:
-    "Wholesale-quality spices, dals, pulses, dry fruits and nuts packed in convenient 1 kg packages — ready for retail shops, canteens and bulk buyers.",
+    "Wholesale-quality spices, dals, pulses, dry fruits and nuts packed in convenient KG packages — ready for retail shops, canteens and bulk buyers.",
 };
 
 export function newId(prefix = "id"): string {
@@ -97,11 +98,11 @@ export function newId(prefix = "id"): string {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  1 KG Packages seed — the 16 launch products for the Home "1 KG PACKAGES / */
-/*  Our Products" section. Each entry references a master product (reusing    */
-/*  existing catalogue data/images) with its own display label, status and    */
-/*  order. Resolved by (category slug, product slug) so fresh installs seed   */
-/*  deterministically.                                                         */
+/*  KG Packages seed — the 16 launch products for the Home "KG PACKAGES /    */
+/*  Our Products" section, initially under the "1 KG" size. Each entry        */
+/*  references a master product (reusing existing catalogue data/images)      */
+/*  with its own display label, status and order. Resolved by (category       */
+/*  slug, product slug) so fresh installs seed deterministically.             */
 /* -------------------------------------------------------------------------- */
 
 const KG_PACKAGE_SEEDS: Array<[string, string, string]> = [
@@ -137,6 +138,26 @@ function buildKgPackageSeeds(products: Product[]): KgPackageRef[] {
     });
   });
   return refs;
+}
+
+function buildDefaultKgPackageSizes(products: Product[]): KgPackageSize[] {
+  return [
+    {
+      id: "size-1-kg",
+      name: "1 KG",
+      status: "active",
+      displayOrder: 1,
+      items: buildKgPackageSeeds(products),
+    },
+  ];
+}
+
+/** Keep the legacy flat `kgPackages` key as a mirror of the default size. */
+function legacyKgPackagesMirror(sizes: KgPackageSize[]): KgPackageRef[] {
+  const def =
+    sizes.find((s) => s.name.trim().toLowerCase() === "1 kg") ??
+    sizes.slice().sort((a, b) => a.displayOrder - b.displayOrder)[0];
+  return (def?.items ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -185,6 +206,7 @@ export function seedDb(): DbData {
     valuedCustomers: [],
     mostSelling: [],
     ourProducts: [],
+    kgPackageSizes: buildDefaultKgPackageSizes(products),
     kgPackages: buildKgPackageSeeds(products),
     kgPackagesSection: { ...DEFAULT_KG_PACKAGES_SECTION },
     faqs: [],
@@ -241,12 +263,51 @@ export function seedDb(): DbData {
 /* -------------------------------------------------------------------------- */
 
 function backfill(db: DbData): DbData {
+  // Migrate legacy flat `kgPackages` (1 KG-only) into the generic
+  // `kgPackageSizes` structure BEFORE the generic key-fill below, so existing
+  // product names/images/order/enabled state are preserved under "1 KG".
+  const needsSizes =
+    !Array.isArray((db as Partial<DbData>).kgPackageSizes) ||
+    (db as Partial<DbData>).kgPackageSizes!.length === 0;
+  const legacy = Array.isArray(db.kgPackages) ? db.kgPackages : undefined;
+  if (needsSizes) {
+    if (legacy && legacy.length > 0) {
+      db.kgPackageSizes = [
+        {
+          id: "size-1-kg",
+          name: "1 KG",
+          status: "active",
+          displayOrder: 1,
+          items: legacy.slice().sort((a, b) => a.displayOrder - b.displayOrder),
+        },
+      ];
+    }
+    // else: fall through — the generic seed-fill below creates defaults.
+  }
+  // Keep the deprecated flat key mirrored so any old readers keep working.
+  if (Array.isArray((db as Partial<DbData>).kgPackageSizes) && (db as Partial<DbData>).kgPackageSizes!.length > 0) {
+    db.kgPackages = legacyKgPackagesMirror(db.kgPackageSizes);
+  }
   const seed = seedDb();
   for (const key of Object.keys(seed) as Array<keyof DbData>) {
     if (db[key] === undefined) {
+      // Do not overwrite a just-migrated kgPackageSizes with seeds.
+      if (key === "kgPackageSizes" && Array.isArray(db.kgPackageSizes) && db.kgPackageSizes.length > 0) {
+        continue;
+      }
       // @ts-expect-error dynamic backfill
       db[key] = seed[key];
     }
+  }
+  // Normalise shapes of migrated sizes.
+  if (Array.isArray(db.kgPackageSizes)) {
+    db.kgPackageSizes = db.kgPackageSizes.map((s, i) => ({
+      id: typeof s.id === "string" && s.id ? s.id : `size-${i + 1}`,
+      name: typeof s.name === "string" && s.name.trim() ? s.name.trim() : `${i + 1} KG`,
+      status: s.status === "inactive" ? "inactive" : "active",
+      displayOrder: typeof s.displayOrder === "number" && Number.isFinite(s.displayOrder) ? s.displayOrder : i + 1,
+      items: Array.isArray(s.items) ? s.items : [],
+    }));
   }
   return db;
 }
@@ -266,11 +327,18 @@ export function readDb(): DbData {
 
   // 1. File exists — it is authoritative on writable disk. Re-read when the
   //    tracked mtime differs so other workers' writes are observed.
+  //    The cached copy is only reused when it already has the current
+  //    schema shape (kgPackageSizes); otherwise the file is re-read and
+  //    migrated via backfill so legacy databases upgrade in place.
   if (fs.existsSync(DB_FILE)) {
     try {
       const stat = fs.statSync(DB_FILE);
       const cached = getCachedDb();
-      if (cached && getCachedMtime() === stat.mtimeMs) {
+      if (
+        cached &&
+        getCachedMtime() === stat.mtimeMs &&
+        Array.isArray((cached as Partial<DbData>).kgPackageSizes)
+      ) {
         return cached;
       }
       const raw = fs.readFileSync(DB_FILE, "utf-8");
@@ -285,7 +353,7 @@ export function readDb(): DbData {
 
   // 2. No readable file — use the warm-container cache if available.
   const cached = getCachedDb();
-  if (cached) return cached;
+  if (cached) return Array.isArray((cached as Partial<DbData>).kgPackageSizes) ? cached : backfill(cached);
 
   // 3. Nothing anywhere — hydrate from seed and try to persist.
   const db = seedDb();
@@ -427,13 +495,62 @@ export interface KgPackageDisplayItem {
   displayName: string;
 }
 
+export interface KgPackageSizeDisplay {
+  size: KgPackageSize;
+  items: KgPackageDisplayItem[];
+}
+
+function resolveKgSizeItems(db: DbData, size: KgPackageSize): KgPackageDisplayItem[] {
+  return (size.items ?? [])
+    .slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .map((ref) => {
+      const product = db.products.find((p) => p.id === ref.productId);
+      if (!product || product.status !== "active" || ref.status !== "active") {
+        return undefined;
+      }
+      const displayName = ref.customName?.trim() || product.name;
+      return { ref, product, displayName };
+    })
+    .filter((x): x is KgPackageDisplayItem => Boolean(x));
+}
+
 /**
- * Resolved 1 KG Packages for the Home page: enabled section entries in
- * display order, each joined to its master product. Disabled entries (or
- * entries whose master product is inactive/missing) are excluded from the
- * storefront but remain in the DB for the Admin Panel.
+ * All KG package sizes for Admin (including disabled), in display order.
  */
-export function getKgPackages(): KgPackageDisplayItem[] {  const db = readDb();
+export function getKgPackageSizes(): KgPackageSize[] {
+  const db = readDb();
+  return (db.kgPackageSizes ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
+}
+
+/**
+ * Resolved KG package sizes for the Home page: only enabled sizes with
+ * their enabled items in display order. Disabled sizes are excluded from
+ * the storefront but remain in the DB for the Admin Panel. Each size is
+ * fully independent from Bestsellers, Product Categories and the main
+ * Products catalogue.
+ */
+export function getKgPackageSizesForPublic(): KgPackageSizeDisplay[] {
+  const db = readDb();
+  return (db.kgPackageSizes ?? [])
+    .slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .filter((s) => s.status === "active")
+    .map((size) => ({ size, items: resolveKgSizeItems(db, size) }))
+    .filter((g) => g.items.length > 0);
+}
+
+/**
+ * Legacy getter (backward compatibility): resolved items for a single size.
+ * When no sizeId is given, returns the default ("1 KG" or first) size.
+ */
+export function getKgPackages(sizeId?: string): KgPackageDisplayItem[] {  const db = readDb();
+  const sizes = (db.kgPackageSizes ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
+  const size = (sizeId && sizes.find((s) => s.id === sizeId)) ||
+    sizes.find((s) => s.name.trim().toLowerCase() === "1 kg") ||
+    sizes[0];
+  if (size) return resolveKgSizeItems(db, size);
+  // Fallback for databases that only have the legacy flat key.
   return (db.kgPackages ?? [])
     .slice()
     .sort((a, b) => a.displayOrder - b.displayOrder)
@@ -450,7 +567,7 @@ export function getKgPackages(): KgPackageDisplayItem[] {  const db = readDb();
 }
 
 /**
- * Copy (title/description) for the standalone Home "1 KG PACKAGES" section.
+ * Copy (title/description) for the standalone Home "KG PACKAGES" section.
  * Falls back to defaults when the key is missing (older databases).
  */
 export function getKgPackagesSection(): KgPackagesSection {

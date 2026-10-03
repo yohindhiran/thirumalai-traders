@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { telHref, whatsappHref } from "@/lib/utils";
 import { DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
+import { cn } from "@/lib/utils";
 
 export interface HomeKgPackageItem {
   name: string;
@@ -19,6 +20,12 @@ export interface HomeKgPackageItem {
   image?: string;
 }
 
+export interface HomeKgPackageSize {
+  id: string;
+  name: string;
+  items: HomeKgPackageItem[];
+}
+
 const AUTOPLAY_MS = 30000;
 const ARROW_TWEEN_MS = 500;
 
@@ -27,20 +34,21 @@ function easeInOutCubic(t: number) {
 }
 
 /**
- * Standalone Home "1 KG PACKAGES" section. Fully independent: its own
- * component, its own data (kgPackages refs + kgPackagesSection copy) and its
- * own internal slider. Shares nothing with Bestsellers, Product Categories
- * or the main Products catalogue.
+ * Standalone Home "KG PACKAGES" section. Fully independent: its own
+ * component, its own data (kgPackageSizes refs + kgPackagesSection copy) and
+ * its own internal slider. Shares nothing with Bestsellers, Product
+ * Categories or the main Products catalogue.
  *
- * Layout: descriptive copy on the LEFT, horizontally sliding product cards
- * on the RIGHT (stacked on mobile).
+ * Layout: descriptive copy on the LEFT, package-size tabs/chips plus a
+ * horizontally sliding product card carousel on the RIGHT (stacked on
+ * mobile). Selecting a size shows only that size's products.
  */
 export default function HomeKgPackages({
-  items,
+  sizes,
   title,
   description,
 }: {
-  items: HomeKgPackageItem[];
+  sizes: HomeKgPackageSize[];
   title: string;
   description: string;
 }) {
@@ -53,6 +61,22 @@ export default function HomeKgPackages({
   const reducedMotionRef = useRef(false);
   const [hovered, setHovered] = useState(false);
   const [paused] = useState(false);
+  const [selectedId, setSelectedId] = useState(sizes[0]?.id ?? "");
+
+  // Keep selection valid when Admin configuration changes.
+  useEffect(() => {
+    if (!sizes.length) {
+      setSelectedId("");
+      return;
+    }
+    if (!sizes.some((s) => s.id === selectedId)) {
+      setSelectedId(sizes[0].id);
+    }
+  }, [sizes, selectedId]);
+
+  const active = sizes.find((s) => s.id === selectedId) ?? sizes[0];
+  const items = active?.items ?? [];
+  const activeName = active?.name ?? "";
 
   const autoScroll = !paused && !hovered && items.length > 1;
   const doubled = [...items, ...items];
@@ -70,6 +94,16 @@ export default function HomeKgPackages({
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
   }, [measure]);
+
+  // Restart the carousel from the beginning whenever the package size changes.
+  useEffect(() => {
+    offsetRef.current = 0;
+    tweenRef.current = null;
+    if (trackRef.current) {
+      trackRef.current.style.transform = "translateX(0px)";
+    }
+    measure();
+  }, [selectedId, measure]);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -130,7 +164,7 @@ export default function HomeKgPackages({
     }
   };
 
-  if (!items.length) return null;
+  if (!sizes.length || !items.length) return null;
 
   return (
     <section className="section-pad overflow-hidden bg-white">
@@ -139,7 +173,7 @@ export default function HomeKgPackages({
         <div className="max-w-3xl">
           <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green sm:text-sm">
             <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
-            1 KG PACKAGES
+            KG PACKAGES
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
             {title}
@@ -149,13 +183,44 @@ export default function HomeKgPackages({
           </p>
         </div>
 
+        {/* Package-size selector: premium tabs/chips. Visible only when
+            multiple sizes are configured; single-size stays clean. */}
+        {sizes.length > 1 && (
+          <div
+            role="tablist"
+            aria-label="Select package size"
+            className="mt-6 flex flex-wrap gap-2"
+          >
+            {sizes.map((s) => {
+              const selected = s.id === active?.id;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  onClick={() => setSelectedId(s.id)}
+                  className={cn(
+                    "rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors",
+                    selected
+                      ? "border-brand-green bg-brand-green text-white shadow-sm"
+                      : "border-brand-line bg-white text-brand-ink hover:border-brand-green hover:text-brand-green"
+                  )}
+                >
+                  {s.name}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {/* BELOW: full-width horizontal product slider.
             Hovering the product area pauses auto-scroll immediately; leaving
             resumes from the exact same position. Manual arrows/keys always work. */}
         <div
           role="region"
           aria-roledescription="carousel"
-          aria-label="1 KG package products"
+          aria-label={`${activeName} package products`}
           tabIndex={0}
           onKeyDown={onKeyDown}
           onMouseEnter={() => setHovered(true)}
@@ -170,7 +235,7 @@ export default function HomeKgPackages({
             >
               {doubled.map((p, i) => (
                 <li
-                  key={`${p.slug}-${i}`}
+                  key={`${active?.id}-${p.slug}-${i}`}
                   aria-hidden={i >= items.length ? "true" : undefined}
                   className="w-56 shrink-0 px-2.5 sm:w-64"
                 >
@@ -188,7 +253,7 @@ export default function HomeKgPackages({
                         className="object-contain transition-transform duration-500 group-hover:scale-105"
                       />
                       <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-brand-green px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-                        1 KG Pack
+                        {activeName} Pack
                       </span>
                     </Link>
                     <div className="flex flex-1 flex-col p-4">
@@ -218,7 +283,7 @@ export default function HomeKgPackages({
                         </a>
                         <a
                           href={whatsappHref(
-                            `Hello Thirumalaai Traders, I would like to enquire about ${p.name} (1 KG Pack) at wholesale rates.`
+                            `Hello Thirumalaai Traders, I would like to enquire about ${p.name} (${activeName} Pack) at wholesale rates.`
                           )}
                           target="_blank"
                           rel="noopener noreferrer"
@@ -236,7 +301,7 @@ export default function HomeKgPackages({
 
           <p className="sr-only">
             Use the left and right arrow keys or the previous and next buttons to browse
-            1 KG package products. The slider advances automatically.
+            {activeName} package products. The slider advances automatically.
           </p>
         </div>
       </div>

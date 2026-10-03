@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import HeroSlider from "@/components/HeroSlider";
-import HomeKgPackages, { type HomeKgPackageItem } from "@/components/HomeKgPackages";
+import HomeKgPackages, { type HomeKgPackageSize } from "@/components/HomeKgPackages";
 import HomeTopSelling, { type HomeTopSellingItem } from "@/components/HomeTopSelling";
 import CategoryGrid from "@/components/CategoryGrid";
 import ValuedCustomers, { type ValuedCustomerItem } from "@/components/ValuedCustomers";
-import { getKgPackages, getKgPackagesSection, getMostSellingProducts, readDb } from "@/lib/db";
+import { getKgPackageSizesForPublic, getKgPackagesSection, getMostSellingProducts, readDb } from "@/lib/db";
 import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 import type { Product } from "@/types";
 
@@ -26,14 +26,18 @@ export default function Home() {
 
   const kgSection = getKgPackagesSection();
 
-  const kgItems: HomeKgPackageItem[] = getKgPackages().map(
-    ({ ref, product, displayName }) => ({
-      name: displayName,
-      slug: product.slug,
-      categoryName: catById.get(product.categoryId)?.name ?? "Wholesale Grocery",
-      categorySlug: catById.get(product.categoryId)?.slug ?? "spices",
-      description: product.shortDescription || product.description,
-      image: ref.customImage?.trim() || imageOf(product),
+  const kgSizes: HomeKgPackageSize[] = getKgPackageSizesForPublic().map(
+    ({ size, items }) => ({
+      id: size.id,
+      name: size.name,
+      items: items.map(({ ref, product, displayName }) => ({
+        name: displayName,
+        slug: product.slug,
+        categoryName: catById.get(product.categoryId)?.name ?? "Wholesale Grocery",
+        categorySlug: catById.get(product.categoryId)?.slug ?? "spices",
+        description: product.shortDescription || product.description,
+        image: ref.customImage?.trim() || imageOf(product),
+      })),
     })
   );
 
@@ -66,9 +70,9 @@ export default function Home() {
       {/* Hero: clean image-focused slider, no text panel */}
       <HeroSlider slides={heroSlides.length ? heroSlides : undefined} />
 
-      {/* 1 KG Packages — Our Products (directly below Hero) */}
+      {/* KG Packages — Our Products (directly below Hero) */}
       <HomeKgPackages
-        items={kgItems}
+        sizes={kgSizes}
         title={kgSection.title}
         description={kgSection.description}
       />

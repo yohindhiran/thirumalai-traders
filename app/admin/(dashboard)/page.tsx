@@ -50,7 +50,7 @@ export default function AdminDashboardPage() {
     { label: "Total Categories", value: db.categories.length, icon: FolderTree, href: "/admin/dashboard/categories" },
     { label: "Most Selling", value: db.mostSelling.length, icon: Flame, href: "/admin/dashboard/most-selling" },
     { label: "Our Products", value: db.ourProducts.length, icon: LayoutGrid, href: "/admin/dashboard/our-products" },
-    { label: "1 KG Packages", value: (db.kgPackages ?? []).length, icon: Package, href: "/admin/dashboard/kg-packages" },
+    { label: "KG Packages", value: (db.kgPackageSizes ?? db.kgPackages ?? []).length, icon: Package, href: "/admin/dashboard/kg-packages" },
     { label: "Testimonials", value: activeTestimonials, icon: MessageSquareQuote, href: "/admin/dashboard/testimonials" },
     { label: "Valued Customers", value: activeCustomers, icon: Users, href: "/admin/dashboard/customers" },
     { label: "Total Enquiries", value: enquiries.length, icon: Inbox, href: "/admin/dashboard/enquiries" },

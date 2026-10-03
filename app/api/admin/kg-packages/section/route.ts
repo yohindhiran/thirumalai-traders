@@ -12,9 +12,9 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 /**
- * Standalone copy settings for the Home "1 KG PACKAGES" section.
+ * Standalone copy settings for the Home "KG PACKAGES" section.
  * Independent from every other section — edits here only ever change the
- * 1 KG Packages block on the Home page.
+ * KG Packages block on the Home page.
  */
 export async function GET() {
   if (!(await isAdmin())) {

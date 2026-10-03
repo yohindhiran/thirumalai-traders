@@ -123,7 +123,7 @@ export interface ProductRef {
 }
 
 /**
- * 1 KG Packages home-section membership. References a master product by id
+ * KG Packages home-section membership. References a master product by id
  * (single source of truth — no duplicated product records) while keeping its
  * own enabled/disabled state, display order and optional display overrides.
  * Deleting an entry removes it from the section only, never the master product.
@@ -134,8 +134,21 @@ export interface KgPackageRef extends ProductRef {
 }
 
 /**
- * Standalone configuration for the Home "1 KG PACKAGES" section.
- * Owned exclusively by the "1 KG Packages" admin page — nothing else reads
+ * A generic KG package size (e.g. "1 KG", "5 KG", "1.5 KG"). Each size owns
+ * its own product refs independently from the main Products catalogue,
+ * Bestsellers and Product Categories.
+ */
+export interface KgPackageSize {
+  id: string;
+  name: string;
+  status: ProductStatus;
+  displayOrder: number;
+  items: KgPackageRef[];
+}
+
+/**
+ * Standalone configuration for the Home "KG PACKAGES" section.
+ * Owned exclusively by the "KG Packages" admin page — nothing else reads
  * or writes these values, so edits here can never affect Bestsellers,
  * Product Categories or the main Products catalogue.
  */
@@ -226,7 +239,9 @@ export interface DbData {
   valuedCustomers: ValuedCustomer[];
   mostSelling: ProductRef[];
   ourProducts: ProductRef[];
-  kgPackages: KgPackageRef[];
+  kgPackageSizes: KgPackageSize[];
+  /** @deprecated Legacy flat 1 KG list. Kept as a mirror of the "1 KG" size for backward compatibility. */
+  kgPackages?: KgPackageRef[];
   kgPackagesSection: KgPackagesSection;
   faqs: Faq[];
   about: AboutContent;

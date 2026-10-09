@@ -18,6 +18,11 @@ const config: Config = {
           soft: "#F7F8F5",
           line: "#E5E7EB",
           muted: "#667085",
+          /* Coordinated light neutrals for soft tinted section backgrounds.
+             Product imagery always sits on white so it stays clear. */
+          cream: "#FDF9EF",
+          mist: "#EDF5EE",
+          sand: "#FAF3E2",
         },
       },
       fontFamily: {

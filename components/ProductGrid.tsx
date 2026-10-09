@@ -20,20 +20,18 @@ export default function ProductGrid({
   if (!products.length) return null;
 
   return (
-    <section className="section-pad bg-brand-soft">
+    <section className="section-pad bg-gradient-to-b from-brand-soft via-white to-white">
       <div className="container-site">
         <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green sm:text-sm">
-              <span
-                aria-hidden="true"
-                className="h-px w-6 bg-brand-gold-dark"
-              />
+            <p className="eyebrow mb-3">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-teal-500" />
               Browse Other Products
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
               Our Products
             </h2>
+            <span aria-hidden="true" className="accent-line mb-1 mt-4" />
           </div>
           <Link href="#categories" className="btn-primary shrink-0 self-start sm:self-auto">
             View All Products
@@ -51,7 +49,7 @@ export default function ProductGrid({
                 };
             return (
               <li key={`${p.categorySlug}-${p.slug}`}>
-                <article className="card group flex h-full flex-col overflow-hidden rounded-xl transition-shadow hover:shadow-lift">
+                <article className="card-lift group flex h-full flex-col overflow-hidden">
                   <Link
                     href={`/products/${p.categorySlug}/${p.slug}`}
                     className="relative block aspect-[4/3] overflow-hidden bg-white"
@@ -64,10 +62,7 @@ export default function ProductGrid({
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-x-0 bottom-0 h-1 bg-brand-gold opacity-0 transition-opacity group-hover:opacity-100"
-                    />
+                    <span aria-hidden="true" className="card-bar" />
                   </Link>
                   <div className="flex flex-1 flex-col p-4">
                     <Link
@@ -76,7 +71,7 @@ export default function ProductGrid({
                     >
                       {p.name}
                     </Link>
-                    <p className="mt-1 text-xs font-medium uppercase tracking-wider text-brand-green/80">
+                    <p className="mt-1 text-xs font-medium uppercase tracking-wider text-teal-700">
                       {p.categoryName}
                     </p>
                     <Link

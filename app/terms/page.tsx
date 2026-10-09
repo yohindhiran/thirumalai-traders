@@ -56,14 +56,17 @@ export default function TermsPage() {
         title={page?.heroTitle || "Terms & Conditions"}
         backgroundImage={page?.heroImage || "/images/hero-warehouse.jpg"}
       />
-      <section className="section-pad bg-white">
+      <section className="section-pad tint-fresh">
         <div className="container-site max-w-3xl">
-          {sections.map((s) => (
-            <div key={s.h} className="mb-8">
-              <h2 className="text-lg font-semibold text-brand-ink">{s.h}</h2>
-              <p className="mt-2 leading-relaxed text-brand-muted">{s.p}</p>
-            </div>
-          ))}
+          <div className="rounded-2xl border border-brand-line bg-white p-8 shadow-card ring-1 ring-emerald-100/50 sm:p-10">
+            <span aria-hidden="true" className="accent-line mb-8" />
+            {sections.map((s) => (
+              <div key={s.h} className="mb-8 last:mb-0">
+                <h2 className="text-lg font-semibold text-emerald-900">{s.h}</h2>
+                <p className="mt-2 leading-relaxed text-brand-muted">{s.p}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>

@@ -100,13 +100,13 @@ export default function IndustriesWeServePage() {
         backgroundImage={page?.heroImage || "/images/about-warehouse.jpg"}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad tint-fresh">
         <div className="container-site max-w-6xl">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
               {page?.sectionHeading || "Tailored Wholesale Supply Across Sectors"}
             </h2>
-            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="accent-line mx-auto mb-6 mt-4" />
             <p className="text-brand-muted leading-relaxed">
               {page?.sectionSubheading ||
                 "We cater to a wide range of commercial and institutional kitchens with reliable, volume-based grocery supply."}
@@ -114,18 +114,27 @@ export default function IndustriesWeServePage() {
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {industries.map((item) => (
+            {industries.map((item, idx) => (
               <article
                 key={item.title}
-                className="card flex flex-col overflow-hidden shadow-card"
+                className={`card-lift group flex flex-col overflow-hidden border-t-4 ${
+                  [
+                    "border-t-emerald-500",
+                    "border-t-amber-500",
+                    "border-t-teal-500",
+                    "border-t-orange-500",
+                    "border-t-sky-500",
+                    "border-t-rose-400",
+                  ][idx % 6]
+                }`}
               >
-                <div className="relative aspect-[16/10] w-full">
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-white">
                   <Image
                     src={item.image}
                     alt={item.alt}
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-6">
@@ -148,8 +157,11 @@ export default function IndustriesWeServePage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="section-pad bg-brand-green-deep">
-        <div className="container-site max-w-3xl text-center">
+      <section className="section-pad relative overflow-hidden bg-gradient-to-br from-brand-green-deep via-[#24432F] to-brand-green-deep">
+        <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-brand-gold/15 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl" />
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-brand-gold to-amber-500" />
+        <div className="container-site relative max-w-3xl text-center">
           <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
             Looking for a Reliable Wholesale Partner?
           </h2>

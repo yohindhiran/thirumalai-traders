@@ -19,17 +19,18 @@ export default function HomeTopSelling({
   items: HomeTopSellingItem[];
 }) {
   return (
-    <section className="section-pad bg-brand-soft">
+    <section className="section-pad tint-fresh">
       <div className="container-site">
         <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green sm:text-sm">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+            <p className="eyebrow">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Bestsellers
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
               Top Selling Wholesale Products
             </h2>
+            <span aria-hidden="true" className="accent-line mb-1 mt-4" />
             <p className="mt-3 max-w-2xl text-sm text-brand-muted sm:text-base">
               The most ordered items across canteens, institutions and bulk buyers —
               available at ready wholesale rates.
@@ -46,10 +47,10 @@ export default function HomeTopSelling({
             const imgSrc = p.image || DEFAULT_PRODUCT_IMAGE;
             return (
               <li key={`${p.categorySlug}-${p.slug}`}>
-                <article className="card group flex h-full flex-col overflow-hidden bg-white transition-shadow hover:shadow-lift">
+                <article className="card-lift group flex h-full flex-col overflow-hidden">
                   <Link
                     href={`/products/${p.categorySlug}/${p.slug}`}
-                    className="relative block aspect-[4/3] overflow-hidden bg-brand-soft"
+                    className="relative block aspect-[4/3] overflow-hidden bg-white"
                     aria-label={`View ${p.name}`}
                   >
                     <Image
@@ -59,13 +60,14 @@ export default function HomeTopSelling({
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-brand-gold px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-green-deep">
+                    <span className="absolute left-3 top-3 inline-flex items-center rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
                       Hot
                     </span>
+                    <span aria-hidden="true" className="card-bar" />
                   </Link>
 
                   <div className="flex flex-1 flex-col p-4 sm:p-5">
-                    <p className="text-[11px] font-semibold uppercase tracking-wider text-brand-green/80">
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-teal-700">
                       {p.categoryName || "Wholesale Grocery"}
                     </p>
                     <h3 className="mt-1 text-base font-semibold text-brand-ink line-clamp-1">

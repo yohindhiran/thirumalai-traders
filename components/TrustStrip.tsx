@@ -176,6 +176,13 @@ import { getContent } from "@/lib/db";
 
 const VISUALS = [ExperienceVisual, CustomersVisual, BulkVisual, DeliveryVisual];
 
+const TILE_TINTS = [
+  "bg-emerald-50 ring-emerald-200/70",
+  "bg-amber-50 ring-amber-200/70",
+  "bg-teal-50 ring-teal-200/70",
+  "bg-orange-50 ring-orange-200/70",
+];
+
 const DEFAULT_STATS = [
   { value: "25+", label: "Years Experience" },
   { value: "1000+", label: "Customers" },
@@ -194,13 +201,13 @@ export default function TrustStrip() {
         ? [...content.stats, ...DEFAULT_STATS].slice(0, 4)
         : DEFAULT_STATS;
   return (
-    <section aria-label="Company highlights" className="border-b border-brand-line bg-white">
+    <section aria-label="Company highlights" className="border-b border-brand-line bg-gradient-to-b from-brand-mist/70 to-white">
       <ul className="container-site grid grid-cols-2 gap-x-6 gap-y-8 py-10 lg:grid-cols-4 lg:py-12">
         {stats.map((item, i) => {
           const Visual = VISUALS[i % VISUALS.length];
           return (
           <li key={item.label + i} className="flex items-center gap-3.5 lg:justify-center">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center bg-transparent">
+            <span className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl ring-1 ${TILE_TINTS[i % TILE_TINTS.length]}`}>
               <Visual className="h-14 w-14" />
             </span>
             <span className="flex flex-col leading-tight">

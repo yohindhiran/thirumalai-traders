@@ -144,24 +144,24 @@ export default function QualityPage() {
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div aria-hidden="true" className="absolute inset-0 bg-brand-green-deep/60" />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-b from-brand-green-deep/70 via-brand-green-deep/55 to-emerald-950/65" />
         <div className="container-site relative flex flex-col items-center py-6 text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
+          <h1 className="text-2xl font-bold tracking-tight text-white drop-shadow-sm sm:text-3xl lg:text-4xl">
             Quality Assurance
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
             Fresh products, careful handling and dependable wholesale supply you can plan around.
           </p>
-          <span aria-hidden="true" className="mt-3 block h-1 w-14 bg-brand-gold" />
+          <span aria-hidden="true" className="mt-3 block h-1 w-14 rounded-full bg-gradient-to-r from-emerald-400 via-brand-gold to-amber-400" />
         </div>
       </section>
 
       {/* Introduction */}
-      <section className="section-pad bg-white">
+      <section className="section-pad tint-fresh">
         <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+            <p className="eyebrow mb-3">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Our Approach to Quality
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
@@ -183,7 +183,7 @@ export default function QualityPage() {
               </p>
             </div>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lift ring-1 ring-emerald-100">
             <Image
               src="/images/hero-warehouse.jpg"
               alt="Wholesale grocery stock stored at Thirumalaai Traders"
@@ -196,24 +196,32 @@ export default function QualityPage() {
       </section>
 
       {/* Quality process */}
-      <section className="section-pad bg-brand-soft">
+      <section className="section-pad bg-gradient-to-b from-brand-soft via-white to-white">
         <div className="container-site">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+            <p className="eyebrow mb-3">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-teal-500" />
               How We Work
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
               Our Quality Process
             </h2>
-            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="accent-line mx-auto mb-6 mt-4" />
           </div>
           <ol className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {steps.map((s) => (
+            {steps.map((s, idx) => (
               <li
                 key={s.no}
-                className="card overflow-hidden border-t-2 border-t-brand-gold"
+                className={`card-lift overflow-hidden border-t-4 ${
+                  [
+                    "border-t-emerald-500",
+                    "border-t-amber-500",
+                    "border-t-teal-500",
+                    "border-t-orange-500",
+                    "border-t-sky-500",
+                    "border-t-rose-400",
+                  ][idx % 6]
+                }`}
               >
                 {s.image ? (
                   <div className="relative aspect-[16/9] w-full">
@@ -227,7 +235,7 @@ export default function QualityPage() {
                   </div>
                 ) : null}
                 <div className="p-6 sm:p-8">
-                  <span aria-hidden="true" className="text-3xl font-bold tracking-tight text-brand-gold-dark">
+                  <span aria-hidden="true" className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-teal-600 text-lg font-bold text-white shadow-sm">
                     {s.no}
                   </span>
                   <h3 className="mt-4 text-lg font-bold text-brand-ink">{s.title}</h3>
@@ -240,17 +248,29 @@ export default function QualityPage() {
       </section>
 
       {/* Quality commitments */}
-      <section className="section-pad bg-white">
+      <section className="section-pad tint-warm">
         <div className="container-site">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
               Our Quality Commitments
             </h2>
-            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="accent-line mx-auto mb-6 mt-4" />
           </div>
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {commitments.map((c) => (
-              <div key={c.title} className="card border-t-2 border-t-brand-gold p-6">
+            {commitments.map((c, idx) => (
+              <div
+                key={c.title}
+                className={`card-lift border-t-4 p-6 ${
+                  [
+                    "border-t-emerald-500",
+                    "border-t-amber-500",
+                    "border-t-teal-500",
+                    "border-t-orange-500",
+                    "border-t-sky-500",
+                    "border-t-rose-400",
+                  ][idx % 6]
+                }`}
+              >
                 <h3 className="font-semibold text-brand-ink">{c.title}</h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-brand-muted">{c.desc}</p>
               </div>
@@ -260,11 +280,11 @@ export default function QualityPage() {
       </section>
 
       {/* Product quality across categories */}
-      <section className="section-pad bg-brand-soft">
+      <section className="section-pad tint-cool">
         <div className="container-site grid items-start gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
           <div className="lg:sticky lg:top-32">
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+            <p className="eyebrow mb-3">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-sky-500" />
               Across Our Range
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
@@ -278,8 +298,8 @@ export default function QualityPage() {
           </div>
           <ul className="space-y-4">
             {CATEGORY_SEEDS.map((c) => (
-              <li key={c.slug} className="card flex items-center gap-4 p-4">
-                <span className="relative block h-16 w-20 shrink-0 overflow-hidden rounded-sm">
+              <li key={c.slug} className="card-lift flex items-center gap-4 p-4">
+                <span className="relative block h-16 w-20 shrink-0 overflow-hidden rounded-lg ring-1 ring-brand-line/60">
                   <Image
                     src={CATEGORY_IMAGES[c.slug]}
                     alt=""
@@ -308,7 +328,7 @@ export default function QualityPage() {
       {/* Bulk order quality */}
       <section className="section-pad bg-white">
         <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative order-last aspect-[4/3] overflow-hidden rounded-md lg:order-first">
+          <div className="relative order-last aspect-[4/3] overflow-hidden rounded-2xl shadow-lift ring-1 ring-amber-100 lg:order-first">
             <Image
               src="/images/hero-rice.jpg"
               alt="Bulk rice prepared for large institutional orders"
@@ -318,8 +338,8 @@ export default function QualityPage() {
             />
           </div>
           <div>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+            <p className="eyebrow-amber mb-3">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber-500" />
               Bulk Requirements
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
@@ -328,7 +348,7 @@ export default function QualityPage() {
             <ul className="mt-6 space-y-3.5">
               {BULK_POINTS.map((point) => (
                 <li key={point} className="flex gap-3 text-sm leading-relaxed text-brand-muted sm:text-base">
-                  <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold-dark" />
+                  <span aria-hidden="true" className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-gradient-to-br from-amber-500 to-orange-500" />
                   {point}
                 </li>
               ))}
@@ -338,9 +358,12 @@ export default function QualityPage() {
       </section>
 
       {/* Trust section */}
-      <section className="section-pad bg-brand-green-deep">
-        <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+      <section className="section-pad relative overflow-hidden bg-gradient-to-br from-brand-green-deep via-[#24432F] to-brand-green-deep">
+        <div aria-hidden="true" className="pointer-events-none absolute -left-20 top-0 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 right-0 h-64 w-64 rounded-full bg-brand-gold/15 blur-3xl" />
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-brand-gold to-amber-500" />
+        <div className="container-site relative grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lift ring-1 ring-white/25">
             <Image
               src="/images/hero-spices.jpg"
               alt="Wholesale spices supplied with dependable quality"
@@ -353,7 +376,7 @@ export default function QualityPage() {
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
               Quality You Can Rely On
             </h2>
-            <span aria-hidden="true" className="mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="mb-6 mt-4 block h-1 w-14 rounded-full bg-gradient-to-r from-emerald-400 via-brand-gold to-amber-400" />
             <p className="leading-relaxed text-white/85">
               Long-term customer relationships are built on dependable
               products, consistent service and timely supply. That is how

@@ -14,10 +14,10 @@ function PersonCard({
   phone: string;
 }) {
   return (
-    <div className="card flex flex-wrap items-center justify-between gap-3 p-5">
+    <div className="card-lift flex flex-wrap items-center justify-between gap-3 p-5">
       <div>
         <p className="font-semibold text-brand-ink">{name}</p>
-        {role && <p className="text-sm text-brand-muted">{role}</p>}
+        {role && <p className="mt-0.5 text-sm text-brand-muted">{role}</p>}
       </div>
       <a
         href={telHref(phone)}
@@ -61,15 +61,16 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
   const team = (contact.team || []).filter((m: any) => m && m.name && m.phone);
 
   return (
-    <section className="section-pad">
+    <section className="section-pad tint-fresh">
       <div className="container-site">
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-10">
             <div>
               <h2 className="text-2xl font-bold text-brand-ink">Reach Us</h2>
+              <span aria-hidden="true" className="accent-line mb-2 mt-3" />
               <ul className="mt-6 space-y-5">
                 <li className="flex gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-brand-green/10 text-brand-green">
+                  <span className="icon-tile-emerald">
                     <MapPin className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <address className="not-italic leading-relaxed text-brand-muted">
@@ -82,7 +83,7 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
                   </address>
                 </li>
                 <li className="flex gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-brand-green/10 text-brand-green">
+                  <span className="icon-tile-amber">
                     <Mail className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <a
@@ -93,7 +94,7 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
                   </a>
                 </li>
                 <li className="flex gap-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-[#25D366]/15 text-[#1da851]">
+                  <span className="icon-tile-teal">
                     <MessageCircle className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <a
@@ -141,8 +142,9 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
           </div>
 
           {withForm && (
-            <div>
+            <div className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-white to-brand-mist/60 p-6 shadow-card sm:p-8">
               <h2 className="text-2xl font-bold text-brand-ink">Send an Enquiry</h2>
+              <span aria-hidden="true" className="accent-line mb-2 mt-3" />
               <p className="mb-8 mt-2 text-brand-muted">
                 Fill in your requirement and our team will respond with wholesale pricing details.
               </p>
@@ -151,7 +153,7 @@ export default function ContactSection({ withForm = true }: { withForm?: boolean
           )}
         </div>
 
-        <div className="mt-14 overflow-hidden rounded-lg border border-brand-line">
+        <div className="mt-14 overflow-hidden rounded-2xl shadow-lift ring-1 ring-emerald-100">
           <iframe
             title={`Map showing location of ${companyName} in Karungalpalayam, Erode`}
             src={mapSrc(contact.mapsLink)}

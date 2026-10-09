@@ -9,12 +9,12 @@ export default function CategoryGrid() {
   const categories = db.categories.filter((c) => c.status === "active");
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 bg-white">
+    <section className="py-12 sm:py-14 lg:py-16 tint-warm">
       <div className="container-site">
         <h2 className="text-center text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
           Product Categories
         </h2>
-        <span aria-hidden="true" className="mx-auto mt-5 block h-1 w-14 bg-brand-gold" />
+        <span aria-hidden="true" className="accent-line mx-auto mb-2 mt-5" />
 
         <ul className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {categories.map((cat) => {
@@ -29,26 +29,25 @@ export default function CategoryGrid() {
               <li key={cat.id}>
                 <Link
                   href={`/products/${cat.slug}`}
-                  className="card group block overflow-hidden transition-shadow hover:shadow-card"
+                  className="card-lift group block overflow-hidden"
                 >
-                  <div className="relative h-44 overflow-hidden">
+                  <div className="relative h-44 overflow-hidden bg-white">
                     <Image
                       src={img.src}
                       alt={img.alt}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-x-0 bottom-0 h-1 bg-brand-gold opacity-0 transition-opacity group-hover:opacity-100"
-                    />
+                    <span aria-hidden="true" className="card-bar" />
                   </div>
                   <div className="p-5">
-                    <h3 className="text-lg font-semibold text-brand-green">{cat.name}</h3>
+                    <h3 className="text-lg font-semibold text-emerald-800">{cat.name}</h3>
                     {count > 0 && (
-                      <p className="mt-1 text-sm text-brand-muted">
-                        {count}+ Products
+                      <p className="mt-2">
+                        <span className="chip-soft">
+                          {count}+ Products
+                        </span>
                       </p>
                     )}
                     <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-green">

@@ -3,13 +3,13 @@ import { Home, PackageSearch } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <section className="section-pad bg-brand-soft">
+    <section className="section-pad tint-warm">
       <div className="container-site max-w-xl py-16 text-center">
-        <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-green/10 text-brand-green">
+        <span className="icon-soft-emerald mx-auto !h-16 !w-16 !rounded-2xl">
           <PackageSearch className="h-8 w-8" aria-hidden="true" />
         </span>
-        <p className="mt-6 text-sm font-bold uppercase tracking-widest text-brand-gold-dark">
-          Error 404
+        <p className="mt-6">
+          <span className="chip-soft">Error 404</span>
         </p>
         <h1 className="mt-2 text-4xl font-bold tracking-tight text-brand-ink">
           Page Not Found

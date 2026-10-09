@@ -10,6 +10,27 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Guarantee normal vertical page scrolling. Only clip horizontal
+   overflow (prevents stray wide elements causing sideways scroll)
+   while keeping `overflow-y` free so no section can lock the page.
+   `clip` (instead of `hidden`) preserves `position: sticky`. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  min-height: 100dvh;
+  overflow-y: auto;
+  overflow-x: clip;
+}
+
+main {
+  display: block;
+  min-width: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -35,15 +56,15 @@ html {
   }
 
   .btn-primary {
-    @apply btn bg-brand-green text-white hover:bg-brand-green-dark;
+    @apply btn bg-brand-green text-white shadow-sm hover:bg-brand-green-dark hover:shadow;
   }
 
   .btn-outline {
-    @apply btn border border-brand-line bg-white text-brand-ink hover:border-brand-green hover:text-brand-green;
+    @apply btn border border-brand-line bg-white text-brand-ink hover:border-brand-green hover:text-brand-green hover:shadow-sm;
   }
 
   .btn-gold {
-    @apply btn bg-brand-gold text-brand-green-deep hover:bg-brand-gold-dark;
+    @apply btn bg-brand-gold text-brand-green-deep shadow-sm hover:bg-brand-gold-dark hover:shadow;
   }
 
   .section-pad {
@@ -52,6 +73,104 @@ html {
 
   .card {
     @apply rounded border border-brand-line bg-white;
+  }
+
+  /* ---- Shared colour design tokens (coordinated premium palette) ----
+     Emerald + teal + warm amber accents on light neutrals, keeping the
+     green/gold brand identity. Section tints stay subtle; product cards
+     stay white so imagery remains clear. */
+
+  /* Pill eyebrow badge for section headings (on light backgrounds). */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-emerald-700 ring-1 ring-emerald-100;
+  }
+
+  .eyebrow-amber {
+    @apply inline-flex items-center gap-2 rounded-full bg-amber-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-amber-800 ring-1 ring-amber-100;
+  }
+
+  /* Pill eyebrow badge for dark green sections. */
+  .eyebrow-on-dark {
+    @apply inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-brand-gold ring-1 ring-white/20;
+  }
+
+  /* Gradient section accent rule. Add `mx-auto` at use-site to center. */
+  .accent-line {
+    @apply block h-1 w-14 rounded-full bg-gradient-to-r from-emerald-500 via-amber-400 to-amber-500;
+  }
+
+  /* Subtle tinted section backgrounds — alternate across sections. */
+  .tint-fresh {
+    @apply bg-gradient-to-b from-brand-mist/80 via-white to-white;
+  }
+
+  .tint-warm {
+    @apply bg-gradient-to-b from-brand-cream via-white to-white;
+  }
+
+  .tint-cool {
+    @apply bg-gradient-to-b from-sky-50/70 via-white to-white;
+  }
+
+  /* Colourful icon tile (white glyph on saturated, high-contrast bg). */
+  .icon-tile {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-sm;
+  }
+
+  .icon-tile-emerald {
+    @apply icon-tile bg-emerald-600;
+  }
+
+  .icon-tile-amber {
+    @apply icon-tile bg-amber-600;
+  }
+
+  .icon-tile-teal {
+    @apply icon-tile bg-teal-600;
+  }
+
+  .icon-tile-orange {
+    @apply icon-tile bg-orange-600;
+  }
+
+  /* Soft tinted tile behind a dark-green glyph (high contrast on light bg). */
+  .icon-soft {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-sm ring-1;
+  }
+
+  .icon-soft-emerald {
+    @apply icon-soft bg-emerald-50 text-emerald-700 ring-emerald-100;
+  }
+
+  .icon-soft-amber {
+    @apply icon-soft bg-amber-50 text-amber-700 ring-amber-100;
+  }
+
+  .icon-soft-teal {
+    @apply icon-soft bg-teal-50 text-teal-700 ring-teal-100;
+  }
+
+  .icon-soft-orange {
+    @apply icon-soft bg-orange-50 text-orange-700 ring-orange-100;
+  }
+
+  /* Small count/status pill. */
+  .chip-soft {
+    @apply inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-800 ring-1 ring-amber-100;
+  }
+
+  .chip-soft-emerald {
+    @apply inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-100;
+  }
+
+  /* Product/content card with tasteful hover lift. Imagery stays on white. */
+  .card-lift {
+    @apply rounded-xl border border-brand-line bg-white shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200 hover:shadow-lift;
+  }
+
+  /* Gradient hover bar revealed at a card image foot. */
+  .card-bar {
+    @apply pointer-events-none absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-emerald-500 via-amber-400 to-orange-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100;
   }
 
   .input {
@@ -75,6 +194,33 @@ html {
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Horizontal roadmap / timeline scroller. Vertical page scroll is
+     untouched; only this strip scrolls on the x-axis with snap. */
+  .roadmap-scroll {
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #356747 #ede9e1;
+  }
+
+  .roadmap-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .roadmap-scroll::-webkit-scrollbar-track {
+    background: #ede9e1;
+    border-radius: 9999px;
+  }
+
+  .roadmap-scroll::-webkit-scrollbar-thumb {
+    background: #356747;
+    border-radius: 9999px;
+  }
+
+  .roadmap-scroll > * {
+    scroll-snap-align: start;
   }
 
   .animate-fade-up {

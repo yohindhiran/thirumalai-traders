@@ -71,7 +71,7 @@ export default function AnnouncementBar() {
 
   return (
     <div
-      className="relative z-50 border-b border-brand-gold/40 bg-brand-green-deep text-white"
+      className="relative z-50 border-b border-brand-gold/30 bg-gradient-to-r from-brand-green-deep via-[#24432F] to-brand-green-deep text-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >

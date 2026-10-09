@@ -1,10 +1,23 @@
 import Image from "next/image";
-import { Compass, Handshake, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Award,
+  Compass,
+  Eye,
+  Handshake,
+  Heart,
+  ShieldCheck,
+  Target,
+} from "lucide-react";
 import PageHero from "@/components/PageHero";
+import AboutRoadmap from "@/components/AboutRoadmap";
 import { CORE_VALUES, MISSION, VISION } from "@/data/site";
 import { getAbout, getActiveTestimonials } from "@/lib/db";
+import { getMilestones } from "@/lib/milestones";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import Testimonials from "@/components/Testimonials";
+import { cn } from "@/lib/utils";
 
 export const metadata = pageMetadata({
   title: "About Us – Wholesale Grocery Supplier in Erode",
@@ -16,27 +29,42 @@ export const metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+// Short, scannable defaults — same facts, fewer words.
 const DEFAULT_APPROACH = [
   {
     icon: ShieldCheck,
     title: "Quality Commitment",
-    desc: "We source carefully, check consistently and pack hygienically so every delivery meets the standard your kitchen depends on.",
+    desc: "Careful sourcing, consistent checks and hygienic packing in every delivery.",
   },
   {
     icon: Handshake,
     title: "Customer Relationships",
-    desc: "We believe wholesale is a partnership business. We invest in understanding each customer's requirements, schedules and volumes.",
+    desc: "A partnership approach — we learn your volumes, schedules and needs.",
   },
   {
     icon: Compass,
     title: "Business Approach",
-    desc: "Honest pricing, dependable supply and long-term thinking — the principles that have carried us for over two decades.",
+    desc: "Honest pricing, dependable supply and long-term thinking for 25+ years.",
   },
 ];
 
 const DEFAULT_WHO_WE_ARE = [
-  "Thirumalaai Traders is a trusted wholesale grocery supplier based in Karungalpalayam, Erode, Tamil Nadu. For over 25 years we have been supplying grocery and food products to a wide range of customers — school and college canteens, industrial kitchens, mills, grocery shops and bulk buyers.",
-  "Our approach has always been relationship-first. Many of our customers have been with us for years because we consistently deliver on three things: quality products, competitive wholesale pricing and dependable, timely supply.",
+  "Thirumalaai Traders is a trusted wholesale grocery supplier in Karungalpalayam, Erode — serving canteens, mills, shops and bulk buyers for 25+ years.",
+  "Relationship-first and dependable: quality products, fair wholesale pricing and on-time supply.",
+];
+
+const APPROACH_ACCENTS = [
+  "bg-emerald-600",
+  "bg-amber-600",
+  "bg-teal-600",
+];
+
+const VALUE_ACCENTS = [
+  { bar: "border-t-emerald-500", iconBg: "bg-emerald-50", iconText: "text-emerald-700", icon: ShieldCheck },
+  { bar: "border-t-amber-500", iconBg: "bg-amber-50", iconText: "text-amber-700", icon: Heart },
+  { bar: "border-t-teal-500", iconBg: "bg-teal-50", iconText: "text-teal-700", icon: Award },
+  { bar: "border-t-orange-500", iconBg: "bg-orange-50", iconText: "text-orange-700", icon: Handshake },
+  { bar: "border-t-sky-500", iconBg: "bg-sky-50", iconText: "text-sky-700", icon: Target },
 ];
 
 export default function AboutPage() {
@@ -66,6 +94,8 @@ export default function AboutPage() {
       }))
     : DEFAULT_APPROACH;
 
+  const milestones = getMilestones();
+
   return (
     <>
       <JsonLd
@@ -80,28 +110,42 @@ export default function AboutPage() {
 
       {/* Who We Are */}
       <section className="section-pad bg-white">
-        <div className="container-site grid items-start gap-12 lg:grid-cols-2">
+        <div className="container-site grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
+            <p className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold uppercase tracking-widest text-emerald-700">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
               Who We Are
+            </p>
+            <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink">
+              25+ Years of Wholesale Trust in Erode
             </h2>
-            <span aria-hidden="true" className="mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="mb-5 mt-4 block h-1 w-14 rounded-full bg-gradient-to-r from-emerald-500 to-amber-400" />
             <div className="prose-site">
               {whoWeAre.map((p: string, i: number) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {["25+ Years", "Erode, Tamil Nadu", "Institutions & Bulk Buyers"].map((chip) => (
+                <span
+                  key={chip}
+                  className="inline-flex items-center rounded-full border border-brand-line bg-brand-soft px-3 py-1 text-xs font-semibold text-brand-ink"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <ul className="space-y-5">
-            {approach.map((a) => (
-              <li key={a.title} className="card flex gap-4 p-6">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-brand-green/10 text-brand-green">
+          <ul className="space-y-4">
+            {approach.map((a, i) => (
+              <li key={a.title} className="card flex gap-4 p-5 shadow-card">
+                <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-sm", APPROACH_ACCENTS[i % APPROACH_ACCENTS.length])}>
                   <a.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
                   <h3 className="font-semibold text-brand-ink">{a.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-brand-muted">{a.desc}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-brand-muted">{a.desc}</p>
                 </div>
               </li>
             ))}
@@ -109,20 +153,53 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Journey — horizontal roadmap */}
+      <section className="section-pad bg-gradient-to-b from-emerald-50/70 via-white to-amber-50/60">
+        <div className="container-site">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-widest text-emerald-700 shadow-sm ring-1 ring-emerald-100">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber-500" />
+              Our Journey
+            </p>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight text-brand-ink sm:text-3xl">
+              From a Small Shop to a Trusted Partner
+            </h2>
+            <span aria-hidden="true" className="mx-auto mb-4 mt-4 block h-1 w-14 rounded-full bg-gradient-to-r from-emerald-500 via-amber-400 to-rose-400" />
+            <p className="text-sm leading-relaxed text-brand-muted sm:text-base">
+              25+ years of growth with our customers, team and community — built on quality and reliability.
+            </p>
+          </div>
+
+          <div className="mt-8">
+            <AboutRoadmap milestones={milestones} />
+          </div>
+
+          <div className="mt-4 text-center">
+            <Link
+              href="/history"
+              className="btn-outline !py-2.5"
+            >
+              View Our Full History
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Vision */}
-      <section className="section-pad bg-brand-soft">
-        <div className="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <p className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+      <section className="section-pad bg-white">
+        <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          <div className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50/60 p-7 sm:p-9">
+            <p className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-3 py-1 text-xs font-bold uppercase tracking-widest text-white">
+              <Eye className="h-3.5 w-3.5" aria-hidden="true" />
               Our Vision
             </p>
-            <blockquote className="text-base font-normal not-italic leading-relaxed tracking-normal text-brand-muted sm:text-lg">
+            <blockquote className="mt-4 text-base font-normal leading-relaxed text-brand-ink sm:text-lg">
               &ldquo;{vision}&rdquo;
             </blockquote>
-            <span aria-hidden="true" className="mt-8 block h-1 w-16 bg-brand-gold" />
+            <span aria-hidden="true" className="mt-6 block h-1 w-16 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" />
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lift">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-lift ring-1 ring-emerald-100">
             <Image
               src={about.visionImage || "/images/about-warehouse.jpg"}
               alt="Bulk grocery stock inside the Thirumalaai Traders warehouse"
@@ -135,9 +212,9 @@ export default function AboutPage() {
       </section>
 
       {/* Mission */}
-      <section className="section-pad bg-white">
-        <div className="container-site grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="relative order-last aspect-[4/3] overflow-hidden rounded-2xl shadow-lift lg:order-first">
+      <section className="section-pad bg-gradient-to-b from-amber-50/70 to-white">
+        <div className="container-site grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          <div className="relative order-last aspect-[4/3] overflow-hidden rounded-2xl shadow-lift ring-1 ring-amber-100 lg:order-first">
             <Image
               src={about.missionImage || "/images/hero-spices.jpg"}
               alt="Assorted wholesale spices supplied by Thirumalaai Traders"
@@ -147,19 +224,18 @@ export default function AboutPage() {
             />
           </div>
           <div>
-            <p className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+            <p className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold uppercase tracking-widest text-amber-800">
+              <Target className="h-3.5 w-3.5" aria-hidden="true" />
               Our Mission
             </p>
-            <ul className="space-y-4">
+            <ul className="mt-5 space-y-3">
               {mission.map((m: any) => (
-                <li key={m} className="flex gap-3 leading-relaxed text-brand-muted">
-                  <span aria-hidden="true" className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-gold-dark" />
-                  {m}
+                <li key={m} className="flex gap-3 rounded-xl border border-brand-line bg-white p-4 leading-relaxed text-brand-ink shadow-card">
+                  <span aria-hidden="true" className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full bg-gradient-to-br from-amber-500 to-orange-500" />
+                  <span className="text-sm sm:text-[15px]">{m}</span>
                 </li>
               ))}
             </ul>
-            <span aria-hidden="true" className="mt-8 block h-1 w-16 bg-brand-gold" />
           </div>
         </div>
       </section>
@@ -175,16 +251,27 @@ export default function AboutPage() {
       {/* Core Values */}
       <section className="section-pad bg-brand-soft">
         <div className="container-site">
-          <h2 className="text-center text-2xl font-bold text-brand-ink sm:text-3xl">
+          <p className="text-center text-xs font-bold uppercase tracking-widest text-emerald-700">
+            What Guides Us
+          </p>
+          <h2 className="mt-2 text-center text-2xl font-bold text-brand-ink sm:text-3xl">
             Core Values
           </h2>
-          <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {coreValues.map((v: any) => (
-              <li key={v.title} className="card border-t-2 border-t-brand-gold p-6 text-center">
-                <h3 className="font-semibold text-brand-ink">{v.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-brand-muted">{v.desc}</p>
-              </li>
-            ))}
+          <span aria-hidden="true" className="mx-auto mb-2 mt-4 block h-1 w-14 rounded-full bg-gradient-to-r from-emerald-500 to-amber-400" />
+          <ul className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            {coreValues.map((v: any, i: number) => {
+              const accent = VALUE_ACCENTS[i % VALUE_ACCENTS.length];
+              const Icon = accent.icon;
+              return (
+                <li key={v.title} className={cn("card border-t-4 p-6 text-center shadow-card", accent.bar)}>
+                  <span className={cn("mx-auto flex h-11 w-11 items-center justify-center rounded-xl", accent.iconBg, accent.iconText)}>
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-3 font-semibold text-brand-ink">{v.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-brand-muted">{v.desc}</p>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>

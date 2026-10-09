@@ -84,9 +84,12 @@ export default function Home() {
       <CategoryGrid />
 
       {/* About section */}
-      <section className="section-pad bg-brand-green-deep">
-        <div className="container-site grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-          <div className="relative overflow-hidden rounded-xl">
+      <section className="section-pad relative overflow-hidden bg-gradient-to-br from-brand-green-deep via-[#24432F] to-brand-green-deep">
+        <div aria-hidden="true" className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-emerald-500/20 blur-3xl" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-brand-gold/15 blur-3xl" />
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-brand-gold to-amber-500" />
+        <div className="container-site relative grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <div className="relative overflow-hidden rounded-2xl shadow-lift ring-1 ring-white/25">
             <Image
               src={content.homeAboutImage || "/images/about-warehouse.jpg"}
               alt="Thirumalaai Traders warehouse and operations"
@@ -95,10 +98,11 @@ export default function Home() {
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="h-64 w-full object-cover sm:h-80 lg:h-[320px]"
             />
+            <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-emerald-400 via-brand-gold to-amber-400" />
           </div>
           <div>
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-gold">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold" />
+            <p className="eyebrow-on-dark">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-brand-gold" />
               About Us
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">

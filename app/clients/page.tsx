@@ -122,13 +122,13 @@ export default function ClientsPage() {
         backgroundImage={page?.heroImage || "/images/hero-warehouse.jpg"}
       />
 
-      <section className="section-pad bg-white">
+      <section className="section-pad tint-fresh">
         <div className="container-site max-w-5xl">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-brand-ink">
               {page?.sectionHeading || "Trusted by Leading Institutions & Businesses"}
             </h2>
-            <span aria-hidden="true" className="mx-auto mb-6 mt-4 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="accent-line mx-auto mb-6 mt-4" />
             <p className="text-brand-muted">
               {page?.sectionSubheading ||
                 "For over two decades, we have built lasting relationships by consistently supplying quality wholesale goods on schedule."}
@@ -140,22 +140,22 @@ export default function ClientsPage() {
           <div className="relative mt-16">
             <span
               aria-hidden="true"
-              className="absolute bottom-2 left-[7px] top-2 w-0.5 bg-brand-gold/60 lg:hidden"
+              className="absolute bottom-2 left-[7px] top-2 w-1 rounded-full bg-gradient-to-b from-emerald-500 via-amber-400 to-teal-500 lg:hidden"
             />
             <span
               aria-hidden="true"
-              className="absolute bottom-2 left-1/2 top-2 hidden w-0.5 -translate-x-1/2 bg-brand-gold/60 lg:block"
+              className="absolute bottom-2 left-1/2 top-2 hidden w-1 -translate-x-1/2 rounded-full bg-gradient-to-b from-emerald-500 via-amber-400 to-teal-500 lg:block"
             />
             <ol className="space-y-12 lg:space-y-16">
               {list.map((client, index: number) => (
                 <li key={index} className="relative pl-10 lg:pl-0">
                   <span
                     aria-hidden="true"
-                    className="absolute left-0 top-2 h-4 w-4 rounded-full border-2 border-brand-gold-dark bg-brand-green lg:hidden"
+                    className="absolute left-0 top-2 h-4 w-4 rounded-full border-2 border-white bg-gradient-to-br from-emerald-500 to-teal-600 shadow-sm ring-2 ring-emerald-200 lg:hidden"
                   />
                   <span
                     aria-hidden="true"
-                    className="absolute left-1/2 top-1 hidden h-4 w-4 -translate-x-1/2 rounded-full border-2 border-brand-gold-dark bg-brand-green lg:block"
+                    className="absolute left-1/2 top-1 hidden h-4 w-4 -translate-x-1/2 rounded-full border-2 border-white bg-gradient-to-br from-emerald-500 to-teal-600 shadow-sm ring-2 ring-emerald-200 lg:block"
                   />
                   <div
                     className={`grid items-center gap-6 lg:grid-cols-2 lg:gap-16 ${
@@ -172,16 +172,16 @@ export default function ClientsPage() {
                           className="mb-3 h-10 w-auto object-contain"
                         />
                       )}
-                      <p className="text-xs font-semibold uppercase tracking-widest text-brand-green">
+                      <p className="chip-soft-emerald text-[11px] uppercase tracking-widest">
                         Bulk Wholesale Partner
                       </p>
                       <h3 className="mt-2 text-2xl font-bold tracking-tight text-brand-ink">
                         {client.name}
                       </h3>
-                      <span aria-hidden="true" className="mb-4 mt-3 block h-1 w-12 bg-brand-gold" />
+                      <span aria-hidden="true" className="accent-line mb-4 mt-3" />
                       <p className="leading-relaxed text-brand-muted">{client.desc}</p>
                     </div>
-                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md bg-brand-soft">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-brand-line">
                       <Image
                         src={client.image}
                         alt={client.name}

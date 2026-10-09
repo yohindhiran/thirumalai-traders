@@ -60,8 +60,10 @@ export default function EnquiryForm() {
 
   if (status === "success") {
     return (
-      <div className="card mx-auto max-w-xl p-10 text-center">
-        <CheckCircle2 className="mx-auto h-14 w-14 text-brand-green" aria-hidden="true" />
+      <div className="card mx-auto max-w-xl p-10 text-center shadow-card ring-1 ring-emerald-100/60">
+        <span className="icon-soft-emerald mx-auto !h-16 !w-16 !rounded-2xl">
+          <CheckCircle2 className="mx-auto h-8 w-8" aria-hidden="true" />
+        </span>
         <h2 className="mt-5 text-2xl font-bold text-brand-ink">Enquiry Received</h2>
         <p className="mt-3 leading-relaxed text-brand-muted">
           Thank you for your interest in Thirumalaai Traders. Your wholesale enquiry
@@ -80,7 +82,7 @@ export default function EnquiryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="card mx-auto grid max-w-4xl gap-5 p-6 sm:grid-cols-2 sm:p-10">
+    <form onSubmit={handleSubmit} className="card mx-auto grid max-w-4xl gap-5 bg-white p-6 shadow-card ring-1 ring-emerald-100/60 sm:grid-cols-2 sm:p-10">
       {status === "error" && (
         <div
           role="alert"

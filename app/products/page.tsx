@@ -62,17 +62,17 @@ export default function ProductsPage() {
       />
 
       {/* Shop by Category */}
-      <section id="categories" className="section-pad bg-white">
+      <section id="categories" className="section-pad tint-warm">
         <div className="container-site">
           <div className="text-center">
-            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green sm:text-sm">
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+            <p className="eyebrow mb-3">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Product Categories
-              <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
             </p>
             <h2 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
               Shop by Category
             </h2>
+            <span aria-hidden="true" className="accent-line mx-auto mb-2 mt-4" />
           </div>
 
           <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -89,9 +89,9 @@ export default function ProductsPage() {
                 <li key={cat.id}>
                   <Link
                     href={`/products/${cat.slug}`}
-                    className="card group block h-full overflow-hidden transition-shadow hover:shadow-lift"
+                    className="card-lift group block h-full overflow-hidden"
                   >
-                    <div className="relative aspect-[4/3] overflow-hidden bg-brand-soft">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-white">
                       <Image
                         src={img.src}
                         alt={img.alt}
@@ -99,17 +99,16 @@ export default function ProductsPage() {
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <span
-                        aria-hidden="true"
-                        className="absolute inset-x-0 bottom-0 h-1 bg-brand-gold opacity-0 transition-opacity group-hover:opacity-100"
-                      />
+                      <span aria-hidden="true" className="card-bar" />
                     </div>
                     <div className="flex flex-col p-5">
-                      <h3 className="text-lg font-semibold text-brand-green">
+                      <h3 className="text-lg font-semibold text-emerald-800">
                         {cat.name}
                       </h3>
-                      <p className="mt-1 text-sm text-brand-muted">
-                        {count}+ Products
+                      <p className="mt-2">
+                        <span className="chip-soft">
+                          {count}+ Products
+                        </span>
                       </p>
                       <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-green">
                         View Products

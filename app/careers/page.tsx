@@ -37,16 +37,19 @@ export default function CareersPage() {
         title={page?.heroTitle || "Careers"}
         backgroundImage={page?.heroImage || "/images/hero-nuts.jpg"}
       />
-      <section className="section-pad bg-white">
+      <section className="section-pad tint-cool">
         <div className="container-site max-w-3xl text-center">
-          {paras.map((p, i) => (
-            <p key={i} className="leading-relaxed text-brand-muted [&:not(:first-child)]:mt-4">
-              {p}
-            </p>
-          ))}
-          <Link href="/contact" className="btn-primary mt-10">
-            Contact Us
-          </Link>
+          <div className="rounded-2xl border border-brand-line bg-white p-8 shadow-card ring-1 ring-emerald-100/50 sm:p-10">
+            <span aria-hidden="true" className="accent-line mx-auto mb-6" />
+            {paras.map((p, i) => (
+              <p key={i} className="leading-relaxed text-brand-muted [&:not(:first-child)]:mt-4">
+                {p}
+              </p>
+            ))}
+            <Link href="/contact" className="btn-primary mt-10">
+              Contact Us
+            </Link>
+          </div>
         </div>
       </section>
     </>

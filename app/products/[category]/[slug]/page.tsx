@@ -52,11 +52,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
         ])}
       />
 
-      <div className="bg-brand-soft/50 py-4 border-b border-gray-100">
+      <div className="border-b border-emerald-100/70 bg-gradient-to-r from-brand-mist/70 via-white to-brand-cream/60 py-4">
         <div className="container-site">
           <Link
             href={`/products/${category}`}
-            className="inline-flex items-center gap-2 text-sm font-medium text-brand-muted hover:text-brand-green transition"
+            className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm font-medium text-brand-muted shadow-sm ring-1 ring-brand-line transition hover:text-brand-green hover:ring-emerald-200"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to {(product as any).categoryName || "Products"}
@@ -71,13 +71,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </div>
 
           <div>
-            <span className="inline-block rounded-full bg-brand-green/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-green">
+            <span className="eyebrow">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               {(product as any).categoryName || "Wholesale Grocery"}
             </span>
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
               {product.name}
             </h1>
-            <span aria-hidden="true" className="my-6 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="accent-line my-6" />
 
             <div className="flex flex-wrap items-baseline gap-4">
               <span className="text-2xl font-bold text-brand-green">
@@ -92,9 +93,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <p>{product.description || "Premium grade wholesale product sourced and packed securely for commercial and industrial kitchens in Erode."}</p>
             </div>
 
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 border-t border-gray-100 pt-6">
+            <div className="mt-8 grid grid-cols-1 gap-4 rounded-2xl border border-brand-line bg-gradient-to-br from-white to-brand-mist/50 p-4 sm:grid-cols-2 sm:p-5">
               <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-green/10 text-brand-green">
+                <span className="icon-soft-emerald !h-10 !w-10">
                   <ShieldCheck className="h-5 w-5" />
                 </span>
                 <div>
@@ -104,7 +105,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </div>
 
               <div className="flex items-start gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-green/10 text-brand-green">
+                <span className="icon-soft-teal !h-10 !w-10">
                   <Truck className="h-5 w-5" />
                 </span>
                 <div>
@@ -114,7 +115,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            <div className="mt-8 rounded-2xl bg-brand-soft p-6 border border-brand-green/20">
+            <div className="mt-8 rounded-2xl border border-emerald-100 bg-gradient-to-br from-brand-mist/70 via-white to-brand-cream/70 p-6 shadow-card">
               <h3 className="font-bold text-brand-ink text-lg mb-2">Request Bulk Quote or Order</h3>
               <p className="text-xs text-brand-muted mb-4">Fill out the quick enquiry form below regarding {product.name} and our team will get back to you right away.</p>
               <EnquiryForm />
@@ -124,12 +125,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
       </section>
 
       {relatedProducts && relatedProducts.length > 0 && (
-        <section className="section-pad bg-brand-soft/30 border-t border-gray-100">
+        <section className="section-pad tint-warm border-t border-brand-line/60">
           <div className="container-site">
             <h2 className="text-2xl font-bold tracking-tight text-brand-ink sm:text-3xl text-center">
               Related Wholesale Products
             </h2>
-            <span aria-hidden="true" className="mx-auto mb-10 mt-4 block h-1 w-14 bg-brand-gold" />
+            <span aria-hidden="true" className="accent-line mx-auto mb-10 mt-4" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {relatedProducts.map((rel: any) => (
                 <ProductCard

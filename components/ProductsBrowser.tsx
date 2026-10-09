@@ -55,7 +55,7 @@ export default function ProductsBrowser({
   return (
     <div>
       {/* Search and Filter Bar */}
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-2xl bg-brand-soft p-4 border border-gray-100">
+      <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-emerald-100/70 bg-gradient-to-br from-brand-mist/70 via-white to-brand-cream/60 p-4 shadow-card sm:flex-row sm:items-center sm:justify-between">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
           <input
@@ -82,8 +82,8 @@ export default function ProductsBrowser({
               onClick={() => setSelectedCategory("all")}
               className={`rounded-xl px-4 py-2 text-xs font-semibold transition ${
                 selectedCategory === "all"
-                  ? "bg-brand-green text-white shadow-sm"
-                  : "bg-white text-brand-muted hover:bg-gray-100 border border-gray-200"
+                  ? "bg-gradient-to-r from-brand-green to-emerald-700 text-white shadow-sm"
+                  : "border border-brand-line bg-white text-brand-muted hover:border-emerald-300 hover:text-brand-green"
               }`}
             >
               All Products
@@ -94,8 +94,8 @@ export default function ProductsBrowser({
                 onClick={() => setSelectedCategory(cat.slug || cat.id)}
                 className={`rounded-xl px-4 py-2 text-xs font-semibold transition ${
                   selectedCategory === (cat.slug || cat.id)
-                    ? "bg-brand-green text-white shadow-sm"
-                    : "bg-white text-brand-muted hover:bg-gray-100 border border-gray-200"
+                    ? "bg-gradient-to-r from-brand-green to-emerald-700 text-white shadow-sm"
+                    : "border border-brand-line bg-white text-brand-muted hover:border-emerald-300 hover:text-brand-green"
                 }`}
               >
                 {cat.name}

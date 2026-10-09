@@ -26,8 +26,10 @@ export default function ContactInlineForm() {
 
   if (status === "success") {
     return (
-      <div className="card p-8 text-center">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-brand-green" aria-hidden="true" />
+      <div className="card p-8 text-center shadow-card ring-1 ring-emerald-100/60">
+        <span className="icon-soft-emerald mx-auto !h-14 !w-14 !rounded-2xl">
+          <CheckCircle2 className="mx-auto h-7 w-7" aria-hidden="true" />
+        </span>
         <p className="mt-4 font-semibold text-brand-ink">Thank you!</p>
         <p className="mt-1 text-sm text-brand-muted">
           Your enquiry has been received. Our team will contact you shortly.
@@ -37,7 +39,7 @@ export default function ContactInlineForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="card grid gap-4 p-6 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="card grid gap-4 bg-white p-6 shadow-card ring-1 ring-emerald-100/60 sm:grid-cols-2">
       {status === "error" && (
         <div role="alert" className="sm:col-span-2 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           Could not submit right now. Please call us or try again.

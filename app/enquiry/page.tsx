@@ -33,14 +33,15 @@ export default function EnquiryPage() {
         title="Enquiry"
         backgroundImage="/images/cat-oils.jpg"
       />
-      <section className="section-pad bg-brand-soft">
+      <section className="section-pad tint-fresh">
         <div className="container-site grid items-start gap-10 lg:grid-cols-[1fr_320px]">
           <Suspense fallback={<div className="card mx-auto max-w-xl p-10 text-center text-sm text-brand-muted">Loading form…</div>}>
             <div className="w-full">
               <EnquiryForm />
             </div>
           </Suspense>
-          <aside className="card p-7 lg:sticky lg:top-32">
+          <aside className="card-lift overflow-hidden p-7 lg:sticky lg:top-32">
+            <span aria-hidden="true" className="mb-4 block h-1 w-10 rounded-full bg-gradient-to-r from-emerald-500 to-amber-400" />
             <h2 className="font-semibold text-brand-ink">Prefer to talk?</h2>
             <p className="mt-2 text-sm leading-relaxed text-brand-muted">
               Call our office or message us on WhatsApp — we are happy to discuss your

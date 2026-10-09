@@ -59,20 +59,23 @@ export default function PrivacyPolicyPage() {
         title={page?.heroTitle || "Privacy Policy"}
         backgroundImage={page?.heroImage || "/images/about-warehouse.jpg"}
       />
-      <section className="section-pad bg-white">
+      <section className="section-pad tint-fresh">
         <div className="container-site max-w-3xl">
-          {sections.map((s) => (
-            <div key={s.h} className="mb-8">
-              <h2 className="text-lg font-semibold text-brand-ink">{s.h}</h2>
-              <p className="mt-2 leading-relaxed text-brand-muted">{s.p}</p>
+          <div className="rounded-2xl border border-brand-line bg-white p-8 shadow-card ring-1 ring-emerald-100/50 sm:p-10">
+            <span aria-hidden="true" className="accent-line mb-8" />
+            {sections.map((s) => (
+              <div key={s.h} className="mb-8">
+                <h2 className="text-lg font-semibold text-emerald-900">{s.h}</h2>
+                <p className="mt-2 leading-relaxed text-brand-muted">{s.p}</p>
+              </div>
+            ))}
+            <div className="rounded-xl border border-emerald-100 bg-gradient-to-br from-brand-mist/70 to-brand-cream/60 p-5 text-sm text-brand-muted">
+              Questions about this policy? Email us at{" "}
+              <a href={`mailto:${email}`} className="font-medium text-brand-green hover:underline">
+                {email}
+              </a>{" "}
+              or call our office at {officePhone}.
             </div>
-          ))}
-          <div className="rounded-md border border-brand-line bg-brand-soft p-5 text-sm text-brand-muted">
-            Questions about this policy? Email us at{" "}
-            <a href={`mailto:${email}`} className="font-medium text-brand-green hover:underline">
-              {email}
-            </a>{" "}
-            or call our office at {officePhone}.
           </div>
         </div>
       </section>

@@ -21,6 +21,14 @@ const DEFAULT_CUSTOMERS: ValuedCustomerItem[] = [
   { name: "SKL Mill" },
 ];
 
+const TILE_RINGS = [
+  "ring-emerald-200/70 bg-gradient-to-b from-emerald-50/60 to-white",
+  "ring-amber-200/70 bg-gradient-to-b from-amber-50/60 to-white",
+  "ring-teal-200/70 bg-gradient-to-b from-teal-50/60 to-white",
+  "ring-sky-200/70 bg-gradient-to-b from-sky-50/60 to-white",
+  "ring-orange-200/70 bg-gradient-to-b from-orange-50/60 to-white",
+];
+
 function initials(name: string) {
   const words = name
     .replace(/[^a-zA-Z ]/g, "")
@@ -114,17 +122,17 @@ export default function ValuedCustomers({
   const items = [...customers, ...customers];
 
   return (
-    <section className="py-12 sm:py-14 lg:py-16 bg-brand-soft">
+    <section className="py-12 sm:py-14 lg:py-16 tint-cool border-y border-brand-line/60">
       <div className="container-site">
         <div className="mb-7 text-center">
-          <p className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-            <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+          <p className="eyebrow mb-3">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             Trusted By
-            <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
             Valued Customers
           </h2>
+          <span aria-hidden="true" className="accent-line mx-auto mb-2 mt-5" />
         </div>
 
 <div className="relative">
@@ -149,7 +157,7 @@ export default function ValuedCustomers({
                    aria-hidden={i >= customers.length}
                    className="flex w-28 shrink-0 flex-col items-center pr-6 sm:w-32"
                  >
-                   <div className="flex h-20 w-20 items-center justify-center overflow-hidden bg-white p-2 ring-1 ring-brand-line sm:h-24 sm:w-24">
+                    <div className={`flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl p-2 shadow-sm ring-1 transition-shadow hover:shadow-card sm:h-24 sm:w-24 ${TILE_RINGS[i % TILE_RINGS.length]}`}>
                      {customer.logo ? (
                       <span
                         role="img"
@@ -158,7 +166,7 @@ export default function ValuedCustomers({
                         style={{ backgroundImage: `url(${customer.logo})` }}
                       />
                     ) : (
-                      <span className="text-lg font-bold text-brand-green sm:text-xl">
+                      <span className="bg-gradient-to-br from-emerald-700 to-teal-600 bg-clip-text text-lg font-bold text-transparent sm:text-xl">
                         {initials(customer.name)}
                       </span>
                     )}

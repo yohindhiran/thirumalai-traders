@@ -39,8 +39,10 @@ export default function Footer({
   const addressLine2 = contact?.addressLine2 || SITE.address.line2;
   const addressState = contact?.addressState || SITE.address.state;
   return (
-    <footer className="bg-brand-green-deep text-white">
-      <div className="container-site grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-16">
+    <footer className="relative bg-gradient-to-b from-[#24432F] to-brand-green-deep text-white">
+      <div aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 via-brand-gold to-amber-500" />
+      <div aria-hidden="true" className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-brand-gold/10 blur-3xl" />
+      <div className="container-site relative grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-16">
         <div>
           <p className="text-sm leading-relaxed text-white/70">
             {footerText ||
@@ -60,6 +62,7 @@ export default function Footer({
           <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-gold">
             Quick Links
           </h3>
+          <span aria-hidden="true" className="mt-2 block h-0.5 w-8 rounded-full bg-brand-gold/50" />
           <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-2">
             {QUICK_LINKS.map((l) => (
               <li key={l.href}>
@@ -75,6 +78,7 @@ export default function Footer({
           <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-gold">
             Product Categories
           </h3>
+          <span aria-hidden="true" className="mt-2 block h-0.5 w-8 rounded-full bg-brand-gold/50" />
           <ul className="mt-5 space-y-2.5 text-sm">
             {CATEGORY_LINKS.map((l) => (
               <li key={l.href}>
@@ -90,9 +94,12 @@ export default function Footer({
           <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-gold">
             Contact
           </h3>
+          <span aria-hidden="true" className="mt-2 block h-0.5 w-8 rounded-full bg-brand-gold/50" />
           <ul className="mt-5 space-y-4 text-sm text-white/70">
             <li className="flex gap-3">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 ring-1 ring-white/15">
+                <MapPin className="h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
+              </span>
               <span>
                 {name},<br />
                 {addressLine1}
@@ -103,7 +110,9 @@ export default function Footer({
               </span>
             </li>
             <li className="flex gap-3">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 ring-1 ring-white/15">
+                <Phone className="h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
+              </span>
               <span>
                 <a href={telHref(phone)} className="hover:text-brand-gold">
                   Office: {phone}
@@ -119,7 +128,9 @@ export default function Footer({
               </span>
             </li>
             <li className="flex gap-3">
-              <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10 ring-1 ring-white/15">
+                <Mail className="h-4 w-4 shrink-0 text-brand-gold" aria-hidden="true" />
+              </span>
               <a href={`mailto:${email}`} className="break-all hover:text-brand-gold">
                 {email}
               </a>

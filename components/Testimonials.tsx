@@ -136,18 +136,17 @@ export default function Testimonials({
   };
 
   return (
-    <section className="section-pad bg-white">
+    <section className="section-pad tint-warm">
       <div className="container-site">
         <div className="mx-auto mb-14 max-w-3xl text-center">
-          <p className="mb-3 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green">
-            <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
+          <p className="eyebrow mb-3">
+            <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-amber-500" />
             Testimonials
-            <span aria-hidden="true" className="h-px w-6 bg-brand-gold-dark" />
           </p>
           <h2 className="text-3xl font-bold tracking-tight text-brand-ink sm:text-4xl">
             What Our Customers Say
           </h2>
-          <span aria-hidden="true" className="mx-auto mt-5 block h-1 w-16 bg-brand-gold" />
+          <span aria-hidden="true" className="accent-line mx-auto mb-2 mt-5" />
         </div>
 
         <div
@@ -184,9 +183,18 @@ export default function Testimonials({
                   className="shrink-0 px-3"
                   style={{ width: `${100 / perView}%` }}
                 >
-                  <figure className="card relative flex h-full flex-col p-8">
-                    <blockquote className="flex-1 leading-relaxed text-brand-muted">
-                      &ldquo;{t.quote}&rdquo;
+                  <figure className="card-lift relative flex h-full flex-col overflow-hidden p-8">
+                    <span
+                      aria-hidden="true"
+                      className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${
+                        ["from-emerald-500 to-teal-400", "from-amber-500 to-orange-400", "from-teal-500 to-emerald-400"][i % 3]
+                      }`}
+                    />
+                    <span aria-hidden="true" className="font-serif text-5xl leading-none text-amber-400/70">
+                      &ldquo;
+                    </span>
+                    <blockquote className="-mt-3 flex-1 leading-relaxed text-brand-muted">
+                      {t.quote}&rdquo;
                     </blockquote>
                     <figcaption className="mt-6 border-t border-brand-line pt-5">
                       <span className="block font-semibold text-brand-ink">

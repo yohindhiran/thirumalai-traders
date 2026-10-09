@@ -48,11 +48,18 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
               key={link.href}
               href={link.href}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-brand-green",
+                "relative py-1 text-sm font-medium transition-colors hover:text-brand-green",
                 isActive(link.href) ? "text-brand-green" : "text-brand-ink"
               )}
             >
               {link.label}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "absolute inset-x-0 -bottom-0.5 h-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-amber-400 transition-opacity",
+                  isActive(link.href) ? "opacity-100" : "opacity-0"
+                )}
+              />
             </Link>
           ))}
         </nav>
@@ -110,8 +117,10 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
               key={link.href}
               href={link.href}
               className={cn(
-                "border-b border-brand-line py-4 text-base font-medium hover:text-brand-green",
-                isActive(link.href) ? "text-brand-green" : "text-brand-ink"
+                "border-b border-brand-line py-4 text-base font-medium transition-colors hover:text-brand-green",
+                isActive(link.href)
+                  ? "border-l-4 border-l-emerald-500 bg-emerald-50/60 pl-3 text-brand-green"
+                  : "text-brand-ink"
               )}
             >
               {link.label}

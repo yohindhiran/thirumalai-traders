@@ -63,7 +63,7 @@ export default async function CategoryPage({
         ])}
       />
       <PageHero title={cat.name} backgroundImage={defaultImage} />
-      <section className="section-pad bg-brand-soft">
+      <section className="section-pad tint-cool">
         <div className="container-site">
           <Suspense
             fallback={

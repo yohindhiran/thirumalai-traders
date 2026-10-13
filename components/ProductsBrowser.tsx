@@ -123,7 +123,7 @@ export default function ProductsBrowser({
           </button>
         </div>
       ) : (
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {filteredProducts.map((p) => {
             const catSlug =
               p.categorySlug ||
@@ -136,7 +136,7 @@ export default function ProductsBrowser({
               DEFAULT_PRODUCT_IMAGE;
             const images = p.images?.length ? p.images : [image];
             return (
-              <li key={`${p.categorySlug || p.categoryId}-${p.slug || p.id}`}>
+              <li key={`${p.categorySlug || p.categoryId}-${p.slug || p.id}`} className="h-full">
                 <ProductCard
                   href={`/products/${catSlug}/${p.slug || p.id}`}
                   product={

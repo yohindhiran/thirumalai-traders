@@ -106,7 +106,7 @@ export default function HeroSlider({ slides }: { slides?: HeroSliderSlide[] }) {
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-brand-green-deep/70 via-brand-green-deep/25 to-transparent" />
 
         {/* Centered call-to-action below the hero content */}
-        <div className="absolute inset-x-0 bottom-16 flex justify-center sm:bottom-20">
+        <div className="absolute inset-x-0 bottom-16 flex justify-center px-4 sm:bottom-20">
           <Link
             href="/products"
             className="inline-flex items-center justify-center rounded-full bg-brand-gold px-8 py-3 text-sm font-semibold text-brand-green-deep shadow-lift ring-1 ring-white/40 transition-all hover:-translate-y-0.5 hover:bg-white hover:shadow-lift focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"

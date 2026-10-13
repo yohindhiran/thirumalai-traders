@@ -196,7 +196,7 @@ export default function QualityPage() {
       </section>
 
       {/* Quality process */}
-      <section className="section-pad bg-gradient-to-b from-brand-soft via-white to-white">
+      <section className="section-pad tint-cool">
         <div className="container-site">
           <div className="mx-auto max-w-3xl text-center">
             <p className="eyebrow mb-3">

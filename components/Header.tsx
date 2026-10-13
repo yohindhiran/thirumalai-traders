@@ -94,7 +94,7 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex items-center justify-center border border-brand-line p-2 text-brand-ink hover:border-brand-green hover:text-brand-green"
+            className="inline-flex items-center justify-center rounded-md border border-brand-line p-2 text-brand-ink hover:border-brand-green hover:text-brand-green"
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>

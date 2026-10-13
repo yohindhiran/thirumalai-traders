@@ -20,7 +20,7 @@ export default function ProductGrid({
   if (!products.length) return null;
 
   return (
-    <section className="section-pad bg-gradient-to-b from-brand-soft via-white to-white">
+    <section className="section-pad tint-fresh">
       <div className="container-site">
         <div className="mb-10 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>

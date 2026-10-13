@@ -22,6 +22,7 @@ import {
   Menu,
   MessageSquareQuote,
   Package,
+  Palette,
   Phone,
   Settings,
   Users,
@@ -74,6 +75,7 @@ const GROUPS: Group[] = [
       { href: "/admin/dashboard/enquiries", label: "Enquiries", icon: Inbox },
       { href: "/admin/dashboard/contact-settings", label: "Contact Settings", icon: Phone },
       { href: "/admin/dashboard/site-settings", label: "Site Settings", icon: Settings },
+      { href: "/admin/dashboard/appearance", label: "Appearance", icon: Palette },
     ],
   },
 ];

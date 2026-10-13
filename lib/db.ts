@@ -24,8 +24,11 @@ import type {
   CompanyPageContent,
   SiteSettings,
   ContactSettings,
+  AppearanceSettings,
   DbData,
 } from "@/types";
+import { APPEARANCE_THEME_IDS, HEX_COLOR_RE, MAX_CUSTOM_THEMES } from "@/lib/appearance";
+import type { CustomTheme } from "@/types";
 
 const DB_FILE = path.join(process.cwd(), "data", "database.json");
 
@@ -255,6 +258,7 @@ export function seedDb(): DbData {
     },
     customers: [],
     hero: [],
+    appearance: { themeId: "dark-forest-green", customThemes: [] },
   };
 }
 
@@ -309,7 +313,63 @@ function backfill(db: DbData): DbData {
       items: Array.isArray(s.items) ? s.items : [],
     }));
   }
+  // Ensure appearance settings exist and hold a known theme id.
+  // Older installs may store a retired light theme id — migrate them to
+  // the default dark theme in memory (persisted on the next admin save).
+  // Saved custom themes are sanitised (valid id/name/hex) and capped.
+  const storedAppearance = (db as Partial<DbData>).appearance;
+  const customThemes = sanitizeCustomThemes(storedAppearance?.customThemes);
+  const themeId = storedAppearance?.themeId;
+  const themeKnown =
+    typeof themeId === "string" &&
+    ((APPEARANCE_THEME_IDS as string[]).includes(themeId) ||
+      customThemes.some((t) => t.id === themeId));
+  db.appearance = {
+    themeId: themeKnown ? (themeId as string) : "dark-forest-green",
+    customThemes,
+  };
   return db;
+}
+
+/** Keep only well-formed saved custom themes (guards hand-edited files). */
+function sanitizeCustomThemes(v: unknown): CustomTheme[] {
+  if (!Array.isArray(v)) return [];
+  const out: CustomTheme[] = [];
+  const seen = new Set<string>();
+  for (const t of v) {
+    if (out.length >= MAX_CUSTOM_THEMES) break;
+    if (
+      typeof t !== "object" ||
+      t === null ||
+      typeof (t as CustomTheme).id !== "string" ||
+      !(t as CustomTheme).id ||
+      seen.has((t as CustomTheme).id)
+    ) {
+      continue;
+    }
+    const name =
+      typeof (t as CustomTheme).name === "string"
+        ? (t as CustomTheme).name.trim().slice(0, 40)
+        : "";
+    const bg = typeof (t as CustomTheme).bg === "string" ? (t as CustomTheme).bg : "";
+    const soft = typeof (t as CustomTheme).soft === "string" ? (t as CustomTheme).soft : "";
+    const accent =
+      typeof (t as CustomTheme).accent === "string" ? (t as CustomTheme).accent : "";
+    if (!name || !HEX_COLOR_RE.test(bg) || !HEX_COLOR_RE.test(soft) || !HEX_COLOR_RE.test(accent)) {
+      continue;
+    }
+    seen.add((t as CustomTheme).id);
+    out.push({
+      id: (t as CustomTheme).id,
+      name,
+      bg: bg.toUpperCase(),
+      soft: soft.toUpperCase(),
+      accent: accent.toUpperCase(),
+      createdAt: typeof (t as CustomTheme).createdAt === "string" ? (t as CustomTheme).createdAt : "",
+      updatedAt: typeof (t as CustomTheme).updatedAt === "string" ? (t as CustomTheme).updatedAt : "",
+    });
+  }
+  return out;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -442,6 +502,19 @@ export function getSiteSettings(): SiteSettings {
 
 export function getContactSettings(): ContactSettings {
   return readDb().contactSettings;
+}
+
+export function getAppearanceThemeId(): string {
+  return getAppearance().themeId;
+}
+
+export function getAppearance(): AppearanceSettings {
+  // readDb() backfills, so appearance is always well-formed here.
+  const appearance = readDb().appearance;
+  return {
+    themeId: appearance?.themeId ?? "dark-forest-green",
+    customThemes: appearance?.customThemes ?? [],
+  };
 }
 
 export function getProductForDisplay(slug: string, categorySlug?: string): Product | undefined {

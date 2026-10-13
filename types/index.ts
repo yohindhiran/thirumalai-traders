@@ -229,6 +229,33 @@ export interface ContactSettings {
   team?: { name: string; role: string; phone: string }[];
 }
 
+export type AppearanceThemeId =
+  | "dark-forest-green"
+  | "deep-sage"
+  | "dark-earth-brown"
+  | "charcoal-plum"
+  | "deep-blue-grey"
+  | "classic-white";
+
+export interface AppearanceSettings {
+  /** Preset theme id or saved custom theme id. */
+  themeId: string;
+  customThemes: CustomTheme[];
+}
+
+export interface CustomTheme {
+  id: string;
+  name: string;
+  /** Main background colour (#rrggbb). */
+  bg: string;
+  /** Section/background colour (#rrggbb). */
+  soft: string;
+  /** Accent colour for highlights (#rrggbb). */
+  accent: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface DbData {
   categories: Category[];
   products: Product[];
@@ -251,4 +278,5 @@ export interface DbData {
   contactSettings: ContactSettings;
   customers: any[];
   hero: any[];
+  appearance?: AppearanceSettings;
 }

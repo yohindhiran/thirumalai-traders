@@ -2857,5 +2857,8 @@
         }
       ]
     }
-  ]
+  ],
+  "appearance": {
+    "themeId": "classic-white"
+  }
 }

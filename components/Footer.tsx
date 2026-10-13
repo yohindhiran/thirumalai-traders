@@ -44,7 +44,11 @@ export default function Footer({
       <div aria-hidden="true" className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-brand-gold/10 blur-3xl" />
       <div className="container-site relative grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-4 lg:py-16">
         <div>
-          <p className="text-sm leading-relaxed text-white/70">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-brand-gold">
+            {name}
+          </h3>
+          <span aria-hidden="true" className="mt-2 block h-0.5 w-8 rounded-full bg-brand-gold/50" />
+          <p className="mt-5 text-sm leading-relaxed text-white/70">
             {footerText ||
               "Trusted wholesale grocery supplier with 25+ years of experience serving institutions, industries, mills, grocery shops and bulk customers across Erode, Tamil Nadu."}
           </p>

@@ -238,3 +238,162 @@ main {
     transform: translateY(0);
   }
 }
+
+/* ---- Website appearance themes (Admin → Appearance) ----
+   Dark premium section backgrounds. Product cards, images, inputs and
+   Forest Green / Gold brand buttons stay light for visibility. Tinted
+   section headings and copy turn light; text inside white cards stays
+   dark for readability. Header and hero keep the existing brand style. */
+:root,
+[data-theme="dark-forest-green"] {
+  --site-bg: #24382d;
+  --site-soft: #2e4a38;
+  --site-card: #ffffff;
+  --site-line: rgba(255, 255, 255, 0.16);
+  --site-tint-a: #2e4a38;
+  --site-tint-b: #24382d;
+  --site-ink: #f2f7f1;
+  --site-muted: #c2d2c3;
+}
+
+[data-theme="deep-sage"] {
+  --site-bg: #344638;
+  --site-soft: #41594a;
+  --site-card: #ffffff;
+  --site-line: rgba(255, 255, 255, 0.16);
+  --site-tint-a: #41594a;
+  --site-tint-b: #344638;
+  --site-ink: #f1f6f0;
+  --site-muted: #c4d3c5;
+}
+
+[data-theme="dark-earth-brown"] {
+  --site-bg: #49352b;
+  --site-soft: #5a4437;
+  --site-card: #ffffff;
+  --site-line: rgba(255, 255, 255, 0.16);
+  --site-tint-a: #5a4437;
+  --site-tint-b: #49352b;
+  --site-ink: #f8f3ec;
+  --site-muted: #d6c8b8;
+}
+
+[data-theme="charcoal-plum"] {
+  --site-bg: #34313d;
+  --site-soft: #43404e;
+  --site-card: #ffffff;
+  --site-line: rgba(255, 255, 255, 0.16);
+  --site-tint-a: #43404e;
+  --site-tint-b: #34313d;
+  --site-ink: #f2f1f5;
+  --site-muted: #c6c3d0;
+}
+
+[data-theme="deep-blue-grey"] {
+  --site-bg: #35434a;
+  --site-soft: #43555d;
+  --site-card: #ffffff;
+  --site-line: rgba(255, 255, 255, 0.16);
+  --site-tint-a: #43555d;
+  --site-tint-b: #35434a;
+  --site-ink: #f0f5f7;
+  --site-muted: #c2cfd6;
+}
+
+/* The original light website background (verified from Git history:
+// body had no background colour → white; sections faded via-white
+// to-white; text ink #1F2933 / muted #667085). */
+[data-theme="classic-white"] {
+  --site-bg: #ffffff;
+  --site-soft: #f7f8f5;
+  --site-card: #ffffff;
+  --site-line: #e5e7eb;
+  --site-tint-a: #edf5ee;
+  --site-tint-b: #fdf9ef;
+  --site-ink: #1f2933;
+  --site-muted: #667085;
+}
+
+body {
+  background-color: var(--site-bg);
+  color: var(--site-ink);
+}
+
+[data-theme] .tint-fresh {
+  background: linear-gradient(to bottom, var(--site-tint-a), var(--site-bg) 85%);
+}
+
+[data-theme] .tint-warm {
+  background: linear-gradient(to bottom, var(--site-tint-b), var(--site-bg) 85%);
+}
+
+[data-theme] .tint-cool {
+  background: linear-gradient(to bottom, var(--site-soft), var(--site-bg) 85%);
+}
+
+/* Section headings and copy follow the theme scheme: light text on dark
+   section backgrounds, default dark text on light themes. */
+[data-scheme="dark"] .tint-fresh h1,
+[data-scheme="dark"] .tint-fresh h2,
+[data-scheme="dark"] .tint-fresh h3,
+[data-scheme="dark"] .tint-warm h1,
+[data-scheme="dark"] .tint-warm h2,
+[data-scheme="dark"] .tint-warm h3,
+[data-scheme="dark"] .tint-cool h1,
+[data-scheme="dark"] .tint-cool h2,
+[data-scheme="dark"] .tint-cool h3 {
+  color: var(--site-ink);
+}
+
+[data-scheme="dark"] .tint-fresh .text-brand-muted,
+[data-scheme="dark"] .tint-warm .text-brand-muted,
+[data-scheme="dark"] .tint-cool .text-brand-muted {
+  color: var(--site-muted);
+}
+
+[data-scheme="dark"] .tint-fresh .text-brand-ink,
+[data-scheme="dark"] .tint-warm .text-brand-ink,
+[data-scheme="dark"] .tint-cool .text-brand-ink {
+  color: var(--site-ink);
+}
+
+/* Product/content cards stay white so imagery and forms stay clear. */
+[data-theme] .card,
+[data-theme] .card-lift {
+  background-color: var(--site-card);
+  border-color: var(--site-line);
+}
+
+[data-theme] .card h1,
+[data-theme] .card h2,
+[data-theme] .card h3,
+[data-theme] .card h4,
+[data-theme] .card-lift h1,
+[data-theme] .card-lift h2,
+[data-theme] .card-lift h3,
+[data-theme] .card-lift h4,
+[data-theme] .card .text-brand-ink,
+[data-theme] .card-lift .text-brand-ink {
+  color: #1f2933;
+}
+
+[data-theme] .card .text-brand-muted,
+[data-theme] .card-lift .text-brand-muted {
+  color: #667085;
+}
+
+/* Section divider borders adapt to dark backgrounds. */
+[data-theme] .tint-fresh.border-brand-line,
+[data-theme] .tint-warm.border-brand-line,
+[data-theme] .tint-cool.border-brand-line,
+[data-theme] .tint-fresh .border-brand-line,
+[data-theme] .tint-warm .border-brand-line,
+[data-theme] .tint-cool .border-brand-line {
+  border-color: var(--site-line);
+}
+
+/* Saved custom themes use the admin-chosen accent for the small section
+   accent rule. Brand buttons, header and hero keep the existing style. */
+[data-theme="custom"] .accent-line {
+  background: linear-gradient(to right, var(--site-accent), var(--site-accent-soft));
+}

@@ -27,9 +27,9 @@ export default function ProductCard({
   );
 
   return (
-    <div className="card-lift flex flex-col justify-between p-4">
+    <div className="card-lift flex h-full flex-col justify-between p-4">
       <div>
-        <div className="relative h-44 w-full mb-3 overflow-hidden rounded-lg bg-white ring-1 ring-brand-line/60">
+        <div className="relative mb-3 aspect-[4/3] w-full overflow-hidden rounded-lg bg-white ring-1 ring-brand-line/60">
           {href ? (
             <Link href={href} aria-label={`View ${product.name}`}>
               <img

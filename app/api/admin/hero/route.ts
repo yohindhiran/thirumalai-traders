@@ -37,8 +37,12 @@ export async function POST(request: Request) {
     status: "active",
     displayOrder: maxOrder + 1,
   };
-  db.heroSlides.push(slide);
-  writeDb(db);
-  invalidateProductCache();
-  return NextResponse.json({ slide }, { status: 201 });
+   db.heroSlides.push(slide);
+   try {
+     writeDb(db);
+   } catch (e) {
+     return NextResponse.json({ error: e instanceof Error ? e.message : "Could not save slide." }, { status: 500 });
+   }
+   invalidateProductCache();
+   return NextResponse.json({ slide }, { status: 201 });
 }

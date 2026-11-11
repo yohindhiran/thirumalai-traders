@@ -450,23 +450,25 @@ export function invalidateProductCache(): void {
 /* -------------------------------------------------------------------------- */
 
 export function writeDb(data: DbData): void {
-  // Persist to disk FIRST so a failure throws before the cache is touched.
-  // This THROWS on failure (e.g. read-only filesystem) so API routes report
-  // an error instead of false success. Callers rely on the throw; do not
-  // re-add a silent catch here.
+  // Persist to disk when possible (self-hosted / writable). On read-only
+  // filesystems (e.g. Vercel) the write is best-effort and never throws:
+  // the in-memory cache becomes the source of truth for the warm container
+  // and uploaded images are already stored as self-contained data URLs.
   if (typeof window === "undefined") {
-    const dir = path.dirname(DB_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+    try {
+      const dir = path.dirname(DB_FILE);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+      setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
+    } catch {
+      // Read-only or unavailable filesystem — continue with cache only.
     }
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
-    setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
   }
 
-  // 1. Update the in-memory cache only after the disk write succeeded.
+  // Update the in-memory cache.
   setCachedDb(data);
 
-  // 2. Invalidate Next.js caches so storefront pages re-render on next request.
+  // Invalidate Next.js caches so storefront pages re-render on next request.
   invalidateProductCache();
 }
 

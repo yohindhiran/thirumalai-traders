@@ -47,6 +47,9 @@ export default function HeroManager() {
     if (res.ok) {
       setSlides((l) => l.map((x) => (x.id === s.id ? { ...x, status: next } : x)));
       router.refresh();
+    } else {
+      const data = await res.json().catch(() => null);
+      alert(data?.error || "Could not update slide status.");
     }
   }
 
@@ -56,6 +59,9 @@ export default function HeroManager() {
     if (res.ok) {
       setSlides((l) => l.filter((s) => s.id !== id));
       router.refresh();
+    } else {
+      const data = await res.json().catch(() => null);
+      alert(data?.error || "Could not delete slide.");
     }
   }
 
@@ -68,6 +74,9 @@ export default function HeroManager() {
     if (res.ok) {
       setSlides((l) => l.map((x) => (x.id === s.id ? { ...x, displayOrder } : x)));
       router.refresh();
+    } else {
+      const data = await res.json().catch(() => null);
+      alert(data?.error || "Could not reorder slide.");
     }
   }
 

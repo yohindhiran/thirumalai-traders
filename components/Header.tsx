@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, Phone, ShoppingBag, X } from "lucide-react";
 import Logo from "@/components/Logo";
 import { SITE } from "@/data/site";
 import { telHref, whatsappHref, cn } from "@/lib/utils";
+import { useCart } from "@/lib/cart";
 
 const MAIN_LINKS = [
   { href: "/", label: "Home" },
@@ -20,6 +21,7 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
+  const { openCart, totalCount } = useCart();
 
   useEffect(() => {
     setOpen(false);
@@ -96,7 +98,7 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
           ))}
         </nav>
 
-        {/* RIGHT: phone + CTA */}
+        {/* RIGHT: phone + Cart + CTA */}
         <div className="hidden items-center gap-4 lg:flex">
           <a
             href={telHref(phoneNumber)}
@@ -106,19 +108,48 @@ export default function Header({ phone, logo }: { phone?: string; logo?: string 
             <Phone className="h-4 w-4" aria-hidden="true" />
             {phoneNumber}
           </a>
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={`Shopping cart with ${totalCount} items`}
+            className="relative inline-flex items-center gap-2 rounded-full border border-brand-line bg-white px-3.5 py-2 text-sm font-semibold text-brand-ink shadow-sm transition hover:border-brand-green hover:text-brand-green"
+          >
+            <ShoppingBag className="h-4 w-4" />
+            <span>Cart</span>
+            {totalCount > 0 && (
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-green text-[11px] font-bold text-white">
+                {totalCount}
+              </span>
+            )}
+          </button>
           <Link href="/enquiry" className="btn-primary !py-2.5">
             Request Enquiry
           </Link>
         </div>
 
-        {/* MOBILE ONLY (top-right): call button using the office number */}
-        <a
-          href={telHref(phoneNumber)}
-          className="btn-primary shrink-0 !px-3 !py-2 lg:hidden"
-          aria-label={`Call our office at ${phoneNumber}`}
-        >
-          <Phone className="h-4 w-4" aria-hidden="true" />
-        </a>
+        {/* MOBILE ONLY (top-right): cart button + call button */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={`Shopping cart with ${totalCount} items`}
+            className="relative inline-flex items-center justify-center rounded-md border border-brand-line bg-white p-2 text-brand-ink shadow-sm"
+          >
+            <ShoppingBag className="h-5 w-5" />
+            {totalCount > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-brand-green text-[10px] font-bold text-white shadow">
+                {totalCount}
+              </span>
+            )}
+          </button>
+          <a
+            href={telHref(phoneNumber)}
+            className="btn-primary shrink-0 !px-3 !py-2"
+            aria-label={`Call our office at ${phoneNumber}`}
+          >
+            <Phone className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </div>
       </div>
 
       {/* Mobile dropdown navigation (below the header bar) */}

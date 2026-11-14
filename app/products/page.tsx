@@ -31,13 +31,18 @@ export default function ProductsPage() {
     const categorySlug =
       cat?.slug || p.categoryId?.replace("cat-", "") || "spices";
     return {
+      id: p.id,
       name: p.name,
       slug: p.slug,
       categoryName: cat?.name || "Wholesale Grocery",
       categorySlug,
+      price: p.price,
+      unit: p.unit || "kg",
+      variants: p.variants || [],
       image:
         p.images?.[0] ||
         p.mainImage ||
+        cat?.image ||
         CATEGORY_IMAGES[categorySlug]?.src ||
         DEFAULT_PRODUCT_IMAGE,
     };
@@ -77,11 +82,12 @@ export default function ProductsPage() {
 
           <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {activeCategories.map((cat) => {
-              const img =
-                CATEGORY_IMAGES[cat.slug] ?? {
-                  src: DEFAULT_PRODUCT_IMAGE,
-                  alt: cat.name,
-                };
+              const img = cat.image
+                ? { src: cat.image, alt: cat.name }
+                : (CATEGORY_IMAGES[cat.slug] ?? {
+                    src: DEFAULT_PRODUCT_IMAGE,
+                    alt: cat.name,
+                  });
               const count = db.products.filter(
                 (p) => p.categoryId === cat.id && p.status === "active"
               ).length;

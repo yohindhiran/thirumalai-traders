@@ -1,6 +1,10 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
+import { Check, ShoppingBag } from "lucide-react";
 import { DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
+import { useCart } from "@/lib/cart";
 
 interface ProductVariant {
   size: string;
@@ -10,9 +14,11 @@ interface ProductVariant {
 interface Product {
   id: string;
   name: string;
-  category: string;
-  image: string;
-  variants: ProductVariant[];
+  category?: string;
+  image?: string;
+  price?: number;
+  unit?: string;
+  variants?: ProductVariant[];
 }
 
 export default function ProductCard({
@@ -22,33 +28,68 @@ export default function ProductCard({
   product: Product;
   href?: string;
 }) {
+  const { addToCart } = useCart();
+  const [selectedIdx, setSelectedIdx] = useState(0);
+  const [justAdded, setJustAdded] = useState(false);
+
+  const variants =
+    product.variants && product.variants.length > 0
+      ? product.variants
+      : [{ size: `1 ${product.unit || "kg"}`, price: product.price || 100 }];
+
+  const activeVariant = variants[selectedIdx] || variants[0];
+  const activePrice = activeVariant?.price ?? product.price ?? 100;
+  const activeSize = activeVariant?.size ?? `1 ${product.unit || "kg"}`;
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart({
+      productId: product.id,
+      name: product.name,
+      categoryName: product.category,
+      image: product.image || DEFAULT_PRODUCT_IMAGE,
+      size: activeSize,
+      unit: product.unit || "kg",
+      price: activePrice,
+      quantity: 1,
+    });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
+  };
+
   const whatsappMessage = encodeURIComponent(
-    `Hello Thirumalaai Traders, I would like to enquire about ${product.name}.`
+    `Hello Thirumalaai Traders, I would like to order/enquire about ${product.name} (${activeSize}) - ₹${activePrice}.`
   );
 
   return (
-    <div className="card-lift flex h-full flex-col justify-between p-4">
+    <div className="card-lift flex h-full flex-col justify-between p-4 group">
       <div>
-        <div className="relative mb-3 aspect-[4/3] w-full overflow-hidden rounded-lg bg-white ring-1 ring-brand-line/60">
+        {/* Product Image */}
+        <div className="relative mb-3 aspect-[4/3] w-full overflow-hidden rounded-xl bg-white ring-1 ring-brand-line/60">
           {href ? (
             <Link href={href} aria-label={`View ${product.name}`}>
               <img
                 src={product.image || DEFAULT_PRODUCT_IMAGE}
                 alt={product.name}
-                className="h-full w-full object-cover hover:scale-105 transition duration-300"
+                className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
               />
             </Link>
           ) : (
             <img
               src={product.image || DEFAULT_PRODUCT_IMAGE}
               alt={product.name}
-              className="h-full w-full object-cover hover:scale-105 transition duration-300"
+              className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
             />
           )}
-          <span className="absolute top-2 left-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
-            {product.category}
-          </span>
+          {product.category && (
+            <span className="absolute top-2 left-2 rounded-full bg-gradient-to-r from-emerald-800 to-emerald-950 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-100 shadow-sm border border-emerald-600/30">
+              {product.category}
+            </span>
+          )}
         </div>
+
+        {/* Product Title */}
         {href ? (
           <Link href={href} className="transition-colors hover:text-brand-green">
             <h3 className="font-semibold text-brand-ink text-base line-clamp-1">{product.name}</h3>
@@ -57,29 +98,55 @@ export default function ProductCard({
           <h3 className="font-semibold text-brand-ink text-base line-clamp-1">{product.name}</h3>
         )}
 
-        {product.variants?.length ? (
-          <div className="my-3">
+        {/* Price & Unit Display */}
+        <div className="mt-1 flex items-baseline gap-1.5">
+          <span className="text-lg font-bold text-brand-green">₹{activePrice}</span>
+          <span className="text-xs text-brand-muted">/ {activeSize}</span>
+        </div>
+
+        {/* Variant selector */}
+        {variants.length > 1 && (
+          <div className="mt-2.5">
             <select
-              aria-label="Select product size and price"
-              className="w-full text-xs border border-brand-line rounded-lg p-2 bg-brand-soft focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green outline-none"
+              value={selectedIdx}
+              onChange={(e) => setSelectedIdx(Number(e.target.value))}
+              aria-label="Select product pack size"
+              className="w-full rounded-lg border border-brand-line bg-brand-soft/80 p-1.5 text-xs text-brand-ink font-medium focus:border-brand-green focus:outline-none focus:ring-1 focus:ring-brand-green"
             >
-              {product.variants.map((v, i) => (
-                <option key={i} value={v.size}>
-                  {v.size} — Rs.{v.price}
+              {variants.map((v, i) => (
+                <option key={i} value={i}>
+                  {v.size} — ₹{v.price}
                 </option>
               ))}
             </select>
           </div>
-        ) : null}
+        )}
       </div>
 
-      <div className="grid grid-cols-2 gap-2 mt-2">
-        <a
-          href="tel:9384482007"
-          className="flex items-center justify-center bg-brand-green text-white text-xs py-2.5 rounded-lg font-semibold hover:bg-brand-green-dark transition shadow-sm"
+      {/* Action Buttons */}
+      <div className="mt-4 grid grid-cols-2 gap-2">
+        <button
+          type="button"
+          onClick={handleAddToCart}
+          className={`flex items-center justify-center gap-1.5 text-xs py-2.5 rounded-lg font-semibold transition shadow-sm ${
+            justAdded
+              ? "bg-emerald-700 text-white"
+              : "bg-brand-green text-white hover:bg-brand-green-dark"
+          }`}
         >
-          Call Now
-        </a>
+          {justAdded ? (
+            <>
+              <Check className="h-3.5 w-3.5" />
+              Added!
+            </>
+          ) : (
+            <>
+              <ShoppingBag className="h-3.5 w-3.5" />
+              Add to Cart
+            </>
+          )}
+        </button>
+
         <a
           href={`https://wa.me/919384482007?text=${whatsappMessage}`}
           target="_blank"

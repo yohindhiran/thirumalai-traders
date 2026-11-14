@@ -114,7 +114,7 @@ export default function ProductsManager() {
                   <th className="px-5 py-3.5 font-semibold">Product</th>
                   <th className="px-5 py-3.5 font-semibold">Image</th>
                   <th className="px-5 py-3.5 font-semibold">Category</th>
-                  <th className="px-5 py-3.5 font-semibold">Subcategory</th>
+                  <th className="px-5 py-3.5 font-semibold">Price</th>
                   <th className="px-5 py-3.5 font-semibold">Status</th>
                   <th className="px-5 py-3.5 font-semibold text-right">Actions</th>
                 </tr>
@@ -138,7 +138,7 @@ export default function ProductsManager() {
                       )}
                     </td>
                     <td className="px-5 py-3 text-brand-muted">{catName(p.categoryId)}</td>
-                    <td className="px-5 py-3 text-brand-muted">{p.subcategory || "—"}</td>
+                    <td className="px-5 py-3 font-semibold text-emerald-800">₹{p.price || 0}{p.unit ? ` / ${p.unit}` : ""}</td>
                     <td className="px-5 py-3">
                       <button
                         type="button"
@@ -307,6 +307,27 @@ function ProductModal({
           <div>
             <label htmlFor="pm-sub" className="label">Subcategory</label>
             <input id="pm-sub" name="subcategory" defaultValue={product?.subcategory} placeholder="e.g. Pulses" className="input" />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div>
+              <label htmlFor="pm-price" className="label">Price (₹) *</label>
+              <input id="pm-price" name="price" type="number" step="0.5" min="0" required defaultValue={product?.price ?? 100} className="input" />
+            </div>
+            <div>
+              <label htmlFor="pm-unit" className="label">Unit *</label>
+              <select id="pm-unit" name="unit" defaultValue={product?.unit ?? "kg"} className="input">
+                <option value="kg">kg (Kilogram)</option>
+                <option value="g">g (Gram)</option>
+                <option value="L">L (Litre)</option>
+                <option value="ml">ml (Millilitre)</option>
+                <option value="pack">pack</option>
+                <option value="bag">bag / sack</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="pm-stock" className="label">Stock Qty</label>
+              <input id="pm-stock" name="stock" type="number" min="0" defaultValue={product?.stock ?? 100} className="input" />
+            </div>
           </div>
           <div>
             <label htmlFor="pm-desc" className="label">Description</label>

@@ -79,6 +79,16 @@ export async function POST(request: Request) {
   const slug = `${cat.slug}-${slugify(name)}`;
   const images = toArray(body?.images);
 
+  const price = typeof body?.price === "number" ? body.price : parseFloat(body?.price) || 0;
+  const stock = typeof body?.stock === "number" ? body.stock : parseInt(body?.stock, 10) || 100;
+  const unit = typeof body?.unit === "string" && body.unit.trim() ? body.unit.trim() : (cat.slug === "oils" ? "L" : "kg");
+  const variants = Array.isArray(body?.variants) && body.variants.length > 0 ? body.variants : [
+    { size: `1 ${unit}`, price: price },
+    { size: `5 ${unit}`, price: Math.round(price * 5 * 0.98) },
+    { size: `25 ${unit} Sack`, price: Math.round(price * 25 * 0.94) },
+    { size: `50 ${unit} Bulk Bag`, price: Math.round(price * 50 * 0.90) },
+  ];
+
   const product: Product = {
     id: newId(), // Supports your db.ts export
     slug,
@@ -105,6 +115,10 @@ export async function POST(request: Request) {
     packaging: typeof body?.packaging === "string" ? body.packaging : undefined,
     qualityInfo:
       typeof body?.qualityInfo === "string" ? body.qualityInfo : undefined,
+    price,
+    stock,
+    unit,
+    variants,
     status: body?.status === "inactive" ? "inactive" : "active",
     displayOrder: maxOrder + 1,
     createdAt: now,

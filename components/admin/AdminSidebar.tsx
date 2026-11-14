@@ -25,6 +25,7 @@ import {
   Palette,
   Phone,
   Settings,
+  ShoppingBag,
   Users,
   X,
 } from "lucide-react";
@@ -52,6 +53,12 @@ const GROUPS: Group[] = [
     items: [
       { href: "/admin/dashboard/about", label: "About / Vision / Mission", icon: Building2 },
       { href: "/admin/dashboard/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+    ],
+  },
+  {
+    title: "E-Commerce",
+    items: [
+      { href: "/admin/dashboard/orders", label: "Orders", icon: ShoppingBag },
     ],
   },
   {

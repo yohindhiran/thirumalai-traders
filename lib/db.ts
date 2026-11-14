@@ -11,6 +11,8 @@ import type {
   Category,
   Product,
   Enquiry,
+  Order,
+  OrderStatus,
   SiteContent,
   HeroSlide,
   Testimonial,
@@ -202,6 +204,7 @@ export function seedDb(): DbData {
   return {
     categories,
     products,
+    orders: [],
     enquiries: [],
     content: DEFAULT_CONTENT,
     heroSlides: [],
@@ -292,15 +295,25 @@ function backfill(db: DbData): DbData {
   if (Array.isArray((db as Partial<DbData>).kgPackageSizes) && (db as Partial<DbData>).kgPackageSizes!.length > 0) {
     db.kgPackages = legacyKgPackagesMirror(db.kgPackageSizes);
   }
-  const seed = seedDb();
-  for (const key of Object.keys(seed) as Array<keyof DbData>) {
-    if (db[key] === undefined) {
-      // Do not overwrite a just-migrated kgPackageSizes with seeds.
-      if (key === "kgPackageSizes" && Array.isArray(db.kgPackageSizes) && db.kgPackageSizes.length > 0) {
-        continue;
+  if (!Array.isArray((db as Partial<DbData>).orders)) {
+    db.orders = [];
+  }
+  const REQUIRED_KEYS: Array<keyof DbData> = [
+    "categories", "products", "orders", "enquiries", "content", "heroSlides",
+    "testimonials", "valuedCustomers", "mostSelling", "ourProducts",
+    "kgPackageSizes", "kgPackagesSection", "faqs", "about", "homeShowcase",
+    "pages", "siteSettings", "contactSettings", "customers", "hero", "appearance"
+  ];
+  if (REQUIRED_KEYS.some((k) => db[k] === undefined)) {
+    const seed = seedDb();
+    for (const key of Object.keys(seed) as Array<keyof DbData>) {
+      if (db[key] === undefined) {
+        if (key === "kgPackageSizes" && Array.isArray(db.kgPackageSizes) && db.kgPackageSizes.length > 0) {
+          continue;
+        }
+        // @ts-expect-error dynamic backfill
+        db[key] = seed[key];
       }
-      // @ts-expect-error dynamic backfill
-      db[key] = seed[key];
     }
   }
   // Normalise shapes of migrated sizes.
@@ -439,6 +452,10 @@ export function invalidateProductCache(): void {
     revalidatePath("/", "layout");
     revalidatePath("/products", "layout");
     revalidatePath("/products/[category]", "page");
+    revalidatePath("/products/[category]/[slug]", "page");
+    revalidatePath("/cart", "page");
+    revalidatePath("/checkout", "page");
+    revalidatePath("/admin/dashboard/orders", "page");
   } catch {
     // revalidatePath only works inside request context; ignore elsewhere.
   }
@@ -656,4 +673,39 @@ export function getKgPackagesSection(): KgPackagesSection {
 
 export function getHomeShowcase() {
   return readDb().homeShowcase || [];
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Orders (E-Commerce without payment gateway)                               */
+/* -------------------------------------------------------------------------- */
+
+export function getOrders(): Order[] {
+  const db = readDb();
+  return (db.orders || []).slice().sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+}
+
+export function getOrderById(id: string): Order | undefined {
+  const db = readDb();
+  return (db.orders || []).find((o) => o.id === id || o.orderNumber === id);
+}
+
+export function saveOrder(order: Order): Order {
+  const db = readDb();
+  if (!Array.isArray(db.orders)) {
+    db.orders = [];
+  }
+  db.orders.unshift(order);
+  writeDb(db);
+  return order;
+}
+
+export function updateOrderStatus(id: string, status: OrderStatus): boolean {
+  const db = readDb();
+  if (!Array.isArray(db.orders)) return false;
+  const order = db.orders.find((o) => o.id === id || o.orderNumber === id);
+  if (!order) return false;
+  order.status = status;
+  order.updatedAt = new Date().toISOString();
+  writeDb(db);
+  return true;
 }

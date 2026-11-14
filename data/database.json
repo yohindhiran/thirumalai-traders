@@ -84,6 +84,27 @@
       "updatedAt": "2026-09-19T05:24:04.085Z",
       "images": [
         "/images/uploads/1789795441868-78834a110588b030dee5c4dc.jpg"
+      ],
+      "price": 120,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 120
+        },
+        {
+          "size": "5 kg",
+          "price": 588
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2820
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 5400
+        }
       ]
     },
     {
@@ -98,6 +119,27 @@
       "updatedAt": "2026-09-19T09:14:14.965Z",
       "images": [
         "/images/uploads/1789809253541-94a04b717de694456c2da606.jpg"
+      ],
+      "price": 340,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 340
+        },
+        {
+          "size": "5 kg",
+          "price": 1666
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 7990
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 15300
+        }
       ]
     },
     {
@@ -112,6 +154,27 @@
       "updatedAt": "2026-09-19T09:19:45.885Z",
       "images": [
         "/images/uploads/1789809583080-73969004a10cc243247ab616.jpg"
+      ],
+      "price": 190,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 190
+        },
+        {
+          "size": "5 kg",
+          "price": 931
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4465
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8550
+        }
       ]
     },
     {
@@ -126,6 +189,27 @@
       "updatedAt": "2026-09-19T09:19:54.238Z",
       "images": [
         "/images/uploads/1789809592525-b212003e28486a142083848d.jpg"
+      ],
+      "price": 85,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 85
+        },
+        {
+          "size": "5 kg",
+          "price": 417
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1998
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3825
+        }
       ]
     },
     {
@@ -140,6 +224,27 @@
       "updatedAt": "2026-09-19T09:23:55.569Z",
       "images": [
         "/images/uploads/1789809832851-46997a29836580ac7fa0a60e.jpg"
+      ],
+      "price": 95,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 95
+        },
+        {
+          "size": "5 kg",
+          "price": 466
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2233
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4275
+        }
       ]
     },
     {
@@ -154,6 +259,27 @@
       "updatedAt": "2026-09-19T09:24:05.539Z",
       "images": [
         "/images/uploads/1789809843913-98123844bd0efed9cda7007d.jpg"
+      ],
+      "price": 680,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 680
+        },
+        {
+          "size": "5 kg",
+          "price": 3332
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 15980
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 30600
+        }
       ]
     },
     {
@@ -165,7 +291,28 @@
       "status": "active",
       "displayOrder": 7,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 680,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 680
+        },
+        {
+          "size": "5 kg",
+          "price": 3332
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 15980
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 30600
+        }
+      ]
     },
     {
       "id": "prod-8",
@@ -179,6 +326,27 @@
       "updatedAt": "2026-09-19T09:24:27.472Z",
       "images": [
         "/images/uploads/1789809865996-db907dbc2c09aa0104286223.jpg"
+      ],
+      "price": 1850,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 1850
+        },
+        {
+          "size": "5 kg",
+          "price": 9065
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 43475
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 83250
+        }
       ]
     },
     {
@@ -190,7 +358,28 @@
       "status": "active",
       "displayOrder": 9,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 1850,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 1850
+        },
+        {
+          "size": "5 kg",
+          "price": 9065
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 43475
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 83250
+        }
+      ]
     },
     {
       "id": "prod-10",
@@ -204,6 +393,27 @@
       "updatedAt": "2026-09-19T05:22:26.458Z",
       "images": [
         "/images/uploads/1789795343895-f2e54fa755501fb1427d7edd.jpg"
+      ],
+      "price": 950,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 950
+        },
+        {
+          "size": "5 kg",
+          "price": 4655
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 22325
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 42750
+        }
       ]
     },
     {
@@ -218,6 +428,27 @@
       "updatedAt": "2026-09-19T09:26:22.493Z",
       "images": [
         "/images/uploads/1789809980821-76841b5acd777059f71f1c99.jpg"
+      ],
+      "price": 480,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 480
+        },
+        {
+          "size": "5 kg",
+          "price": 2352
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 11280
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 21600
+        }
       ]
     },
     {
@@ -232,6 +463,27 @@
       "updatedAt": "2026-09-19T09:26:49.654Z",
       "images": [
         "/images/uploads/1789810008162-451da75dc600182ab895d51e.jpg"
+      ],
+      "price": 720,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 720
+        },
+        {
+          "size": "5 kg",
+          "price": 3528
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 16920
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 32400
+        }
       ]
     },
     {
@@ -246,6 +498,27 @@
       "updatedAt": "2026-09-19T09:27:19.455Z",
       "images": [
         "/images/uploads/1789810038187-7d248c6d304b6a40a3c5927c.jpg"
+      ],
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
       ]
     },
     {
@@ -257,7 +530,28 @@
       "status": "active",
       "displayOrder": 14,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
+      ]
     },
     {
       "id": "prod-15",
@@ -268,7 +562,28 @@
       "status": "active",
       "displayOrder": 15,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 160,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 160
+        },
+        {
+          "size": "5 kg",
+          "price": 784
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3760
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 7200
+        }
+      ]
     },
     {
       "id": "prod-16",
@@ -282,6 +597,27 @@
       "updatedAt": "2026-09-19T09:28:27.674Z",
       "images": [
         "/images/uploads/1789810106016-1f3b9a3c2306b18a25be4787.jpg"
+      ],
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
       ]
     },
     {
@@ -293,7 +629,28 @@
       "status": "active",
       "displayOrder": 17,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
+      ]
     },
     {
       "id": "prod-18",
@@ -304,7 +661,28 @@
       "status": "active",
       "displayOrder": 18,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 1400,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 1400
+        },
+        {
+          "size": "5 kg",
+          "price": 6860
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 32900
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 63000
+        }
+      ]
     },
     {
       "id": "prod-19",
@@ -315,7 +693,28 @@
       "status": "active",
       "displayOrder": 19,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 1100,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 1100
+        },
+        {
+          "size": "5 kg",
+          "price": 5390
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 25850
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 49500
+        }
+      ]
     },
     {
       "id": "prod-20",
@@ -326,7 +725,28 @@
       "status": "active",
       "displayOrder": 20,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 1100,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 1100
+        },
+        {
+          "size": "5 kg",
+          "price": 5390
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 25850
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 49500
+        }
+      ]
     },
     {
       "id": "prod-21",
@@ -337,7 +757,28 @@
       "status": "active",
       "displayOrder": 21,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
+      ]
     },
     {
       "id": "prod-22",
@@ -348,7 +789,28 @@
       "status": "active",
       "displayOrder": 22,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
+      ]
     },
     {
       "id": "prod-23",
@@ -359,7 +821,28 @@
       "status": "active",
       "displayOrder": 23,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
+      ]
     },
     {
       "id": "prod-24",
@@ -370,7 +853,28 @@
       "status": "active",
       "displayOrder": 24,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
+      ]
     },
     {
       "id": "prod-25",
@@ -381,7 +885,28 @@
       "status": "active",
       "displayOrder": 25,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 850,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 850
+        },
+        {
+          "size": "5 kg",
+          "price": 4165
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 19975
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 38250
+        }
+      ]
     },
     {
       "id": "prod-26",
@@ -395,6 +920,27 @@
       "updatedAt": "2026-09-19T09:43:22.293Z",
       "images": [
         "/images/uploads/1789811000011-d271fc16013781a2afe4363c.jpg"
+      ],
+      "price": 140,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 140
+        },
+        {
+          "size": "5 kg",
+          "price": 686
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3290
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6300
+        }
       ]
     },
     {
@@ -409,6 +955,27 @@
       "updatedAt": "2026-09-19T09:43:31.028Z",
       "images": [
         "/images/uploads/1789811008813-adb3639ad8e1563694d20cb8.jpg"
+      ],
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
       ]
     },
     {
@@ -423,6 +990,27 @@
       "updatedAt": "2026-09-19T09:43:39.278Z",
       "images": [
         "/images/uploads/1789811017637-a0e1c0fd14dda74bb7098888.jpg"
+      ],
+      "price": 3500,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 3500
+        },
+        {
+          "size": "5 kg",
+          "price": 17150
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 82250
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 157500
+        }
       ]
     },
     {
@@ -437,6 +1025,27 @@
       "updatedAt": "2026-09-19T09:45:29.311Z",
       "images": [
         "/images/uploads/1789811126684-d1a04aeb82c4cdf7eae6280c.jpg"
+      ],
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
       ]
     },
     {
@@ -451,6 +1060,27 @@
       "updatedAt": "2026-09-19T09:44:58.970Z",
       "images": [
         "/images/uploads/1789811097278-3c94bb549d3c3381764bfe53.jpg"
+      ],
+      "price": 170,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 170
+        },
+        {
+          "size": "5 kg",
+          "price": 833
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3995
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 7650
+        }
       ]
     },
     {
@@ -466,6 +1096,27 @@
       "updatedAt": "2026-09-19T09:31:40.667Z",
       "images": [
         "/images/uploads/1789810299145-2555554eb259fa0441a15bd2.jpg"
+      ],
+      "price": 155,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 155
+        },
+        {
+          "size": "5 kg",
+          "price": 760
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3643
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6975
+        }
       ]
     },
     {
@@ -478,7 +1129,28 @@
       "status": "active",
       "displayOrder": 32,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 155,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 155
+        },
+        {
+          "size": "5 kg",
+          "price": 760
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3643
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6975
+        }
+      ]
     },
     {
       "id": "prod-33",
@@ -490,7 +1162,28 @@
       "status": "active",
       "displayOrder": 33,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 155,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 155
+        },
+        {
+          "size": "5 kg",
+          "price": 760
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3643
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6975
+        }
+      ]
     },
     {
       "id": "prod-34",
@@ -502,7 +1195,28 @@
       "status": "active",
       "displayOrder": 34,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 135,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 135
+        },
+        {
+          "size": "5 kg",
+          "price": 662
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3173
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6075
+        }
+      ]
     },
     {
       "id": "prod-35",
@@ -517,6 +1231,27 @@
       "updatedAt": "2026-09-19T09:46:13.335Z",
       "images": [
         "/images/uploads/1789811171814-96f5be2533a14d3846eaa5fa.jpg"
+      ],
+      "price": 135,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 135
+        },
+        {
+          "size": "5 kg",
+          "price": 662
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3173
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6075
+        }
       ]
     },
     {
@@ -529,7 +1264,28 @@
       "status": "active",
       "displayOrder": 36,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 135,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 135
+        },
+        {
+          "size": "5 kg",
+          "price": 662
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3173
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6075
+        }
+      ]
     },
     {
       "id": "prod-37",
@@ -544,6 +1300,27 @@
       "updatedAt": "2026-09-19T09:46:43.276Z",
       "images": [
         "/images/uploads/1789811201644-3b2f3cd132a5df8f467b292b.jpg"
+      ],
+      "price": 135,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 135
+        },
+        {
+          "size": "5 kg",
+          "price": 662
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3173
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6075
+        }
       ]
     },
     {
@@ -556,7 +1333,28 @@
       "status": "active",
       "displayOrder": 38,
       "createdAt": "2026-09-15T09:34:46.808Z",
-      "updatedAt": "2026-09-15T09:34:46.808Z"
+      "updatedAt": "2026-09-15T09:34:46.808Z",
+      "price": 125,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 125
+        },
+        {
+          "size": "5 kg",
+          "price": 613
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2938
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 5625
+        }
+      ]
     },
     {
       "id": "prod-39",
@@ -571,6 +1369,27 @@
       "updatedAt": "2026-09-19T09:47:35.110Z",
       "images": [
         "/images/uploads/1789811253687-772770d9d9aea52292fa1fbc.jpg"
+      ],
+      "price": 125,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 125
+        },
+        {
+          "size": "5 kg",
+          "price": 613
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2938
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 5625
+        }
       ]
     },
     {
@@ -586,6 +1405,27 @@
       "updatedAt": "2026-09-19T09:48:31.081Z",
       "images": [
         "/images/uploads/1789811308982-3c56d305c5460851724ae024.jpg"
+      ],
+      "price": 90,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 90
+        },
+        {
+          "size": "5 kg",
+          "price": 441
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2115
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4050
+        }
       ]
     },
     {
@@ -598,7 +1438,28 @@
       "status": "active",
       "displayOrder": 41,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 90,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 90
+        },
+        {
+          "size": "5 kg",
+          "price": 441
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2115
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4050
+        }
+      ]
     },
     {
       "id": "prod-42",
@@ -610,7 +1471,28 @@
       "status": "active",
       "displayOrder": 42,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 90,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 90
+        },
+        {
+          "size": "5 kg",
+          "price": 441
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2115
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4050
+        }
+      ]
     },
     {
       "id": "prod-43",
@@ -622,7 +1504,28 @@
       "status": "active",
       "displayOrder": 43,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 90,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 90
+        },
+        {
+          "size": "5 kg",
+          "price": 441
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2115
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4050
+        }
+      ]
     },
     {
       "id": "prod-44",
@@ -634,7 +1537,28 @@
       "status": "active",
       "displayOrder": 44,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 80,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 80
+        },
+        {
+          "size": "5 kg",
+          "price": 392
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1880
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3600
+        }
+      ]
     },
     {
       "id": "prod-45",
@@ -646,7 +1570,28 @@
       "status": "active",
       "displayOrder": 45,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 90,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 90
+        },
+        {
+          "size": "5 kg",
+          "price": 441
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2115
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4050
+        }
+      ]
     },
     {
       "id": "prod-46",
@@ -658,7 +1603,28 @@
       "status": "active",
       "displayOrder": 46,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 75,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 75
+        },
+        {
+          "size": "5 kg",
+          "price": 368
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1763
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3375
+        }
+      ]
     },
     {
       "id": "prod-47",
@@ -670,7 +1636,28 @@
       "status": "active",
       "displayOrder": 47,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 75,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 75
+        },
+        {
+          "size": "5 kg",
+          "price": 368
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1763
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3375
+        }
+      ]
     },
     {
       "id": "prod-48",
@@ -682,7 +1669,28 @@
       "status": "active",
       "displayOrder": 48,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 75,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 75
+        },
+        {
+          "size": "5 kg",
+          "price": 368
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1763
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3375
+        }
+      ]
     },
     {
       "id": "prod-49",
@@ -694,7 +1702,28 @@
       "status": "active",
       "displayOrder": 49,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 75,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 75
+        },
+        {
+          "size": "5 kg",
+          "price": 368
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1763
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3375
+        }
+      ]
     },
     {
       "id": "prod-50",
@@ -706,7 +1735,28 @@
       "status": "active",
       "displayOrder": 50,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 75,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 75
+        },
+        {
+          "size": "5 kg",
+          "price": 368
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1763
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3375
+        }
+      ]
     },
     {
       "id": "prod-51",
@@ -718,7 +1768,28 @@
       "status": "active",
       "displayOrder": 51,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 140,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 140
+        },
+        {
+          "size": "5 kg",
+          "price": 686
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3290
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6300
+        }
+      ]
     },
     {
       "id": "prod-52",
@@ -730,7 +1801,28 @@
       "status": "active",
       "displayOrder": 52,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 85,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 85
+        },
+        {
+          "size": "5 kg",
+          "price": 417
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1998
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3825
+        }
+      ]
     },
     {
       "id": "prod-53",
@@ -742,7 +1834,28 @@
       "status": "active",
       "displayOrder": 53,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 130,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 130
+        },
+        {
+          "size": "5 kg",
+          "price": 637
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3055
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 5850
+        }
+      ]
     },
     {
       "id": "prod-54",
@@ -754,7 +1867,28 @@
       "status": "active",
       "displayOrder": 54,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 95,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 95
+        },
+        {
+          "size": "5 kg",
+          "price": 466
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2233
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4275
+        }
+      ]
     },
     {
       "id": "prod-55",
@@ -766,7 +1900,28 @@
       "status": "active",
       "displayOrder": 55,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 80,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 80
+        },
+        {
+          "size": "5 kg",
+          "price": 392
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1880
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3600
+        }
+      ]
     },
     {
       "id": "prod-56",
@@ -778,7 +1933,28 @@
       "status": "active",
       "displayOrder": 56,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 90,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 90
+        },
+        {
+          "size": "5 kg",
+          "price": 441
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2115
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4050
+        }
+      ]
     },
     {
       "id": "prod-57",
@@ -790,7 +1966,28 @@
       "status": "active",
       "displayOrder": 57,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 90,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 90
+        },
+        {
+          "size": "5 kg",
+          "price": 441
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2115
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4050
+        }
+      ]
     },
     {
       "id": "prod-58",
@@ -802,7 +1999,28 @@
       "status": "active",
       "displayOrder": 58,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 80,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 80
+        },
+        {
+          "size": "5 kg",
+          "price": 392
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1880
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3600
+        }
+      ]
     },
     {
       "id": "prod-59",
@@ -814,7 +2032,28 @@
       "status": "active",
       "displayOrder": 59,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 40,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 40
+        },
+        {
+          "size": "5 kg",
+          "price": 196
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 940
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1800
+        }
+      ]
     },
     {
       "id": "prod-60",
@@ -826,7 +2065,28 @@
       "status": "active",
       "displayOrder": 60,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 40,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 40
+        },
+        {
+          "size": "5 kg",
+          "price": 196
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 940
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1800
+        }
+      ]
     },
     {
       "id": "prod-61",
@@ -838,7 +2098,28 @@
       "status": "active",
       "displayOrder": 61,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 40,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 40
+        },
+        {
+          "size": "5 kg",
+          "price": 196
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 940
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1800
+        }
+      ]
     },
     {
       "id": "prod-62",
@@ -850,7 +2131,28 @@
       "status": "active",
       "displayOrder": 62,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 80,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 80
+        },
+        {
+          "size": "5 kg",
+          "price": 392
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1880
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3600
+        }
+      ]
     },
     {
       "id": "prod-63",
@@ -862,7 +2164,28 @@
       "status": "active",
       "displayOrder": 63,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 80,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 80
+        },
+        {
+          "size": "5 kg",
+          "price": 392
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1880
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3600
+        }
+      ]
     },
     {
       "id": "prod-64",
@@ -874,7 +2197,28 @@
       "status": "active",
       "displayOrder": 64,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 80,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 80
+        },
+        {
+          "size": "5 kg",
+          "price": 392
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1880
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3600
+        }
+      ]
     },
     {
       "id": "prod-65",
@@ -886,7 +2230,28 @@
       "status": "active",
       "displayOrder": 65,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 52,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 52
+        },
+        {
+          "size": "5 kg",
+          "price": 255
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1222
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2340
+        }
+      ]
     },
     {
       "id": "prod-66",
@@ -898,7 +2263,28 @@
       "status": "active",
       "displayOrder": 66,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 80,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 80
+        },
+        {
+          "size": "5 kg",
+          "price": 392
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1880
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3600
+        }
+      ]
     },
     {
       "id": "prod-67",
@@ -910,7 +2296,28 @@
       "status": "active",
       "displayOrder": 67,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 78,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 78
+        },
+        {
+          "size": "5 kg",
+          "price": 382
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1833
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3510
+        }
+      ]
     },
     {
       "id": "prod-68",
@@ -922,7 +2329,28 @@
       "status": "active",
       "displayOrder": 68,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-69",
@@ -934,7 +2362,28 @@
       "status": "active",
       "displayOrder": 69,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-70",
@@ -946,7 +2395,28 @@
       "status": "active",
       "displayOrder": 70,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-71",
@@ -958,7 +2428,28 @@
       "status": "active",
       "displayOrder": 71,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-72",
@@ -970,7 +2461,28 @@
       "status": "active",
       "displayOrder": 72,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-73",
@@ -982,7 +2494,28 @@
       "status": "active",
       "displayOrder": 73,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-74",
@@ -994,7 +2527,28 @@
       "status": "active",
       "displayOrder": 74,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-75",
@@ -1006,7 +2560,28 @@
       "status": "active",
       "displayOrder": 75,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-76",
@@ -1018,7 +2593,28 @@
       "status": "active",
       "displayOrder": 76,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-77",
@@ -1030,7 +2626,28 @@
       "status": "active",
       "displayOrder": 77,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 45,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 45
+        },
+        {
+          "size": "5 kg",
+          "price": 221
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1058
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2025
+        }
+      ]
     },
     {
       "id": "prod-78",
@@ -1042,7 +2659,28 @@
       "status": "active",
       "displayOrder": 78,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 58,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 58
+        },
+        {
+          "size": "5 kg",
+          "price": 284
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1363
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2610
+        }
+      ]
     },
     {
       "id": "prod-79",
@@ -1054,7 +2692,28 @@
       "status": "active",
       "displayOrder": 79,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 42,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 42
+        },
+        {
+          "size": "5 kg",
+          "price": 206
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 987
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1890
+        }
+      ]
     },
     {
       "id": "prod-80",
@@ -1066,7 +2725,28 @@
       "status": "active",
       "displayOrder": 80,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 110,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 110
+        },
+        {
+          "size": "5 kg",
+          "price": 539
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2585
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 4950
+        }
+      ]
     },
     {
       "id": "prod-81",
@@ -1078,7 +2758,28 @@
       "status": "active",
       "displayOrder": 81,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 56,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 56
+        },
+        {
+          "size": "5 kg",
+          "price": 274
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1316
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2520
+        }
+      ]
     },
     {
       "id": "prod-82",
@@ -1090,7 +2791,28 @@
       "status": "active",
       "displayOrder": 82,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 62,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 62
+        },
+        {
+          "size": "5 kg",
+          "price": 304
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1457
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2790
+        }
+      ]
     },
     {
       "id": "prod-83",
@@ -1102,7 +2824,28 @@
       "status": "active",
       "displayOrder": 83,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 52,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 52
+        },
+        {
+          "size": "5 kg",
+          "price": 255
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1222
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2340
+        }
+      ]
     },
     {
       "id": "prod-84",
@@ -1114,7 +2857,28 @@
       "status": "active",
       "displayOrder": 84,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 145,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 145
+        },
+        {
+          "size": "5 kg",
+          "price": 711
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3408
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6525
+        }
+      ]
     },
     {
       "id": "prod-85",
@@ -1126,7 +2890,28 @@
       "status": "active",
       "displayOrder": 85,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 145,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 145
+        },
+        {
+          "size": "5 kg",
+          "price": 711
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3408
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 6525
+        }
+      ]
     },
     {
       "id": "prod-86",
@@ -1138,7 +2923,28 @@
       "status": "active",
       "displayOrder": 86,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 52,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 52
+        },
+        {
+          "size": "5 kg",
+          "price": 255
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1222
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2340
+        }
+      ]
     },
     {
       "id": "prod-87",
@@ -1150,7 +2956,28 @@
       "status": "active",
       "displayOrder": 87,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 52,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 52
+        },
+        {
+          "size": "5 kg",
+          "price": 255
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1222
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2340
+        }
+      ]
     },
     {
       "id": "prod-88",
@@ -1162,7 +2989,28 @@
       "status": "active",
       "displayOrder": 88,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 52,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 52
+        },
+        {
+          "size": "5 kg",
+          "price": 255
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1222
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2340
+        }
+      ]
     },
     {
       "id": "prod-89",
@@ -1173,7 +3021,28 @@
       "status": "active",
       "displayOrder": 89,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-90",
@@ -1184,7 +3053,28 @@
       "status": "active",
       "displayOrder": 90,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 160,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 160
+        },
+        {
+          "size": "5 kg",
+          "price": 784
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 3760
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 7200
+        }
+      ]
     },
     {
       "id": "prod-91",
@@ -1195,7 +3085,28 @@
       "status": "active",
       "displayOrder": 91,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 180,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 180
+        },
+        {
+          "size": "5 kg",
+          "price": 882
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4230
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 8100
+        }
+      ]
     },
     {
       "id": "prod-92",
@@ -1206,7 +3117,28 @@
       "status": "active",
       "displayOrder": 92,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-93",
@@ -1217,7 +3149,28 @@
       "status": "active",
       "displayOrder": 93,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-94",
@@ -1228,7 +3181,28 @@
       "status": "active",
       "displayOrder": 94,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 320,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 320
+        },
+        {
+          "size": "5 kg",
+          "price": 1568
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 7520
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 14400
+        }
+      ]
     },
     {
       "id": "prod-95",
@@ -1239,7 +3213,28 @@
       "status": "active",
       "displayOrder": 95,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 260,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 260
+        },
+        {
+          "size": "5 kg",
+          "price": 1274
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 6110
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 11700
+        }
+      ]
     },
     {
       "id": "prod-96",
@@ -1250,7 +3245,28 @@
       "status": "active",
       "displayOrder": 96,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 260,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 260
+        },
+        {
+          "size": "5 kg",
+          "price": 1274
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 6110
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 11700
+        }
+      ]
     },
     {
       "id": "prod-97",
@@ -1261,7 +3277,28 @@
       "status": "active",
       "displayOrder": 97,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 210,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 210
+        },
+        {
+          "size": "5 kg",
+          "price": 1029
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 4935
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 9450
+        }
+      ]
     },
     {
       "id": "prod-98",
@@ -1272,7 +3309,28 @@
       "status": "active",
       "displayOrder": 98,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 340,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 340
+        },
+        {
+          "size": "5 kg",
+          "price": 1666
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 7990
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 15300
+        }
+      ]
     },
     {
       "id": "prod-99",
@@ -1283,7 +3341,28 @@
       "status": "active",
       "displayOrder": 99,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-100",
@@ -1294,7 +3373,28 @@
       "status": "active",
       "displayOrder": 100,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-101",
@@ -1305,7 +3405,28 @@
       "status": "active",
       "displayOrder": 101,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-102",
@@ -1316,7 +3437,28 @@
       "status": "active",
       "displayOrder": 102,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-103",
@@ -1327,7 +3469,28 @@
       "status": "active",
       "displayOrder": 103,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-104",
@@ -1338,7 +3501,28 @@
       "status": "active",
       "displayOrder": 104,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 240,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 240
+        },
+        {
+          "size": "5 kg",
+          "price": 1176
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5640
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 10800
+        }
+      ]
     },
     {
       "id": "prod-105",
@@ -1350,7 +3534,28 @@
       "status": "active",
       "displayOrder": 105,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 780,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 780
+        },
+        {
+          "size": "5 kg",
+          "price": 3822
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 18330
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 35100
+        }
+      ]
     },
     {
       "id": "prod-106",
@@ -1362,7 +3567,28 @@
       "status": "active",
       "displayOrder": 106,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 740,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 740
+        },
+        {
+          "size": "5 kg",
+          "price": 3626
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 17390
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 33300
+        }
+      ]
     },
     {
       "id": "prod-107",
@@ -1374,7 +3600,28 @@
       "status": "active",
       "displayOrder": 107,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 280,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 280
+        },
+        {
+          "size": "5 kg",
+          "price": 1372
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 6580
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 12600
+        }
+      ]
     },
     {
       "id": "prod-108",
@@ -1386,7 +3633,28 @@
       "status": "active",
       "displayOrder": 108,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 280,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 280
+        },
+        {
+          "size": "5 kg",
+          "price": 1372
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 6580
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 12600
+        }
+      ]
     },
     {
       "id": "prod-109",
@@ -1398,7 +3666,28 @@
       "status": "active",
       "displayOrder": 109,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 220,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 220
+        },
+        {
+          "size": "5 kg",
+          "price": 1078
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5170
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 9900
+        }
+      ]
     },
     {
       "id": "prod-110",
@@ -1410,7 +3699,28 @@
       "status": "active",
       "displayOrder": 110,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 220,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 220
+        },
+        {
+          "size": "5 kg",
+          "price": 1078
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 5170
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 9900
+        }
+      ]
     },
     {
       "id": "prod-111",
@@ -1422,7 +3732,28 @@
       "status": "active",
       "displayOrder": 111,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 890,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 890
+        },
+        {
+          "size": "5 kg",
+          "price": 4361
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 20915
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 40050
+        }
+      ]
     },
     {
       "id": "prod-112",
@@ -1434,7 +3765,28 @@
       "status": "active",
       "displayOrder": 112,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-113",
@@ -1446,7 +3798,28 @@
       "status": "active",
       "displayOrder": 113,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-114",
@@ -1458,7 +3831,28 @@
       "status": "active",
       "displayOrder": 114,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-115",
@@ -1470,7 +3864,28 @@
       "status": "active",
       "displayOrder": 115,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-116",
@@ -1482,7 +3897,28 @@
       "status": "active",
       "displayOrder": 116,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 1150,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 1150
+        },
+        {
+          "size": "5 kg",
+          "price": 5635
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 27025
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 51750
+        }
+      ]
     },
     {
       "id": "prod-117",
@@ -1494,7 +3930,28 @@
       "status": "active",
       "displayOrder": 117,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 950,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 950
+        },
+        {
+          "size": "5 kg",
+          "price": 4655
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 22325
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 42750
+        }
+      ]
     },
     {
       "id": "prod-118",
@@ -1506,7 +3963,28 @@
       "status": "active",
       "displayOrder": 118,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-119",
@@ -1518,7 +3996,28 @@
       "status": "active",
       "displayOrder": 119,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-120",
@@ -1530,7 +4029,28 @@
       "status": "active",
       "displayOrder": 120,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-121",
@@ -1542,7 +4062,28 @@
       "status": "active",
       "displayOrder": 121,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-122",
@@ -1554,7 +4095,28 @@
       "status": "active",
       "displayOrder": 122,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-123",
@@ -1566,7 +4128,28 @@
       "status": "active",
       "displayOrder": 123,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-124",
@@ -1578,7 +4161,28 @@
       "status": "active",
       "displayOrder": 124,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-125",
@@ -1590,7 +4194,28 @@
       "status": "active",
       "displayOrder": 125,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-126",
@@ -1602,7 +4227,28 @@
       "status": "active",
       "displayOrder": 126,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-127",
@@ -1614,7 +4260,28 @@
       "status": "active",
       "displayOrder": 127,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 550,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 550
+        },
+        {
+          "size": "5 kg",
+          "price": 2695
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 12925
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 24750
+        }
+      ]
     },
     {
       "id": "prod-128",
@@ -1625,7 +4292,28 @@
       "status": "active",
       "displayOrder": 128,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 135,
+      "stock": 250,
+      "unit": "L",
+      "variants": [
+        {
+          "size": "1 L",
+          "price": 135
+        },
+        {
+          "size": "5 L",
+          "price": 662
+        },
+        {
+          "size": "25 L Sack",
+          "price": 3173
+        },
+        {
+          "size": "50 L Bulk Bag",
+          "price": 6075
+        }
+      ]
     },
     {
       "id": "prod-129",
@@ -1636,7 +4324,28 @@
       "status": "active",
       "displayOrder": 129,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 195,
+      "stock": 250,
+      "unit": "L",
+      "variants": [
+        {
+          "size": "1 L",
+          "price": 195
+        },
+        {
+          "size": "5 L",
+          "price": 956
+        },
+        {
+          "size": "25 L Sack",
+          "price": 4583
+        },
+        {
+          "size": "50 L Bulk Bag",
+          "price": 8775
+        }
+      ]
     },
     {
       "id": "prod-130",
@@ -1647,7 +4356,28 @@
       "status": "active",
       "displayOrder": 130,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 155,
+      "stock": 250,
+      "unit": "L",
+      "variants": [
+        {
+          "size": "1 L",
+          "price": 155
+        },
+        {
+          "size": "5 L",
+          "price": 760
+        },
+        {
+          "size": "25 L Sack",
+          "price": 3643
+        },
+        {
+          "size": "50 L Bulk Bag",
+          "price": 6975
+        }
+      ]
     },
     {
       "id": "prod-131",
@@ -1658,7 +4388,28 @@
       "status": "active",
       "displayOrder": 131,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 155,
+      "stock": 250,
+      "unit": "L",
+      "variants": [
+        {
+          "size": "1 L",
+          "price": 155
+        },
+        {
+          "size": "5 L",
+          "price": 760
+        },
+        {
+          "size": "25 L Sack",
+          "price": 3643
+        },
+        {
+          "size": "50 L Bulk Bag",
+          "price": 6975
+        }
+      ]
     },
     {
       "id": "prod-132",
@@ -1669,7 +4420,28 @@
       "status": "active",
       "displayOrder": 132,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 280,
+      "stock": 250,
+      "unit": "L",
+      "variants": [
+        {
+          "size": "1 L",
+          "price": 280
+        },
+        {
+          "size": "5 L",
+          "price": 1372
+        },
+        {
+          "size": "25 L Sack",
+          "price": 6580
+        },
+        {
+          "size": "50 L Bulk Bag",
+          "price": 12600
+        }
+      ]
     },
     {
       "id": "prod-133",
@@ -1680,7 +4452,28 @@
       "status": "active",
       "displayOrder": 133,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 220,
+      "stock": 250,
+      "unit": "L",
+      "variants": [
+        {
+          "size": "1 L",
+          "price": 220
+        },
+        {
+          "size": "5 L",
+          "price": 1078
+        },
+        {
+          "size": "25 L Sack",
+          "price": 5170
+        },
+        {
+          "size": "50 L Bulk Bag",
+          "price": 9900
+        }
+      ]
     },
     {
       "id": "prod-134",
@@ -1692,7 +4485,28 @@
       "status": "active",
       "displayOrder": 134,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 45,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 45
+        },
+        {
+          "size": "5 kg",
+          "price": 221
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1058
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2025
+        }
+      ]
     },
     {
       "id": "prod-135",
@@ -1704,7 +4518,28 @@
       "status": "active",
       "displayOrder": 135,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 45,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 45
+        },
+        {
+          "size": "5 kg",
+          "price": 221
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1058
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2025
+        }
+      ]
     },
     {
       "id": "prod-136",
@@ -1716,7 +4551,28 @@
       "status": "active",
       "displayOrder": 136,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 42,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 42
+        },
+        {
+          "size": "5 kg",
+          "price": 206
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 987
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1890
+        }
+      ]
     },
     {
       "id": "prod-137",
@@ -1728,7 +4584,28 @@
       "status": "active",
       "displayOrder": 137,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 46,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 46
+        },
+        {
+          "size": "5 kg",
+          "price": 225
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1081
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2070
+        }
+      ]
     },
     {
       "id": "prod-138",
@@ -1740,7 +4617,28 @@
       "status": "active",
       "displayOrder": 138,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 44,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 44
+        },
+        {
+          "size": "5 kg",
+          "price": 216
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1034
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1980
+        }
+      ]
     },
     {
       "id": "prod-139",
@@ -1752,7 +4650,28 @@
       "status": "active",
       "displayOrder": 139,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-140",
@@ -1764,7 +4683,28 @@
       "status": "active",
       "displayOrder": 140,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 88,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 88
+        },
+        {
+          "size": "5 kg",
+          "price": 431
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 2068
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 3960
+        }
+      ]
     },
     {
       "id": "prod-141",
@@ -1776,7 +4716,28 @@
       "status": "active",
       "displayOrder": 141,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-142",
@@ -1788,7 +4749,28 @@
       "status": "active",
       "displayOrder": 142,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 45,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 45
+        },
+        {
+          "size": "5 kg",
+          "price": 221
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1058
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2025
+        }
+      ]
     },
     {
       "id": "prod-143",
@@ -1800,7 +4782,28 @@
       "status": "active",
       "displayOrder": 143,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 42,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 42
+        },
+        {
+          "size": "5 kg",
+          "price": 206
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 987
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1890
+        }
+      ]
     },
     {
       "id": "prod-144",
@@ -1812,7 +4815,28 @@
       "status": "active",
       "displayOrder": 144,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 42,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 42
+        },
+        {
+          "size": "5 kg",
+          "price": 206
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 987
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 1890
+        }
+      ]
     },
     {
       "id": "prod-145",
@@ -1824,7 +4848,28 @@
       "status": "active",
       "displayOrder": 145,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 65,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 65
+        },
+        {
+          "size": "5 kg",
+          "price": 319
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1528
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2925
+        }
+      ]
     },
     {
       "id": "prod-146",
@@ -1836,7 +4881,28 @@
       "status": "active",
       "displayOrder": 146,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 65,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 65
+        },
+        {
+          "size": "5 kg",
+          "price": 319
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1528
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2925
+        }
+      ]
     },
     {
       "id": "prod-147",
@@ -1848,7 +4914,28 @@
       "status": "active",
       "displayOrder": 147,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 65,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 65
+        },
+        {
+          "size": "5 kg",
+          "price": 319
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1528
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2925
+        }
+      ]
     },
     {
       "id": "prod-148",
@@ -1860,7 +4947,28 @@
       "status": "active",
       "displayOrder": 148,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-149",
@@ -1872,7 +4980,28 @@
       "status": "active",
       "displayOrder": 149,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 18,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 18
+        },
+        {
+          "size": "5 kg",
+          "price": 88
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 423
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 810
+        }
+      ]
     },
     {
       "id": "prod-150",
@@ -1884,7 +5013,28 @@
       "status": "active",
       "displayOrder": 150,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-151",
@@ -1896,7 +5046,28 @@
       "status": "active",
       "displayOrder": 151,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-152",
@@ -1908,7 +5079,28 @@
       "status": "active",
       "displayOrder": 152,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-153",
@@ -1920,7 +5112,28 @@
       "status": "active",
       "displayOrder": 153,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-154",
@@ -1932,7 +5145,28 @@
       "status": "active",
       "displayOrder": 154,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-155",
@@ -1944,7 +5178,28 @@
       "status": "active",
       "displayOrder": 155,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     },
     {
       "id": "prod-156",
@@ -1956,7 +5211,28 @@
       "status": "active",
       "displayOrder": 156,
       "createdAt": "2026-09-15T09:34:46.809Z",
-      "updatedAt": "2026-09-15T09:34:46.809Z"
+      "updatedAt": "2026-09-15T09:34:46.809Z",
+      "price": 48,
+      "stock": 250,
+      "unit": "kg",
+      "variants": [
+        {
+          "size": "1 kg",
+          "price": 48
+        },
+        {
+          "size": "5 kg",
+          "price": 235
+        },
+        {
+          "size": "25 kg Sack",
+          "price": 1128
+        },
+        {
+          "size": "50 kg Bulk Bag",
+          "price": 2160
+        }
+      ]
     }
   ],
   "enquiries": [],
@@ -2860,5 +6136,6 @@
   ],
   "appearance": {
     "themeId": "classic-white"
-  }
+  },
+  "orders": []
 }

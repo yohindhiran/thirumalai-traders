@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CartDrawer from "@/components/CartDrawer";
+import { CartProvider } from "@/lib/cart";
 import type { SiteSettings, ContactSettings } from "@/types";
 
 export default function PublicChrome({
@@ -20,7 +22,7 @@ export default function PublicChrome({
   if (isAdmin) return <>{children}</>;
 
   return (
-    <>
+    <CartProvider>
       <Header phone={contact.phone || site.phone} logo={site.logo} />
       <main className="flex-1">{children}</main>
       <Footer
@@ -36,6 +38,7 @@ export default function PublicChrome({
         }}
       />
       <WhatsAppButton />
-    </>
+      <CartDrawer />
+    </CartProvider>
   );
 }

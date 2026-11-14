@@ -24,6 +24,7 @@ export interface Product {
   qualityInfo?: string;
   price?: number;
   stock?: number;
+  unit?: string;
   status: ProductStatus;
   displayOrder: number;
   createdAt: string;
@@ -256,9 +257,56 @@ export interface CustomTheme {
   updatedAt: string;
 }
 
+export type OrderStatus =
+  | "pending"
+  | "confirmed"
+  | "processing"
+  | "dispatched"
+  | "delivered"
+  | "cancelled";
+
+export type PaymentMethod = "cod" | "pay_on_delivery" | "invoice";
+
+export interface OrderItem {
+  id: string;
+  productId: string;
+  productName: string;
+  categoryName?: string;
+  image?: string;
+  size?: string;
+  unit?: string;
+  quantity: number;
+  unitPrice: number;
+  totalPrice: number;
+}
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  customerName: string;
+  businessName?: string;
+  phone: string;
+  whatsapp?: string;
+  email?: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  paymentMethod: PaymentMethod;
+  status: OrderStatus;
+  items: OrderItem[];
+  subtotal: number;
+  discount?: number;
+  total: number;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface DbData {
   categories: Category[];
   products: Product[];
+  orders?: Order[];
   enquiries: Enquiry[];
   content: SiteContent;
   heroSlides: HeroSlide[];

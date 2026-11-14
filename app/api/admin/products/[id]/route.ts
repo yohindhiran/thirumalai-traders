@@ -79,6 +79,29 @@ export async function PATCH(
   if (images) product.images = images;
   const specs = toSpecs(body?.specs);
   if (specs) product.specs = specs;
+  if (body?.price !== undefined) {
+    const p = typeof body.price === "number" ? body.price : parseFloat(body.price);
+    if (!isNaN(p)) product.price = p;
+  }
+  if (body?.stock !== undefined) {
+    const s = typeof body.stock === "number" ? body.stock : parseInt(body.stock, 10);
+    if (!isNaN(s)) product.stock = s;
+  }
+  if (typeof body?.unit === "string" && body.unit.trim()) {
+    product.unit = body.unit.trim();
+  }
+  if (Array.isArray(body?.variants)) {
+    product.variants = body.variants;
+  } else if (body?.price !== undefined && (!product.variants || product.variants.length === 0)) {
+    const u = product.unit || "kg";
+    const pr = product.price || 0;
+    product.variants = [
+      { size: `1 ${u}`, price: pr },
+      { size: `5 ${u}`, price: Math.round(pr * 5 * 0.98) },
+      { size: `25 ${u} Sack`, price: Math.round(pr * 25 * 0.94) },
+      { size: `50 ${u} Bulk Bag`, price: Math.round(pr * 50 * 0.90) },
+    ];
+  }
   if (body?.status === "active" || body?.status === "inactive")
     product.status = body.status;
   if (typeof body?.displayOrder === "number") product.displayOrder = body.displayOrder;

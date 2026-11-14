@@ -36,7 +36,7 @@ export default async function CategoryPage({
   const cat = db.categories.find((c) => c.slug === category);
   if (!cat) notFound();
 
-  const defaultImage = CATEGORY_IMAGES[cat.slug]?.src || DEFAULT_PRODUCT_IMAGE;
+  const defaultImage = cat.image || CATEGORY_IMAGES[cat.slug]?.src || DEFAULT_PRODUCT_IMAGE;
 
   const products = db.products
     .filter((p) => p.categoryId === cat.id && p.status === "active")
@@ -49,6 +49,9 @@ export default async function CategoryPage({
       categoryName: cat.name,
       categorySlug: cat.slug,
       categoryId: cat.id,
+      price: p.price,
+      unit: p.unit || "kg",
+      variants: p.variants || [],
       image: p.images?.[0] || p.mainImage || defaultImage,
       images: p.images?.length ? p.images : [defaultImage],
     }));

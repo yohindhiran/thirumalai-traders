@@ -142,10 +142,12 @@ export default function ProductsBrowser({
                   product={
                     {
                       ...p,
-                      id: p.slug || p.id,
-                      category: p.categorySlug || p.categoryId || "",
+                      id: p.id || p.slug,
+                      category: p.categoryName || p.categorySlug || p.categoryId || "",
                       image,
                       images,
+                      price: p.price,
+                      unit: p.unit,
                       variants: p.variants || [],
                     } as any
                   }

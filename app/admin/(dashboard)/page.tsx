@@ -8,6 +8,7 @@ import {
   LayoutGrid,
   MessageSquareQuote,
   Package,
+  ShoppingBag,
   Users,
 } from "lucide-react";
 import { readDb } from "@/lib/db";
@@ -44,8 +45,12 @@ export default function AdminDashboardPage() {
   const activeCustomers = (db.valuedCustomers ?? []).filter(
     (c: ValuedCustomer) => c.status === "active"
   ).length;
+  const orders = db.orders ?? [];
+  const pendingOrders = orders.filter((o) => o.status === "pending").length;
 
   const stats = [
+    { label: "Total Orders", value: orders.length, icon: ShoppingBag, href: "/admin/dashboard/orders" },
+    { label: "Pending Orders", value: pendingOrders, icon: ShoppingBag, href: "/admin/dashboard/orders" },
     { label: "Total Products", value: db.products.length, icon: Boxes, href: "/admin/dashboard/products" },
     { label: "Total Categories", value: db.categories.length, icon: FolderTree, href: "/admin/dashboard/categories" },
     { label: "Most Selling", value: db.mostSelling.length, icon: Flame, href: "/admin/dashboard/most-selling" },

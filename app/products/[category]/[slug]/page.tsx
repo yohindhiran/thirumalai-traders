@@ -5,6 +5,7 @@ import { getProductForDisplay, getRelatedProducts, readDb } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import ProductGallery from "@/components/ProductGallery";
 import ProductCard from "@/components/ProductCard";
+import ProductDetailActions from "@/components/ProductDetailActions";
 import EnquiryForm from "@/components/EnquiryForm";
 import { ShieldCheck, Truck, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
@@ -80,13 +81,18 @@ export default async function ProductDetailPage({ params }: PageProps) {
             </h1>
             <span aria-hidden="true" className="accent-line my-6" />
 
-            <div className="flex flex-wrap items-baseline gap-4">
-              <span className="text-2xl font-bold text-brand-green">
-                ₹{(product as any).price ?? (product as any).variants?.[0]?.price ?? "Contact for Pricing"}
-              </span>
-             <span className="text-sm text-brand-muted">
-  {(product as any).unit ? `/ ${(product as any).unit}` : ""} (Wholesale & Bulk Rates Available)
-</span>
+            <div className="mt-4 mb-6">
+              <ProductDetailActions
+                product={{
+                  id: product.id,
+                  name: product.name,
+                  categoryName: (product as any).categoryName || "Wholesale Grocery",
+                  image: product.images?.[0] || product.mainImage || "/images/hero-warehouse.jpg",
+                  price: (product as any).price || 100,
+                  unit: (product as any).unit || "kg",
+                  variants: (product as any).variants || [],
+                }}
+              />
             </div>
 
             <div className="mt-6 prose-site text-brand-muted leading-relaxed">

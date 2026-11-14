@@ -17,6 +17,7 @@ import { getAbout, getActiveTestimonials } from "@/lib/db";
 import { getMilestones } from "@/lib/milestones";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import Testimonials from "@/components/Testimonials";
+import SupplyMap from "@/components/SupplyMap";
 import { cn } from "@/lib/utils";
 
 export const metadata = pageMetadata({
@@ -137,19 +138,9 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <ul className="space-y-4">
-            {approach.map((a, i) => (
-              <li key={a.title} className="card flex gap-4 p-5 shadow-card">
-                <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white shadow-sm", APPROACH_ACCENTS[i % APPROACH_ACCENTS.length])}>
-                  <a.icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <div>
-                  <h3 className="font-semibold text-brand-ink">{a.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-brand-muted">{a.desc}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <SupplyMap />
+          </div>
         </div>
       </section>
 

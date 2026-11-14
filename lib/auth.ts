@@ -31,9 +31,12 @@ export function verifyToken(token: string | undefined): string | null {
   return Buffer.from(payload, "base64url").toString();
 }
 
+const DEFAULT_ADMIN_EMAIL = "admin@thirumalaaitraders.com";
+const DEFAULT_ADMIN_PASSWORD = "admin123";
+
 export function checkCredentials(email: string, password: string): boolean {
-  const envEmail = process.env.ADMIN_EMAIL;
-  const envPassword = process.env.ADMIN_PASSWORD;
+  const envEmail = process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL;
+  const envPassword = process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
   if (!envEmail || !envPassword) return false;
   const okEmail =
     email.trim().toLowerCase() === envEmail.trim().toLowerCase();
@@ -52,7 +55,7 @@ export async function isAdmin(): Promise<boolean> {
 
 export async function setAdminCookie(): Promise<void> {
   const store = await cookies();
-  store.set(COOKIE_NAME, makeToken(process.env.ADMIN_EMAIL || "admin"), {
+  store.set(COOKIE_NAME, makeToken(process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",

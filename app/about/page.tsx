@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   Award,
-  Compass,
   Eye,
   Handshake,
   Heart,
@@ -30,34 +29,9 @@ export const metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-// Short, scannable defaults — same facts, fewer words.
-const DEFAULT_APPROACH = [
-  {
-    icon: ShieldCheck,
-    title: "Quality Commitment",
-    desc: "Careful sourcing, consistent checks and hygienic packing in every delivery.",
-  },
-  {
-    icon: Handshake,
-    title: "Customer Relationships",
-    desc: "A partnership approach — we learn your volumes, schedules and needs.",
-  },
-  {
-    icon: Compass,
-    title: "Business Approach",
-    desc: "Honest pricing, dependable supply and long-term thinking for 25+ years.",
-  },
-];
-
 const DEFAULT_WHO_WE_ARE = [
   "Thirumalaai Traders is a trusted wholesale grocery supplier in Karungalpalayam, Erode — serving canteens, mills, shops and bulk buyers for 25+ years.",
   "Relationship-first and dependable: quality products, fair wholesale pricing and on-time supply.",
-];
-
-const APPROACH_ACCENTS = [
-  "bg-emerald-600",
-  "bg-amber-600",
-  "bg-teal-600",
 ];
 
 const VALUE_ACCENTS = [
@@ -80,20 +54,11 @@ export default function AboutPage() {
     .slice()
     .sort((a: any, b: any) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
-  // Admin-managed Who We Are + approach cards (Admin → About); fall back
-  // to the approved copy when unsaved.
+  // Admin-managed Who We Are copy; fall back to the approved copy when unsaved.
   const whoWeAre =
     about.whoWeAre?.length
       ? about.whoWeAre
       : DEFAULT_WHO_WE_ARE;
-  const approachIcons = [ShieldCheck, Handshake, Compass];
-  const approach = about.approaches?.length
-    ? about.approaches.map((a: any, i: number) => ({
-        icon: approachIcons[i % approachIcons.length],
-        title: a.title,
-        desc: a.desc,
-      }))
-    : DEFAULT_APPROACH;
 
   const milestones = getMilestones();
 

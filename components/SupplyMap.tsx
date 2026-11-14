@@ -327,14 +327,10 @@ export default function SupplyMap() {
                 {/* Pulse beacon below marker */}
                 <div className="relative flex items-center justify-center">
                   <span
-                    className={`absolute -bottom-1 h-4 w-4 rounded-full ${
-                      loc.isHQ ? "bg-emerald-500/40" : "bg-red-500/40"
-                    } animate-ping`}
+                    className="absolute -bottom-1 h-4 w-4 rounded-full bg-red-500/40 animate-ping"
                   />
                   <span
-                    className={`absolute -bottom-1 h-3 w-3 rounded-full ${
-                      loc.isHQ ? "bg-emerald-600" : "bg-red-600"
-                    } opacity-75`}
+                    className="absolute -bottom-1 h-3 w-3 rounded-full bg-red-600 opacity-75"
                   />
 
                   {/* Classic Red Google Maps Location Pin Marker */}
@@ -350,7 +346,7 @@ export default function SupplyMap() {
                       {/* Teardrop Pin Path */}
                       <path
                         d="M17 0C7.61116 0 0 7.61116 0 17C0 29.75 17 46 17 46C17 46 34 29.75 34 17C34 7.61116 26.3888 0 17 0Z"
-                        fill={loc.isHQ ? "url(#hqPinGrad)" : "url(#redPinGrad)"}
+                        fill="url(#redPinGrad)"
                         stroke="#ffffff"
                         strokeWidth="1.5"
                       />
@@ -361,17 +357,13 @@ export default function SupplyMap() {
                         cx="17"
                         cy="16"
                         r="3"
-                        fill={loc.isHQ ? "#047857" : "#dc2626"}
+                        fill="#dc2626"
                       />
 
                       <defs>
                         <linearGradient id="redPinGrad" x1="17" y1="0" x2="17" y2="46" gradientUnits="userSpaceOnUse">
                           <stop stopColor="#ef4444" />
                           <stop offset="1" stopColor="#b91c1c" />
-                        </linearGradient>
-                        <linearGradient id="hqPinGrad" x1="17" y1="0" x2="17" y2="46" gradientUnits="userSpaceOnUse">
-                          <stop stopColor="#059669" />
-                          <stop offset="1" stopColor="#065f46" />
                         </linearGradient>
                       </defs>
                     </svg>
@@ -443,12 +435,9 @@ export default function SupplyMap() {
                     : "border border-brand-line bg-white text-brand-ink hover:border-emerald-300"
                 }`}
               >
-                <span
-                  className={`h-2 w-2 rounded-full ${
-                    loc.isHQ ? "bg-amber-400" : "bg-red-500"
-                  }`}
-                />
+                <span className="h-2 w-2 rounded-full bg-red-500" />
                 {loc.name}
+                {loc.isHQ && <span className="text-[10px] text-amber-500 font-bold">★</span>}
               </button>
             );
           })}

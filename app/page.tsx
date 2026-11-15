@@ -17,6 +17,8 @@ export default function Home() {
   const db = readDb();
   const content = db.content;
 
+  const activeCategories = db.categories.filter((c) => c.status === "active");
+  const activeCategoryIds = new Set(activeCategories.map((c) => c.id));
   const catById = new Map(db.categories.map((c) => [c.id, c]));
   const imageOf = (p: Product) =>
     p.images?.[0] ||
@@ -30,19 +32,21 @@ export default function Home() {
     ({ size, items }) => ({
       id: size.id,
       name: size.name,
-      items: items.map(({ ref, product, displayName }) => ({
-        name: displayName,
-        slug: product.slug,
-        categoryName: catById.get(product.categoryId)?.name ?? "Wholesale Grocery",
-        categorySlug: catById.get(product.categoryId)?.slug ?? "spices",
-        description: product.shortDescription || product.description,
-        image: ref.customImage?.trim() || imageOf(product),
-      })),
+      items: items
+        .filter(({ product }) => activeCategoryIds.has(product.categoryId))
+        .map(({ ref, product, displayName }) => ({
+          name: displayName,
+          slug: product.slug,
+          categoryName: catById.get(product.categoryId)?.name ?? "Wholesale Grocery",
+          categorySlug: catById.get(product.categoryId)?.slug ?? "spices",
+          description: product.shortDescription || product.description,
+          image: ref.customImage?.trim() || imageOf(product),
+        })),
     })
   );
 
   const topSelling: HomeTopSellingItem[] = getMostSellingProducts()
-    .filter((p) => p.status === "active")
+    .filter((p) => p.status === "active" && activeCategoryIds.has(p.categoryId))
     .slice(0, 8)
     .map((p) => ({
       name: p.name,

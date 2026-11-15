@@ -90,6 +90,8 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   image: product.images?.[0] || product.mainImage || "/images/hero-warehouse.jpg",
                   price: (product as any).price || 100,
                   unit: (product as any).unit || "kg",
+                  stock: (product as any).stock,
+                  status: product.status,
                   variants: (product as any).variants || [],
                 }}
               />
@@ -147,6 +149,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
                     name: rel.name,
                     category: (rel as any).categoryName || "Wholesale Grocery",
                     image: rel.images?.[0] || rel.mainImage || "",
+                    price: rel.price,
+                    stock: rel.stock,
+                    status: rel.status,
+                    unit: rel.unit || "kg",
                     variants: rel.variants || [],
                   }}
                 />

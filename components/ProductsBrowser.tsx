@@ -16,6 +16,8 @@ export interface CatalogProduct {
   categoryId?: string;
   categoryName?: string;
   price?: number;
+  stock?: number;
+  status?: string;
   unit?: string;
   image?: string;
   images?: string[];
@@ -147,6 +149,8 @@ export default function ProductsBrowser({
                       image,
                       images,
                       price: p.price,
+                      stock: p.stock,
+                      status: p.status,
                       unit: p.unit,
                       variants: p.variants || [],
                     } as any

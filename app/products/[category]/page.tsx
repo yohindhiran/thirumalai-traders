@@ -16,7 +16,7 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }): Promise<Metadata> {
   const { category } = await params;
-  const cat = readDb().categories.find((c) => c.slug === category);
+  const cat = readDb().categories.find((c) => c.slug === category && c.status === "active");
   if (!cat) return {};
   return {
     title: `${cat.name} – Bulk Wholesale Supply in Erode`,
@@ -33,7 +33,7 @@ export default async function CategoryPage({
 }) {
   const { category } = await params;
   const db = readDb();
-  const cat = db.categories.find((c) => c.slug === category);
+  const cat = db.categories.find((c) => c.slug === category && c.status === "active");
   if (!cat) notFound();
 
   const defaultImage = cat.image || CATEGORY_IMAGES[cat.slug]?.src || DEFAULT_PRODUCT_IMAGE;
@@ -50,6 +50,8 @@ export default async function CategoryPage({
       categorySlug: cat.slug,
       categoryId: cat.id,
       price: p.price,
+      stock: p.stock,
+      status: p.status,
       unit: p.unit || "kg",
       variants: p.variants || [],
       image: p.images?.[0] || p.mainImage || defaultImage,

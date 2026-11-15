@@ -12,7 +12,7 @@ import { useCart } from "@/lib/cart";
 const MAIN_LINKS = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
-  { href: "/products", label: "Categories" },
+  { href: "/products", label: "Products" },
   { href: "/clients", label: "Clients" },
   { href: "/contact", label: "Contact" },
 ];

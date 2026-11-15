@@ -18,6 +18,8 @@ interface Product {
   image?: string;
   price?: number;
   unit?: string;
+  stock?: number;
+  status?: string;
   variants?: ProductVariant[];
 }
 
@@ -32,6 +34,8 @@ export default function ProductCard({
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
 
+  const isOutOfStock = product.stock !== undefined && product.stock <= 0;
+
   const variants =
     product.variants && product.variants.length > 0
       ? product.variants
@@ -44,6 +48,7 @@ export default function ProductCard({
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (isOutOfStock) return;
     addToCart({
       productId: product.id,
       name: product.name,
@@ -59,7 +64,7 @@ export default function ProductCard({
   };
 
   const whatsappMessage = encodeURIComponent(
-    `Hello Thirumalaai Traders, I would like to order/enquire about ${product.name} (${activeSize}) - ₹${activePrice}.`
+    `Hello Thirumalaai Traders, I would like to order/enquire about ${product.name} (${activeSize}) - ₹${activePrice}. Availability: ${isOutOfStock ? "Out of Stock" : "In Stock"}.`
   );
 
   return (
@@ -87,6 +92,15 @@ export default function ProductCard({
               {product.category}
             </span>
           )}
+          {isOutOfStock ? (
+            <span className="absolute top-2 right-2 rounded-full bg-red-600 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+              Out of Stock
+            </span>
+          ) : product.stock !== undefined && product.stock > 0 && product.stock <= 10 ? (
+            <span className="absolute top-2 right-2 rounded-full bg-amber-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+              Low Stock
+            </span>
+          ) : null}
         </div>
 
         {/* Product Title */}
@@ -98,10 +112,27 @@ export default function ProductCard({
           <h3 className="font-semibold text-brand-ink text-base line-clamp-1">{product.name}</h3>
         )}
 
-        {/* Price & Unit Display */}
-        <div className="mt-1 flex items-baseline gap-1.5">
-          <span className="text-lg font-bold text-brand-green">₹{activePrice}</span>
-          <span className="text-xs text-brand-muted">/ {activeSize}</span>
+        {/* Price & Stock Display */}
+        <div className="mt-1 flex items-center justify-between">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-lg font-bold text-brand-green">₹{activePrice}</span>
+            <span className="text-xs text-brand-muted">/ {activeSize}</span>
+          </div>
+          {product.stock !== undefined && (
+            <span
+              className={`text-[11px] font-semibold ${
+                product.stock <= 0
+                  ? "text-red-600 font-bold"
+                  : product.stock <= 10
+                  ? "text-amber-600"
+                  : "text-emerald-700"
+              }`}
+            >
+              {product.stock <= 0
+                ? "Out of stock"
+                : `${product.stock} ${product.unit || "kg"}`}
+            </span>
+          )}
         </div>
 
         {/* Variant selector */}
@@ -125,27 +156,37 @@ export default function ProductCard({
 
       {/* Action Buttons */}
       <div className="mt-4 grid grid-cols-2 gap-2">
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          className={`flex items-center justify-center gap-1.5 text-xs py-2.5 rounded-lg font-semibold transition shadow-sm ${
-            justAdded
-              ? "bg-emerald-700 text-white"
-              : "bg-brand-green text-white hover:bg-brand-green-dark"
-          }`}
-        >
-          {justAdded ? (
-            <>
-              <Check className="h-3.5 w-3.5" />
-              Added!
-            </>
-          ) : (
-            <>
-              <ShoppingBag className="h-3.5 w-3.5" />
-              Add to Cart
-            </>
-          )}
-        </button>
+        {isOutOfStock ? (
+          <button
+            type="button"
+            disabled
+            className="flex items-center justify-center gap-1.5 text-xs py-2.5 rounded-lg font-semibold bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200"
+          >
+            Out of Stock
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={`flex items-center justify-center gap-1.5 text-xs py-2.5 rounded-lg font-semibold transition shadow-sm ${
+              justAdded
+                ? "bg-emerald-700 text-white"
+                : "bg-brand-green text-white hover:bg-brand-green-dark"
+            }`}
+          >
+            {justAdded ? (
+              <>
+                <Check className="h-3.5 w-3.5" />
+                Added!
+              </>
+            ) : (
+              <>
+                <ShoppingBag className="h-3.5 w-3.5" />
+                Add to Cart
+              </>
+            )}
+          </button>
+        )}
 
         <a
           href={`https://wa.me/919384482007?text=${whatsappMessage}`}

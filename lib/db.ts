@@ -1,4 +1,5 @@
 import fs from "fs";
+import os from "os";
 import path from "path";
 import { revalidatePath } from "next/cache";
 import { CATEGORY_SEEDS } from "@/data/categories";
@@ -33,6 +34,7 @@ import { APPEARANCE_THEME_IDS, HEX_COLOR_RE, MAX_CUSTOM_THEMES } from "@/lib/app
 import type { CustomTheme } from "@/types";
 
 const DB_FILE = path.join(process.cwd(), "data", "database.json");
+const TMP_DB_FILE = path.join(os.tmpdir(), "thirumalaai_database.json");
 
 /* -------------------------------------------------------------------------- */
 /*  In-memory global cache — a fast layer in front of the JSON file. On a    */
@@ -409,35 +411,53 @@ export function readDb(): DbData {
     return seedDb();
   }
 
-  // Fast In-Memory Path: If cache exists and was checked within the last 2 seconds,
-  // return immediately with zero disk I/O. This cuts SSR render times from ~50ms to <1ms.
+  // Fast In-Memory Path: If cache exists and was checked recently,
+  // return immediately with zero disk I/O.
   const cached = getCachedDb();
   const now = Date.now();
   if (
     cached &&
-    now - getLastCheckTime() < 2000 &&
+    now - getLastCheckTime() < 1000 &&
     Array.isArray((cached as Partial<DbData>).kgPackageSizes)
   ) {
     return cached;
   }
 
-  // 1. File exists — it is authoritative on writable disk. Re-read when the
-  //    tracked mtime differs so other workers' writes are observed.
+  // Determine active source file: prefer TMP_DB_FILE (from admin saves on Vercel) if newer
+  let activeFile = DB_FILE;
+  let activeMtime = 0;
+
   if (fs.existsSync(DB_FILE)) {
     try {
-      const stat = fs.statSync(DB_FILE);
+      activeMtime = fs.statSync(DB_FILE).mtimeMs;
+    } catch {}
+  }
+
+  if (fs.existsSync(TMP_DB_FILE)) {
+    try {
+      const tmpMtime = fs.statSync(TMP_DB_FILE).mtimeMs;
+      if (tmpMtime > activeMtime) {
+        activeFile = TMP_DB_FILE;
+        activeMtime = tmpMtime;
+      }
+    } catch {}
+  }
+
+  // 1. Source file exists — read and parse if mtime differs
+  if (activeMtime > 0 && fs.existsSync(activeFile)) {
+    try {
       setLastCheckTime(now);
       if (
         cached &&
-        getCachedMtime() === stat.mtimeMs &&
+        getCachedMtime() === activeMtime &&
         Array.isArray((cached as Partial<DbData>).kgPackageSizes)
       ) {
         return cached;
       }
-      const raw = fs.readFileSync(DB_FILE, "utf-8");
+      const raw = fs.readFileSync(activeFile, "utf-8");
       const db = backfill(JSON.parse(raw) as DbData);
       setCachedDb(db);
-      setCachedMtime(stat.mtimeMs);
+      setCachedMtime(activeMtime);
       return db;
     } catch {
       // Corrupt file or fs error — fall through to the global cache.
@@ -457,7 +477,10 @@ export function readDb(): DbData {
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), "utf-8");
     setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
   } catch {
-    // Filesystem read-only (Vercel) — the global cache is populated.
+    // Filesystem read-only (Vercel) — try /tmp
+    try {
+      fs.writeFileSync(TMP_DB_FILE, JSON.stringify(db, null, 2), "utf-8");
+    } catch {}
   }
   return db;
 }
@@ -476,6 +499,8 @@ export function invalidateProductCache(): void {
     revalidatePath("/cart", "page");
     revalidatePath("/checkout", "page");
     revalidatePath("/admin/dashboard/orders", "page");
+    revalidatePath("/admin/dashboard/products", "page");
+    revalidatePath("/admin/dashboard/categories", "page");
   } catch {
     // revalidatePath only works inside request context; ignore elsewhere.
   }
@@ -487,10 +512,9 @@ export function invalidateProductCache(): void {
 /* -------------------------------------------------------------------------- */
 
 export function writeDb(data: DbData): void {
-  // Persist to disk when possible (self-hosted / writable). On read-only
-  // filesystems (e.g. Vercel) the write is best-effort and never throws:
-  // the in-memory cache becomes the source of truth for the warm container
-  // and uploaded images are already stored as self-contained data URLs.
+  const now = Date.now();
+
+  // 1. Persist to disk when possible (self-hosted / writable)
   if (typeof window === "undefined") {
     try {
       const dir = path.dirname(DB_FILE);
@@ -498,13 +522,23 @@ export function writeDb(data: DbData): void {
       fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
       setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
     } catch {
-      // Read-only or unavailable filesystem — continue with cache only.
+      // Read-only or unavailable filesystem (Vercel)
+    }
+
+    // 2. Also write to os.tmpdir() (always writable on Vercel serverless!)
+    try {
+      fs.writeFileSync(TMP_DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+      try {
+        setCachedMtime(fs.statSync(TMP_DB_FILE).mtimeMs);
+      } catch {}
+    } catch {
+      // Ignore
     }
   }
 
-  // Update the in-memory cache and timestamp.
+  // Update the in-memory cache and reset throttled check time so next read is immediate
   setCachedDb(data);
-  setLastCheckTime(Date.now());
+  setLastCheckTime(0);
 
   // Invalidate Next.js caches so storefront pages re-render on next request.
   invalidateProductCache();
@@ -559,11 +593,14 @@ export function getAppearance(): AppearanceSettings {
 
 export function getProductForDisplay(slug: string, categorySlug?: string): Product | undefined {
   const db = readDb();
-  const matches = db.products.filter((p) => p.slug === slug || p.id === slug);
+  const matches = db.products.filter(
+    (p) => (p.slug === slug || p.id === slug) && p.status === "active"
+  );
+  if (!matches.length) return undefined;
   if (!categorySlug) return matches[0];
   // Slugs can repeat across categories (e.g. toor-dal) — prefer the product
   // that actually belongs to the URL category, fall back to first match.
-  const cat = db.categories.find((c) => c.slug === categorySlug);
+  const cat = db.categories.find((c) => c.slug === categorySlug && c.status === "active");
   return (cat && matches.find((p) => p.categoryId === cat.id)) || matches[0];
 }
 
@@ -577,29 +614,36 @@ export function getRelatedProducts(
     categoryId || db.products.find((p) => p.id === productId)?.categoryId;
   return db.products
     .filter(
-      (p) => p.id !== productId && (!targetCat || p.categoryId === targetCat)
+      (p) =>
+        p.id !== productId &&
+        p.status === "active" &&
+        (!targetCat || p.categoryId === targetCat)
     )
     .slice(0, limit);
 }
 
 export function getMostSellingProducts(): Product[] {
   const db = readDb();
+  const activeProducts = db.products.filter((p) => p.status === "active");
   if (db.mostSelling?.length) {
-    return db.mostSelling
-      .map((ref) => db.products.find((p) => p.id === ref.productId))
+    const list = db.mostSelling
+      .map((ref) => activeProducts.find((p) => p.id === ref.productId))
       .filter((p): p is Product => Boolean(p));
+    if (list.length > 0) return list;
   }
-  return db.products.slice(0, 4);
+  return activeProducts.slice(0, 4);
 }
 
 export function getOurProducts(): Product[] {
   const db = readDb();
+  const activeProducts = db.products.filter((p) => p.status === "active");
   if (db.ourProducts?.length) {
-    return db.ourProducts
-      .map((ref) => db.products.find((p) => p.id === ref.productId))
+    const list = db.ourProducts
+      .map((ref) => activeProducts.find((p) => p.id === ref.productId))
       .filter((p): p is Product => Boolean(p));
+    if (list.length > 0) return list;
   }
-  return db.products.slice(4, 12);
+  return activeProducts.slice(4, 12);
 }
 
 export interface KgPackageDisplayItem {

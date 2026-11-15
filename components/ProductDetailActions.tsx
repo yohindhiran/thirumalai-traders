@@ -18,6 +18,8 @@ interface ProductDetailActionsProps {
     image: string;
     price: number;
     unit?: string;
+    stock?: number;
+    status?: string;
     variants?: Variant[];
   };
 }
@@ -25,6 +27,8 @@ interface ProductDetailActionsProps {
 export default function ProductDetailActions({ product }: ProductDetailActionsProps) {
   const router = useRouter();
   const { addToCart } = useCart();
+
+  const isOutOfStock = product.stock !== undefined && product.stock <= 0;
 
   const variants: Variant[] =
     product.variants && product.variants.length > 0
@@ -41,6 +45,7 @@ export default function ProductDetailActions({ product }: ProductDetailActionsPr
   const total = unitPrice * quantity;
 
   const handleAddToCart = () => {
+    if (isOutOfStock) return;
     addToCart({
       productId: product.id,
       name: product.name,
@@ -56,6 +61,7 @@ export default function ProductDetailActions({ product }: ProductDetailActionsPr
   };
 
   const handleBuyNow = () => {
+    if (isOutOfStock) return;
     addToCart({
       productId: product.id,
       name: product.name,
@@ -69,18 +75,46 @@ export default function ProductDetailActions({ product }: ProductDetailActionsPr
     router.push("/checkout");
   };
 
+  const whatsappMessage = encodeURIComponent(
+    `Hello Thirumalaai Traders, I would like to order/enquire about ${product.name} (${activeSize}) - ₹${unitPrice}.`
+  );
+
   return (
     <div className="space-y-6">
-      {/* Price & Unit Display */}
-      <div className="flex flex-wrap items-baseline gap-3">
+      {/* Price & Unit & Stock Display */}
+      <div className="flex flex-wrap items-center gap-3">
         <span className="text-3xl font-extrabold text-brand-green">₹{unitPrice}</span>
         <span className="text-sm font-medium text-brand-muted">/ {activeSize}</span>
-        {quantity > 1 && (
+        {quantity > 1 && !isOutOfStock && (
           <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-800 border border-emerald-200">
             Total: ₹{total}
           </span>
         )}
+        {isOutOfStock ? (
+          <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700 border border-red-200">
+            Out of Stock
+          </span>
+        ) : product.stock !== undefined ? (
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-semibold border ${
+              product.stock <= 10
+                ? "bg-amber-50 text-amber-800 border-amber-200 font-bold"
+                : "bg-emerald-50 text-emerald-800 border-emerald-200"
+            }`}
+          >
+            {product.stock <= 10
+              ? `Low Stock: Only ${product.stock} ${product.unit || "kg"} left`
+              : `In Stock (${product.stock} ${product.unit || "kg"} available)`}
+          </span>
+        ) : null}
       </div>
+
+      {isOutOfStock && (
+        <div className="rounded-xl border border-red-200 bg-red-50/80 p-4 text-xs text-red-800">
+          <p className="font-bold text-sm text-red-900 mb-1">Currently Out of Stock in Erode Warehouse</p>
+          <p>This item is currently awaiting dispatch from suppliers. You can still message our office on WhatsApp to pre-order or check arrival dates.</p>
+        </div>
+      )}
 
       {/* Package Size Options */}
       {variants.length > 0 && (
@@ -109,69 +143,83 @@ export default function ProductDetailActions({ product }: ProductDetailActionsPr
       )}
 
       {/* Quantity Stepper */}
-      <div>
-        <label className="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">
-          Quantity (Units)
-        </label>
-        <div className="flex items-center gap-3">
-          <div className="inline-flex items-center rounded-xl border border-brand-line bg-white shadow-sm">
-            <button
-              type="button"
-              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              disabled={quantity <= 1}
-              className="p-2.5 text-brand-muted hover:text-brand-ink disabled:opacity-40 transition"
-              aria-label="Decrease quantity"
-            >
-              <Minus className="h-4 w-4" />
-            </button>
-            <span className="w-12 text-center text-sm font-bold text-brand-ink">
-              {quantity}
+      {!isOutOfStock && (
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">
+            Quantity (Units)
+          </label>
+          <div className="flex items-center gap-3">
+            <div className="inline-flex items-center rounded-xl border border-brand-line bg-white shadow-sm">
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                disabled={quantity <= 1}
+                className="p-2.5 text-brand-muted hover:text-brand-ink disabled:opacity-40 transition"
+                aria-label="Decrease quantity"
+              >
+                <Minus className="h-4 w-4" />
+              </button>
+              <span className="w-12 text-center text-sm font-bold text-brand-ink">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQuantity((q) => q + 1)}
+                className="p-2.5 text-brand-muted hover:text-brand-ink transition"
+                aria-label="Increase quantity"
+              >
+                <Plus className="h-4 w-4" />
+              </button>
+            </div>
+            <span className="text-xs text-brand-muted">
+              Wholesale bulk quantities available for dispatch
             </span>
-            <button
-              type="button"
-              onClick={() => setQuantity((q) => q + 1)}
-              className="p-2.5 text-brand-muted hover:text-brand-ink transition"
-              aria-label="Increase quantity"
-            >
-              <Plus className="h-4 w-4" />
-            </button>
           </div>
-          <span className="text-xs text-brand-muted">
-            In Stock · Wholesale bulk quantities available
-          </span>
         </div>
-      </div>
+      )}
 
       {/* Action Buttons: Add to Cart & Buy Now */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 pt-2">
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          className={`btn-outline !py-3 flex items-center justify-center gap-2 font-semibold shadow-sm transition ${
-            justAdded ? "!border-emerald-600 !text-emerald-700 !bg-emerald-50" : ""
-          }`}
-        >
-          {justAdded ? (
-            <>
-              <Check className="h-4 w-4 text-emerald-600" />
-              Added to Cart!
-            </>
-          ) : (
-            <>
-              <ShoppingBag className="h-4 w-4" />
-              Add to Cart
-            </>
-          )}
-        </button>
+        {isOutOfStock ? (
+          <button
+            type="button"
+            disabled
+            className="w-full py-3.5 rounded-xl font-bold text-sm bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed text-center sm:col-span-2"
+          >
+            Out of Stock
+          </button>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className={`btn-outline !py-3 flex items-center justify-center gap-2 font-semibold shadow-sm transition ${
+                justAdded ? "!border-emerald-600 !text-emerald-700 !bg-emerald-50" : ""
+              }`}
+            >
+              {justAdded ? (
+                <>
+                  <Check className="h-4 w-4 text-emerald-600" />
+                  Added to Cart!
+                </>
+              ) : (
+                <>
+                  <ShoppingBag className="h-4 w-4" />
+                  Add to Cart
+                </>
+              )}
+            </button>
 
-        <button
-          type="button"
-          onClick={handleBuyNow}
-          className="btn-primary !py-3 flex items-center justify-center gap-2 font-semibold shadow-lift"
-        >
-          <Zap className="h-4 w-4" />
-          Buy Now (COD / Invoice)
-        </button>
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              className="btn-primary !py-3 flex items-center justify-center gap-2 font-semibold shadow-lift"
+            >
+              <Zap className="h-4 w-4" />
+              Buy Now (COD / Invoice)
+            </button>
+          </>
+        )}
       </div>
 
       {/* Assurance info */}

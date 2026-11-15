@@ -6,7 +6,10 @@ import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 export default function CategoryGrid() {
   const db = readDb();
-  const categories = db.categories.filter((c) => c.status === "active");
+  const categories = db.categories
+    .filter((c) => c.status === "active")
+    .slice()
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
 
   return (
     <section className="py-12 sm:py-14 lg:py-16 tint-warm">
@@ -45,13 +48,11 @@ export default function CategoryGrid() {
                   </div>
                   <div className="p-5">
                     <h3 className="text-lg font-semibold text-emerald-800">{cat.name}</h3>
-                    {count > 0 && (
-                      <p className="mt-2">
-                        <span className="chip-soft">
-                          {count}+ Products
-                        </span>
-                      </p>
-                    )}
+                    <p className="mt-2">
+                      <span className="chip-soft">
+                        {count} {count === 1 ? "Product" : "Products"}
+                      </span>
+                    </p>
                     <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-green">
                       View Products
                       <ArrowRight

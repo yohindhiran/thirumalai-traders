@@ -2,6 +2,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { revalidatePath } from "next/cache";
+import { Pool } from "pg";
 import { CATEGORY_SEEDS } from "@/data/categories";
 import {
   PRODUCT_SEEDS,
@@ -35,6 +36,67 @@ import type { CustomTheme } from "@/types";
 
 const DB_FILE = path.join(process.cwd(), "data", "database.json");
 const TMP_DB_FILE = path.join(os.tmpdir(), "thirumalaai_database.json");
+
+const DEFAULT_PG_URL =
+  "postgresql://postgres.czxekshxpullmyqitqod:sharki%401234%40@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true";
+
+let globalPgPool: Pool | null = null;
+
+function getPgPool(): Pool | null {
+  if (typeof window !== "undefined") return null;
+  const connStr = process.env.DATABASE_URL || DEFAULT_PG_URL;
+  if (!globalPgPool) {
+    try {
+      globalPgPool = new Pool({
+        connectionString: connStr,
+        ssl: { rejectUnauthorized: false },
+        max: 5,
+        idleTimeoutMillis: 15000,
+        connectionTimeoutMillis: 5000,
+      });
+      globalPgPool.on("error", (err) => {
+        console.warn("Postgres pool error:", err.message);
+      });
+    } catch (e) {
+      console.warn("Failed to create PG pool:", e);
+    }
+  }
+  return globalPgPool;
+}
+
+export async function persistToRemote(data: DbData): Promise<boolean> {
+  const pool = getPgPool();
+  if (!pool) return false;
+  try {
+    const raw = JSON.stringify(data);
+    await pool.query(
+      `INSERT INTO thirumalai.app_state (key, data, updated_at)
+       VALUES ('main', $1, NOW())
+       ON CONFLICT (key) DO UPDATE SET data = EXCLUDED.data, updated_at = NOW();`,
+      [raw]
+    );
+    return true;
+  } catch (err: any) {
+    console.warn("Failed to persist to Postgres:", err?.message);
+    return false;
+  }
+}
+
+export async function fetchFromRemote(): Promise<DbData | null> {
+  const pool = getPgPool();
+  if (!pool) return null;
+  try {
+    const res = await pool.query(
+      `SELECT data, updated_at FROM thirumalai.app_state WHERE key = 'main' LIMIT 1;`
+    );
+    if (res.rows.length && res.rows[0].data) {
+      return backfill(res.rows[0].data as DbData);
+    }
+  } catch (err: any) {
+    console.warn("Failed to fetch from Postgres:", err?.message);
+  }
+  return null;
+}
 
 /* -------------------------------------------------------------------------- */
 /*  In-memory global cache — a fast layer in front of the JSON file. On a    */
@@ -423,6 +485,18 @@ export function readDb(): DbData {
     return cached;
   }
 
+  // Background refresh from remote Postgres if cache is stale
+  if (typeof window === "undefined" && now - getLastCheckTime() > 4000) {
+    fetchFromRemote()
+      .then((remote) => {
+        if (remote) {
+          setCachedDb(remote);
+          setLastCheckTime(Date.now());
+        }
+      })
+      .catch(() => {});
+  }
+
   // Determine active source file: prefer TMP_DB_FILE (from admin saves on Vercel) if newer
   let activeFile = DB_FILE;
   let activeMtime = 0;
@@ -485,6 +559,28 @@ export function readDb(): DbData {
   return db;
 }
 
+export async function getDb(): Promise<DbData> {
+  if (typeof window !== "undefined") return seedDb();
+  const cached = getCachedDb();
+  const now = Date.now();
+  if (
+    cached &&
+    now - getLastCheckTime() < 1200 &&
+    Array.isArray((cached as Partial<DbData>).kgPackageSizes)
+  ) {
+    return cached;
+  }
+
+  const remote = await fetchFromRemote();
+  if (remote) {
+    setCachedDb(remote);
+    setLastCheckTime(now);
+    return remote;
+  }
+
+  return readDb();
+}
+
 /* -------------------------------------------------------------------------- */
 /*  invalidateProductCache — explicit Next.js cache invalidation. Called      */
 /*  from writeDb() (universal) and from every admin mutation route handler.   */
@@ -534,6 +630,11 @@ export function writeDb(data: DbData): void {
     } catch {
       // Ignore
     }
+
+    // 3. Persist to remote PostgreSQL (background fire-and-forget for sync callers)
+    persistToRemote(data).catch((err) => {
+      console.warn("Background Postgres persist error:", err?.message);
+    });
   }
 
   // Update the in-memory cache and reset throttled check time so next read is immediate
@@ -542,6 +643,11 @@ export function writeDb(data: DbData): void {
 
   // Invalidate Next.js caches so storefront pages re-render on next request.
   invalidateProductCache();
+}
+
+export async function writeDbAsync(data: DbData): Promise<void> {
+  writeDb(data);
+  await persistToRemote(data);
 }
 
 /* -------------------------------------------------------------------------- */

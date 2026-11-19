@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import type { ProductSpec } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -50,7 +50,7 @@ export async function PATCH(
   }
   const { id } = await params;
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   const product = db.products.find((p) => p.id === id);
   if (!product) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -107,7 +107,7 @@ export async function PATCH(
   if (typeof body?.displayOrder === "number") product.displayOrder = body.displayOrder;
 
   product.updatedAt = new Date().toISOString();
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ product });
 }
@@ -120,7 +120,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
-  const db = readDb();
+  const db = await getDb();
   const before = db.products.length;
   db.products = db.products.filter((p) => p.id !== id);
   if (db.products.length === before) {
@@ -129,7 +129,7 @@ export async function DELETE(
   // Remove from most-selling / our-products references.
   db.mostSelling = db.mostSelling.filter((r) => r.productId !== id);
   db.ourProducts = db.ourProducts.filter((r) => r.productId !== id);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

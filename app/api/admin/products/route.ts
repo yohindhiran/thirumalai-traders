@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, newId, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import { slugify } from "@/data/products-seed";
 import type { Product, ProductSpec } from "@/types";
@@ -46,7 +46,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const db = readDb();
+  const db = await getDb();
   return noCacheJson({
     products: db.products,
     categories: db.categories,
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const db = readDb();
+  const db = await getDb();
   const cat = db.categories.find((c) => c.id === categoryId);
   if (!cat) {
     return NextResponse.json({ error: "Invalid category." }, { status: 400 });
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
   ];
 
   const product: Product = {
-    id: newId(), // Supports your db.ts export
+    id: newId(),
     slug,
     name,
     categoryId,
@@ -126,7 +126,7 @@ export async function POST(request: Request) {
   };
 
   db.products.unshift(product);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ product }, { status: 201 });
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { slugify } from "@/data/products-seed";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +15,7 @@ export async function PATCH(
   }
   const { id } = await params;
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   const category = db.categories.find((c: any) => c.id === id);
   if (!category) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -42,7 +42,7 @@ export async function PATCH(
   }
 
   category.updatedAt = new Date().toISOString();
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ category });
 }
@@ -55,7 +55,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
-  const db = readDb();
+  const db = await getDb();
   const category = db.categories.find((c: any) => c.id === id);
   if (!category) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -70,7 +70,7 @@ export async function DELETE(
     );
   }
   db.categories = db.categories.filter((c: any) => c.id !== id);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

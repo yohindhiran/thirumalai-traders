@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
 import ProductsBrowser from "@/components/ProductsBrowser";
 import { JsonLd, breadcrumbSchema } from "@/lib/seo";
-import { readDb } from "@/lib/db";
+import { getDb, readDb } from "@/lib/db";
 import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 
 export const dynamic = "force-dynamic";
@@ -16,7 +16,8 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }): Promise<Metadata> {
   const { category } = await params;
-  const cat = readDb().categories.find((c) => c.slug === category && c.status === "active");
+  const db = await getDb();
+  const cat = db.categories.find((c) => c.slug === category && c.status === "active");
   if (!cat) return {};
   return {
     title: `${cat.name} – Bulk Wholesale Supply in Erode`,
@@ -32,7 +33,7 @@ export default async function CategoryPage({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
-  const db = readDb();
+  const db = await getDb();
   const cat = db.categories.find((c) => c.slug === category && c.status === "active");
   if (!cat) notFound();
 

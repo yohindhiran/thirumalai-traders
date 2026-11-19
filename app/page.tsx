@@ -6,15 +6,15 @@ import HomeKgPackages, { type HomeKgPackageSize } from "@/components/HomeKgPacka
 import HomeTopSelling, { type HomeTopSellingItem } from "@/components/HomeTopSelling";
 import CategoryGrid from "@/components/CategoryGrid";
 import ValuedCustomers, { type ValuedCustomerItem } from "@/components/ValuedCustomers";
-import { getKgPackageSizesForPublic, getKgPackagesSection, getMostSellingProducts, readDb } from "@/lib/db";
+import { getDb, getKgPackageSizesForPublic, getKgPackagesSection, getMostSellingProducts, readDb } from "@/lib/db";
 import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
 import type { Product } from "@/types";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default function Home() {
-  const db = readDb();
+export default async function Home() {
+  const db = await getDb();
   const content = db.content;
 
   const activeCategories = db.categories.filter((c) => c.status === "active");

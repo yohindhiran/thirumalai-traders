@@ -11,7 +11,7 @@ import {
   ShoppingBag,
   Users,
 } from "lucide-react";
-import { readDb } from "@/lib/db";
+import { getDb, readDb } from "@/lib/db";
 import { formatDate } from "@/lib/utils";
 import type {
   Enquiry,
@@ -31,8 +31,8 @@ const STATUS_STYLE: Record<EnquiryStatus, string> = {
   Closed: "bg-gray-100 text-gray-600 border-gray-200",
 };
 
-export default function AdminDashboardPage() {
-  const db = readDb();
+export default async function AdminDashboardPage() {
+  const db = await getDb();
 
   const enquiries: Enquiry[] = db.enquiries ?? [];
   const newCount = enquiries.filter((e) => e.status === "New").length;

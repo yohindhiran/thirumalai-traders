@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, newId, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import { slugify } from "@/data/products-seed";
 import type { Category } from "@/types";
@@ -12,7 +12,8 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return noCacheJson({ categories: readDb().categories });
+  const db = await getDb();
+  return noCacheJson({ categories: db.categories });
 }
 
 export async function POST(request: Request) {
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
   if (!name) {
     return NextResponse.json({ error: "Category name is required." }, { status: 400 });
   }
-  const db = readDb();
+  const db = await getDb();
   const slug = slugify(typeof body?.slug === "string" && body.slug.trim() ? body.slug : name);
   if (db.categories.some((c) => c.slug === slug)) {
     return NextResponse.json(
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
     updatedAt: now,
   };
   db.categories.push(category);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ category }, { status: 201 });
 }

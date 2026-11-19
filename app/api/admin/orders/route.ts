@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { getOrders } from "@/lib/db";
+import { getDb, getOrders } from "@/lib/db";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
 import { noCacheJson } from "@/lib/http";
 
@@ -53,7 +53,8 @@ export async function GET() {
     }
   }
 
-  // Fallback to local DB
-  const orders = getOrders();
+  // Fallback to unified DB (Postgres/local)
+  const db = await getDb();
+  const orders = db.orders || [];
   return noCacheJson({ orders });
 }

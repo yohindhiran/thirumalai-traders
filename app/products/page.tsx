@@ -7,7 +7,7 @@ import ProductsBrowser from "@/components/ProductsBrowser";
 import MostSellingProducts from "@/components/MostSellingProducts";
 import { JsonLd, breadcrumbSchema } from "@/lib/seo";
 import { CATEGORY_IMAGES, DEFAULT_PRODUCT_IMAGE } from "@/lib/catalog";
-import { getMostSellingProducts, getPageContent, readDb } from "@/lib/db";
+import { getDb, getMostSellingProducts, getPageContent, readDb } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -19,8 +19,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/products" },
 };
 
-export default function ProductsPage() {
-  const db = readDb();
+export default async function ProductsPage() {
+  const db = await getDb();
   // Admin-managed hero (Admin → Company Pages → Products Page).
   const page = getPageContent("products");
   const catById = new Map(db.categories.map((c) => [c.id, c]));

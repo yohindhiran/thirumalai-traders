@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProductForDisplay, getRelatedProducts, readDb } from "@/lib/db";
+import { getDb, getProductForDisplay, getRelatedProducts, readDb } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import ProductGallery from "@/components/ProductGallery";
 import ProductCard from "@/components/ProductCard";
@@ -33,6 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { category, slug } = await params;
+  const db = await getDb();
   const product = getProductForDisplay(slug, category);
 
   if (!product) {
@@ -40,7 +41,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
   }
 
   const relatedProducts = getRelatedProducts(product.id);
-  const catById = new Map(readDb().categories.map((c) => [c.id, c.slug]));
+  const catById = new Map(db.categories.map((c) => [c.id, c.slug]));
 
   return (
     <>

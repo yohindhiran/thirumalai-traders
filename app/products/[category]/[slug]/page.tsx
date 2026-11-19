@@ -22,7 +22,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category, slug } = await params;
-  const product = getProductForDisplay(slug, category);
+  const db = await getDb();
+  const product = getProductForDisplay(slug, category, db);
   if (!product) return {};
   return pageMetadata({
     title: `${product.name} – Bulk Wholesale ${(product as any).categoryName || "Grocery"} in Erode`,
@@ -34,13 +35,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProductDetailPage({ params }: PageProps) {
   const { category, slug } = await params;
   const db = await getDb();
-  const product = getProductForDisplay(slug, category);
+  const product = getProductForDisplay(slug, category, db);
 
   if (!product) {
     notFound();
   }
 
-  const relatedProducts = getRelatedProducts(product.id);
+  const relatedProducts = getRelatedProducts(product.id, undefined, 4, db);
   const catById = new Map(db.categories.map((c) => [c.id, c.slug]));
 
   return (

@@ -473,28 +473,13 @@ export function readDb(): DbData {
     return seedDb();
   }
 
-  // Fast In-Memory Path: If cache exists and was checked recently,
-  // return immediately with zero disk I/O.
+  // If in-memory cache exists, return it immediately with zero disk I/O.
   const cached = getCachedDb();
-  const now = Date.now();
   if (
     cached &&
-    now - getLastCheckTime() < 1000 &&
     Array.isArray((cached as Partial<DbData>).kgPackageSizes)
   ) {
     return cached;
-  }
-
-  // Background refresh from remote Postgres if cache is stale
-  if (typeof window === "undefined" && now - getLastCheckTime() > 4000) {
-    fetchFromRemote()
-      .then((remote) => {
-        if (remote) {
-          setCachedDb(remote);
-          setLastCheckTime(Date.now());
-        }
-      })
-      .catch(() => {});
   }
 
   // Determine active source file: prefer TMP_DB_FILE (from admin saves on Vercel) if newer
@@ -517,64 +502,40 @@ export function readDb(): DbData {
     } catch {}
   }
 
-  // 1. Source file exists — read and parse if mtime differs
-  if (activeMtime > 0 && fs.existsSync(activeFile)) {
+  // 1. Source file exists — read and parse
+  if (fs.existsSync(activeFile)) {
     try {
-      setLastCheckTime(now);
-      if (
-        cached &&
-        getCachedMtime() === activeMtime &&
-        Array.isArray((cached as Partial<DbData>).kgPackageSizes)
-      ) {
-        return cached;
-      }
       const raw = fs.readFileSync(activeFile, "utf-8");
       const db = backfill(JSON.parse(raw) as DbData);
       setCachedDb(db);
       setCachedMtime(activeMtime);
+      setLastCheckTime(Date.now());
       return db;
     } catch {
-      // Corrupt file or fs error — fall through to the global cache.
+      // Corrupt file or fs error — fall through to seed
     }
   }
 
-  // 2. No readable file — use the warm-container cache if available.
-  if (cached) return Array.isArray((cached as Partial<DbData>).kgPackageSizes) ? cached : backfill(cached);
-
-  // 3. Nothing anywhere — hydrate from seed and try to persist.
+  // 2. Hydrate from seed and persist
   const db = seedDb();
   setCachedDb(db);
-  setLastCheckTime(now);
+  setLastCheckTime(Date.now());
   try {
     const dir = path.dirname(DB_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), "utf-8");
     setCachedMtime(fs.statSync(DB_FILE).mtimeMs);
-  } catch {
-    // Filesystem read-only (Vercel) — try /tmp
-    try {
-      fs.writeFileSync(TMP_DB_FILE, JSON.stringify(db, null, 2), "utf-8");
-    } catch {}
-  }
+  } catch {}
   return db;
 }
 
 export async function getDb(): Promise<DbData> {
   if (typeof window !== "undefined") return seedDb();
-  const cached = getCachedDb();
-  const now = Date.now();
-  if (
-    cached &&
-    now - getLastCheckTime() < 1200 &&
-    Array.isArray((cached as Partial<DbData>).kgPackageSizes)
-  ) {
-    return cached;
-  }
 
   const remote = await fetchFromRemote();
   if (remote) {
     setCachedDb(remote);
-    setLastCheckTime(now);
+    setLastCheckTime(Date.now());
     return remote;
   }
 
@@ -697,28 +658,33 @@ export function getAppearance(): AppearanceSettings {
   };
 }
 
-export function getProductForDisplay(slug: string, categorySlug?: string): Product | undefined {
-  const db = readDb();
-  const matches = db.products.filter(
+export function getProductForDisplay(
+  slug: string,
+  categorySlug?: string,
+  db?: DbData
+): Product | undefined {
+  const currentDb = db || readDb();
+  const matches = currentDb.products.filter(
     (p) => (p.slug === slug || p.id === slug) && p.status === "active"
   );
   if (!matches.length) return undefined;
   if (!categorySlug) return matches[0];
-  // Slugs can repeat across categories (e.g. toor-dal) — prefer the product
-  // that actually belongs to the URL category, fall back to first match.
-  const cat = db.categories.find((c) => c.slug === categorySlug && c.status === "active");
+  const cat = currentDb.categories.find(
+    (c) => c.slug === categorySlug && c.status === "active"
+  );
   return (cat && matches.find((p) => p.categoryId === cat.id)) || matches[0];
 }
 
 export function getRelatedProducts(
   productId: string,
   categoryId?: string,
-  limit = 4
+  limit = 4,
+  db?: DbData
 ): Product[] {
-  const db = readDb();
+  const currentDb = db || readDb();
   const targetCat =
-    categoryId || db.products.find((p) => p.id === productId)?.categoryId;
-  return db.products
+    categoryId || currentDb.products.find((p) => p.id === productId)?.categoryId;
+  return currentDb.products
     .filter(
       (p) =>
         p.id !== productId &&
@@ -728,11 +694,11 @@ export function getRelatedProducts(
     .slice(0, limit);
 }
 
-export function getMostSellingProducts(): Product[] {
-  const db = readDb();
-  const activeProducts = db.products.filter((p) => p.status === "active");
-  if (db.mostSelling?.length) {
-    const list = db.mostSelling
+export function getMostSellingProducts(db?: DbData): Product[] {
+  const currentDb = db || readDb();
+  const activeProducts = currentDb.products.filter((p) => p.status === "active");
+  if (currentDb.mostSelling?.length) {
+    const list = currentDb.mostSelling
       .map((ref) => activeProducts.find((p) => p.id === ref.productId))
       .filter((p): p is Product => Boolean(p));
     if (list.length > 0) return list;
@@ -740,11 +706,11 @@ export function getMostSellingProducts(): Product[] {
   return activeProducts.slice(0, 4);
 }
 
-export function getOurProducts(): Product[] {
-  const db = readDb();
-  const activeProducts = db.products.filter((p) => p.status === "active");
-  if (db.ourProducts?.length) {
-    const list = db.ourProducts
+export function getOurProducts(db?: DbData): Product[] {
+  const currentDb = db || readDb();
+  const activeProducts = currentDb.products.filter((p) => p.status === "active");
+  if (currentDb.ourProducts?.length) {
+    const list = currentDb.ourProducts
       .map((ref) => activeProducts.find((p) => p.id === ref.productId))
       .filter((p): p is Product => Boolean(p));
     if (list.length > 0) return list;

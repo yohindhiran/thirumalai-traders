@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -11,10 +11,10 @@ function cleanString(value: unknown): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
-function syncLegacyMirror(db: ReturnType<typeof readDb>): void {
-  const sizes = (db.kgPackageSizes ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
-  const def = sizes.find((s) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
-  db.kgPackages = (def?.items ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
+function syncLegacyMirror(db: any): void {
+  const sizes = (db.kgPackageSizes ?? []).slice().sort((a: any, b: any) => a.displayOrder - b.displayOrder);
+  const def = sizes.find((s: any) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
+  db.kgPackages = (def?.items ?? []).slice().sort((a: any, b: any) => a.displayOrder - b.displayOrder);
 }
 
 /**
@@ -33,7 +33,7 @@ export async function PATCH(
   }
   const { id } = await params;
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   if (!Array.isArray(db.kgPackageSizes)) db.kgPackageSizes = [];
 
   const size = (db.kgPackageSizes ?? []).find((s) => s.id === id);
@@ -57,7 +57,7 @@ export async function PATCH(
     }
     if (typeof body?.displayOrder === "number") size.displayOrder = body.displayOrder;
     syncLegacyMirror(db);
-    writeDb(db);
+    await writeDbAsync(db);
     invalidateProductCache();
     return NextResponse.json({ size });
   }
@@ -85,7 +85,7 @@ export async function PATCH(
     else delete ref.customImage;
   }
   syncLegacyMirror(db);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item: ref, sizeId: target.id });
 }
@@ -110,7 +110,7 @@ export async function DELETE(
   } catch {
     sizeId = "";
   }
-  const db = readDb();
+  const db = await getDb();
   if (!Array.isArray(db.kgPackageSizes)) db.kgPackageSizes = [];
 
   const sizeIdx = (db.kgPackageSizes ?? []).findIndex((s) => s.id === id);
@@ -120,7 +120,7 @@ export async function DELETE(
     // untouched in the main Products catalogue.
     void removed;
     syncLegacyMirror(db);
-    writeDb(db);
+    await writeDbAsync(db);
     invalidateProductCache();
     return NextResponse.json({ ok: true });
   }
@@ -139,7 +139,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   syncLegacyMirror(db);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

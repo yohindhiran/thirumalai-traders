@@ -12,7 +12,7 @@ import {
 import PageHero from "@/components/PageHero";
 import AboutRoadmap from "@/components/AboutRoadmap";
 import { CORE_VALUES, MISSION, VISION } from "@/data/site";
-import { getAbout, getActiveTestimonials } from "@/lib/db";
+import { getAbout, getActiveTestimonials, getDb } from "@/lib/db";
 import { getMilestones } from "@/lib/milestones";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 import Testimonials from "@/components/Testimonials";
@@ -42,8 +42,9 @@ const VALUE_ACCENTS = [
   { bar: "border-t-sky-500", iconBg: "bg-sky-50", iconText: "text-sky-700", icon: Target },
 ];
 
-export default function AboutPage() {
-  const about = getAbout();
+export default async function AboutPage() {
+  const db = await getDb();
+  const about = db.about;
   const vision = about.vision || VISION;
   const mission = about.mission.length ? about.mission : MISSION;
   // Merge saved values with the full default set so the complete

@@ -1,5 +1,5 @@
 import { SITE } from "@/data/site";
-import { getPageContent } from "@/lib/db";
+import { getDb, getPageContent } from "@/lib/db";
 import { JsonLd, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 import ContactSection from "@/components/ContactSection";
@@ -11,9 +11,13 @@ export const metadata = pageMetadata({
   path: "/contact",
 });
 
-export default function ContactPage() {
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export default async function ContactPage() {
+  const db = await getDb();
   // Admin-managed hero (Admin → Company Pages → Contact Page).
-  const page = getPageContent("contact");
+  const page = (db.pages as any)?.contact || getPageContent("contact");
   return (
     <>
       <JsonLd
@@ -30,7 +34,7 @@ export default function ContactPage() {
         title={page?.heroTitle || "Contact"}
         backgroundImage={page?.heroImage || "/images/hero-warehouse.jpg"}
       />
-      <ContactSection />
+      <ContactSection db={db} />
     </>
   );
 }

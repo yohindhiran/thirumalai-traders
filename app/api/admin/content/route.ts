@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { DEFAULT_CONTENT, getContent, invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { DEFAULT_CONTENT, getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,8 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return noCacheJson({ content: getContent() });
+  const db = await getDb();
+  return noCacheJson({ content: db.content });
 }
 
 export async function PUT(request: Request) {
@@ -18,7 +19,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
 
   if (typeof body?.heroHeadline === "string" && body.heroHeadline.trim()) {
     db.content.heroHeadline = body.heroHeadline.trim();
@@ -57,7 +58,7 @@ export async function PUT(request: Request) {
     if (highlights.length >= 1) db.content.highlights = highlights;
   }
 
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
-  return NextResponse.json({ content: getContent() });
+  return NextResponse.json({ content: db.content });
 }

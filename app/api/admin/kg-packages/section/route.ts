@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
 import {
   DEFAULT_KG_PACKAGES_SECTION,
+  getDb,
   invalidateProductCache,
-  readDb,
-  writeDb,
+  writeDbAsync,
 } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 
@@ -20,7 +20,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const db = readDb();
+  const db = await getDb();
   return noCacheJson({
     section: db.kgPackagesSection ?? DEFAULT_KG_PACKAGES_SECTION,
   });
@@ -52,9 +52,9 @@ export async function PUT(request: Request) {
       { status: 400 }
     );
   }
-  const db = readDb();
+  const db = await getDb();
   db.kgPackagesSection = { title, description };
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ section: db.kgPackagesSection });
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, newId, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import type { KgPackageRef, KgPackageSize } from "@/types";
 
@@ -13,18 +13,18 @@ function cleanString(value: unknown): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
-function sortedSizes(db: ReturnType<typeof readDb>): KgPackageSize[] {
-  return (db.kgPackageSizes ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
+function sortedSizes(db: any): KgPackageSize[] {
+  return (db.kgPackageSizes ?? []).slice().sort((a: any, b: any) => a.displayOrder - b.displayOrder);
 }
 
-function syncLegacyMirror(db: ReturnType<typeof readDb>): void {
+function syncLegacyMirror(db: any): void {
   const sizes = sortedSizes(db);
   const def =
     sizes.find((s) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
   db.kgPackages = (def?.items ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
 }
 
-function defaultSize(db: ReturnType<typeof readDb>): KgPackageSize | undefined {
+function defaultSize(db: any): KgPackageSize | undefined {
   const sizes = sortedSizes(db);
   return sizes.find((s) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
 }
@@ -33,7 +33,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const db = readDb();
+  const db = await getDb();
   const sizes = sortedSizes(db);
   // Backward compatibility: legacy `items` = default size's products.
   const def = defaultSize(db);
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   if (!Array.isArray(db.kgPackageSizes)) db.kgPackageSizes = [];
 
   // Mode 1: create a new KG package size — { name }.
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
     };
     db.kgPackageSizes = [...(db.kgPackageSizes ?? []), size];
     syncLegacyMirror(db);
-    writeDb(db);
+    await writeDbAsync(db);
     invalidateProductCache();
     return NextResponse.json({ size }, { status: 201 });
   }
@@ -104,7 +104,7 @@ export async function POST(request: Request) {
   if (customImage) ref.customImage = customImage;
   size.items = [...(size.items ?? []), ref];
   syncLegacyMirror(db);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item: ref, sizeId: size.id }, { status: 201 });
 }

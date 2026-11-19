@@ -1,5 +1,5 @@
 import { FAQS } from "@/data/site";
-import { getActiveFaqs, getPageContent } from "@/lib/db";
+import { getDb } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, faqSchema, pageMetadata } from "@/lib/seo";
 import PageHero from "@/components/PageHero";
 
@@ -13,13 +13,14 @@ export const metadata = pageMetadata({
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default function FaqPage() {
-  const faqs = getActiveFaqs();
+export default async function FaqPage() {
+  const db = await getDb();
+  const faqs = (db.faqs || []).filter((f) => f.status === "active");
   const faqList = faqs.length
     ? faqs.map((f) => ({ q: f.question, a: f.answer }))
     : FAQS.map((f) => ({ q: f.q, a: f.a }));
   // Admin-managed hero (Admin → Company Pages → FAQ).
-  const page = getPageContent("faq");
+  const page = (db.pages as any)?.faq;
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,8 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return noCacheJson({ about: readDb().about });
+  const db = await getDb();
+  return noCacheJson({ about: db.about });
 }
 
 export async function PUT(request: Request) {
@@ -18,7 +19,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   const about = db.about;
 
   if (typeof body?.content === "string") about.content = body.content;
@@ -51,7 +52,7 @@ export async function PUT(request: Request) {
   if (typeof body?.heroImage === "string") about.heroImage = body.heroImage.trim() || undefined;
   if (typeof body?.visionImage === "string") about.visionImage = body.visionImage.trim() || undefined;
   if (typeof body?.missionImage === "string") about.missionImage = body.missionImage.trim() || undefined;
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ about });
 }

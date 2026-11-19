@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, newId, writeDbAsync } from "@/lib/db";
 import {
   MAX_CUSTOM_THEMES,
   MAX_CUSTOM_THEME_NAME,
@@ -25,7 +25,8 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const appearance = readDb().appearance ?? { themeId: "dark-forest-green", customThemes: [] };
+  const db = await getDb();
+  const appearance = db.appearance ?? { themeId: "dark-forest-green", customThemes: [] };
   return noCacheJson({ appearance });
 }
 
@@ -34,7 +35,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   if (typeof body?.applyCustomThemeId === "string") {
     const custom = (db.appearance?.customThemes ?? []).find(
       (t) => t.id === body.applyCustomThemeId
@@ -49,7 +50,7 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Invalid theme." }, { status: 400 });
   }
   try {
-    writeDb(db);
+    await writeDbAsync(db);
   } catch {
     return persistError();
   }
@@ -72,7 +73,7 @@ export async function POST(request: Request) {
   if (!bg || !soft || !accent) {
     return NextResponse.json({ error: "Please choose valid colours (#rrggbb)." }, { status: 400 });
   }
-  const db = readDb();
+  const db = await getDb();
   const customThemes = db.appearance?.customThemes ?? [];
   if (customThemes.length >= MAX_CUSTOM_THEMES) {
     return NextResponse.json(
@@ -87,7 +88,7 @@ export async function POST(request: Request) {
     customThemes: [...customThemes, customTheme],
   };
   try {
-    writeDb(db);
+    await writeDbAsync(db);
   } catch {
     return persistError();
   }
@@ -100,7 +101,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const id = new URL(request.url).searchParams.get("id") ?? "";
-  const db = readDb();
+  const db = await getDb();
   const customThemes = db.appearance?.customThemes ?? [];
   if (!customThemes.some((t) => t.id === id)) {
     return NextResponse.json({ error: "Custom theme not found." }, { status: 404 });
@@ -111,7 +112,7 @@ export async function DELETE(request: Request) {
     customThemes: remaining,
   };
   try {
-    writeDb(db);
+    await writeDbAsync(db);
   } catch {
     return persistError();
   }

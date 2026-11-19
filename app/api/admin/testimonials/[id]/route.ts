@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -14,7 +14,7 @@ export async function PATCH(
   }
   const { id } = await params;
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   const item = db.testimonials.find((t) => t.id === id);
   if (!item) return NextResponse.json({ error: "Not found" }, { status: 404 });
   if (typeof body?.name === "string" && body.name.trim()) item.name = body.name.trim();
@@ -23,7 +23,7 @@ export async function PATCH(
   if (typeof body?.image === "string") item.image = body.image;
   if (body?.status === "active" || body?.status === "inactive") item.status = body.status;
   if (typeof body?.displayOrder === "number") item.displayOrder = body.displayOrder;
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item });
 }
@@ -36,12 +36,12 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
-  const db = readDb();
+  const db = await getDb();
   const before = db.testimonials.length;
   db.testimonials = db.testimonials.filter((t) => t.id !== id);
   if (db.testimonials.length === before)
     return NextResponse.json({ error: "Not found" }, { status: 404 });
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

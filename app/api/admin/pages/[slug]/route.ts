@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,7 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const db = readDb();
+  const db = await getDb();
   const page = (db.pages as Record<string, any>)[slug];
   if (!page) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -28,7 +28,7 @@ export async function PUT(
   }
   const { slug } = await params;
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   const pagesRecord = db.pages as Record<string, any>;
   const existing = pagesRecord[slug] ?? {
     title: "",
@@ -43,7 +43,7 @@ export async function PUT(
     slug,
   };
 
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ page: pagesRecord[slug] });
 }
@@ -56,7 +56,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { slug } = await params;
-  const db = readDb();
+  const db = await getDb();
   const pagesRecord = db.pages as Record<string, any>;
 
   if (!pagesRecord[slug]) {
@@ -64,7 +64,7 @@ export async function DELETE(
   }
 
   delete pagesRecord[slug];
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ success: true });
 }

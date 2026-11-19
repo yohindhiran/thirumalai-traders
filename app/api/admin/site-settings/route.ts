@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import type { SiteSettings } from "@/types";
 
@@ -29,7 +29,8 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  return noCacheJson({ settings: readDb().siteSettings });
+  const db = await getDb();
+  return noCacheJson({ settings: db.siteSettings });
 }
 
 export async function PUT(request: Request) {
@@ -37,14 +38,14 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   for (const [field, kind] of FIELDS) {
     const v = body?.[field];
     if (kind === "string" && typeof v === "string") {
       (db.siteSettings as any)[field] = v;
     }
   }
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ settings: db.siteSettings });
 }

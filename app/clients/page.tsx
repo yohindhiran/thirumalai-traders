@@ -1,7 +1,7 @@
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import { CLIENTS } from "@/data/site";
-import { getPageContent, readDb } from "@/lib/db";
+import { getDb, getPageContent } from "@/lib/db";
 import { JsonLd, breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -71,9 +71,9 @@ const CLIENT_META: Record<string, { image: string; contain?: boolean; logo?: str
 const GENERIC_DESC =
   "A valued bulk wholesale partner served with regular grocery supply, fair wholesale pricing and dependable delivery schedules.";
 
-export default function ClientsPage() {
+export default async function ClientsPage() {
   const page = getPageContent("clients");
-  const db = readDb();
+  const db = await getDb();
 
   // CMS-managed customers (Admin → Customers): name, description, logo and
   // photo are all editable there, with display-order support.

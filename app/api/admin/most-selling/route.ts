@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 
 export const dynamic = "force-dynamic";
@@ -10,7 +10,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const db = readDb();
+  const db = await getDb();
   const items = db.mostSelling.slice().sort((a, b) => a.displayOrder - b.displayOrder);
   return noCacheJson({ items, products: db.products });
 }
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   if (!productId) {
     return NextResponse.json({ error: "Product is required." }, { status: 400 });
   }
-  const db = readDb();
+  const db = await getDb();
   if (!db.products.some((p) => p.id === productId)) {
     return NextResponse.json({ error: "Invalid product." }, { status: 400 });
   }
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
   const maxOrder = db.mostSelling.reduce((m, r) => Math.max(m, r.displayOrder), 0);
   const ref = { productId, status: "active" as const, displayOrder: maxOrder + 1 };
   db.mostSelling.push(ref);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item: ref }, { status: 201 });
 }

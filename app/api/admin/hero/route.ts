@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, newId, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import type { HeroSlide } from "@/types";
 
@@ -11,7 +11,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const db = readDb();
+  const db = await getDb();
   const slides = db.heroSlides.slice().sort((a, b) => a.displayOrder - b.displayOrder);
   return noCacheJson({ slides });
 }
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   if (!image) {
     return NextResponse.json({ error: "Slide image is required." }, { status: 400 });
   }
-  const db = readDb();
+  const db = await getDb();
   const maxOrder = db.heroSlides.reduce((m, s) => Math.max(m, s.displayOrder), 0);
   const slide: HeroSlide = {
     id: newId("hs"),
@@ -37,12 +37,12 @@ export async function POST(request: Request) {
     status: "active",
     displayOrder: maxOrder + 1,
   };
-   db.heroSlides.push(slide);
-   try {
-     writeDb(db);
-   } catch (e) {
-     return NextResponse.json({ error: e instanceof Error ? e.message : "Could not save slide." }, { status: 500 });
-   }
-   invalidateProductCache();
-   return NextResponse.json({ slide }, { status: 201 });
+  db.heroSlides.push(slide);
+  try {
+    await writeDbAsync(db);
+  } catch (e) {
+    return NextResponse.json({ error: e instanceof Error ? e.message : "Could not save slide." }, { status: 500 });
+  }
+  invalidateProductCache();
+  return NextResponse.json({ slide }, { status: 201 });
 }

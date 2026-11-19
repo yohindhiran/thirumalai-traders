@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, newId, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import type { Testimonial } from "@/types";
 
@@ -11,7 +11,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const db = readDb();
+  const db = await getDb();
   const items = db.testimonials.slice().sort((a, b) => a.displayOrder - b.displayOrder);
   return noCacheJson({ items });
 }
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  const db = readDb();
+  const db = await getDb();
   const maxOrder = db.testimonials.reduce((m, t) => Math.max(m, t.displayOrder), 0);
   const item: Testimonial = {
     id: newId("t"),
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     displayOrder: maxOrder + 1,
   };
   db.testimonials.push(item);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item }, { status: 201 });
 }

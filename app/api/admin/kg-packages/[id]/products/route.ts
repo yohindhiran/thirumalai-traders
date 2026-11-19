@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import type { KgPackageRef } from "@/types";
 
@@ -13,10 +13,10 @@ function cleanString(value: unknown): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
-function syncLegacyMirror(db: ReturnType<typeof readDb>): void {
-  const sizes = (db.kgPackageSizes ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
-  const def = sizes.find((s) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
-  db.kgPackages = (def?.items ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
+function syncLegacyMirror(db: any): void {
+  const sizes = (db.kgPackageSizes ?? []).slice().sort((a: any, b: any) => a.displayOrder - b.displayOrder);
+  const def = sizes.find((s: any) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
+  db.kgPackages = (def?.items ?? []).slice().sort((a: any, b: any) => a.displayOrder - b.displayOrder);
 }
 
 export async function GET(
@@ -27,7 +27,7 @@ export async function GET(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
-  const db = readDb();
+  const db = await getDb();
   const size = (db.kgPackageSizes ?? []).find((s) => s.id === id);
   if (!size) return NextResponse.json({ error: "Package size not found." }, { status: 404 });
   const items = (size.items ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
@@ -47,7 +47,7 @@ export async function POST(
   if (!productId) {
     return NextResponse.json({ error: "Product is required." }, { status: 400 });
   }
-  const db = readDb();
+  const db = await getDb();
   const size = (db.kgPackageSizes ?? []).find((s) => s.id === id);
   if (!size) return NextResponse.json({ error: "Package size not found." }, { status: 404 });
   if (!db.products.some((p) => p.id === productId)) {
@@ -67,7 +67,7 @@ export async function POST(
   if (customImage) ref.customImage = customImage;
   size.items = [...(size.items ?? []), ref];
   syncLegacyMirror(db);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item: ref }, { status: 201 });
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { newId, saveOrder } from "@/lib/db";
+import { newId, saveOrder, saveOrderAsync } from "@/lib/db";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
 import type { Order, OrderItem, PaymentMethod } from "@/types";
 
@@ -121,8 +121,8 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2. Save locally in db.ts
-    saveOrder(order);
+    // 2. Save in database (both PostgreSQL and in-memory cache)
+    await saveOrderAsync(order);
 
     return NextResponse.json(
       {

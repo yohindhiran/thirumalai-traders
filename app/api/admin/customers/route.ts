@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, newId, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, newId, writeDbAsync } from "@/lib/db";
 import { noCacheJson } from "@/lib/http";
 import type { ValuedCustomer } from "@/types";
 
@@ -11,7 +11,7 @@ export async function GET() {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const db = readDb();
+  const db = await getDb();
   const items = db.valuedCustomers.slice().sort((a, b) => a.displayOrder - b.displayOrder);
   return noCacheJson({ items });
 }
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   if (!name) {
     return NextResponse.json({ error: "Customer name is required." }, { status: 400 });
   }
-  const db = readDb();
+  const db = await getDb();
   const maxOrder = db.valuedCustomers.reduce((m, c) => Math.max(m, c.displayOrder), 0);
   const item: ValuedCustomer = {
     id: newId("vc"),
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     displayOrder: maxOrder + 1,
   };
   db.valuedCustomers.push(item);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item }, { status: 201 });
 }

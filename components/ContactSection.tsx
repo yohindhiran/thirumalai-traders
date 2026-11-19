@@ -1,6 +1,7 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { MANAGEMENT, OFFICE, SALES_TEAM, SITE } from "@/data/site";
 import { getContactSettings, getSiteSettings } from "@/lib/db";
+import type { DbData } from "@/lib/db";
 import { telHref } from "@/lib/utils";
 import ContactInlineForm from "@/components/ContactInlineForm";
 
@@ -39,11 +40,11 @@ function mapSrc(mapsLink?: string): string {
   return `https://www.google.com/maps?q=${encodeURIComponent(value)}&output=embed`;
 }
 
-export default function ContactSection({ withForm = true }: { withForm?: boolean }) {
+export default function ContactSection({ withForm = true, db }: { withForm?: boolean; db?: DbData }) {
   // Admin-managed contact details (Admin → Contact Settings); every field
   // falls back to the long-standing hardcoded values when unsaved.
-  const contact = getContactSettings();
-  const site = getSiteSettings();
+  const contact = db ? db.contactSettings : getContactSettings();
+  const site = db ? db.siteSettings : getSiteSettings();
 
   const companyName = site.companyName || SITE.name;
   const line1 = contact.addressLine1 || SITE.address.line1;

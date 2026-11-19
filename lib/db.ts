@@ -31,6 +31,7 @@ import type {
   AppearanceSettings,
   DbData,
 } from "@/types";
+export type { DbData } from "@/types";
 import { APPEARANCE_THEME_IDS, HEX_COLOR_RE, MAX_CUSTOM_THEMES } from "@/lib/appearance";
 import type { CustomTheme } from "@/types";
 
@@ -468,12 +469,11 @@ function sanitizeCustomThemes(v: unknown): CustomTheme[] {
 /* -------------------------------------------------------------------------- */
 
 export function readDb(): DbData {
-  // Client components get seed data (no fs access).
   if (typeof window !== "undefined") {
     return seedDb();
   }
 
-  // If in-memory cache exists, return it immediately with zero disk I/O.
+  // Fast In-Memory Path: If cache exists, return immediately in < 0.1ms
   const cached = getCachedDb();
   if (
     cached &&
@@ -532,13 +532,30 @@ export function readDb(): DbData {
 export async function getDb(): Promise<DbData> {
   if (typeof window !== "undefined") return seedDb();
 
-  const remote = await fetchFromRemote();
-  if (remote) {
-    setCachedDb(remote);
-    setLastCheckTime(Date.now());
-    return remote;
+  const cached = getCachedDb();
+  const now = Date.now();
+  // Fast Path: Return in-memory cache instantly (< 0.5ms) if checked within the last 2.5s
+  if (
+    cached &&
+    now - getLastCheckTime() < 2500 &&
+    Array.isArray((cached as Partial<DbData>).kgPackageSizes)
+  ) {
+    return cached;
   }
 
+  // Check remote Postgres for changes
+  try {
+    const remote = await fetchFromRemote();
+    if (remote) {
+      setCachedDb(remote);
+      setLastCheckTime(now);
+      return remote;
+    }
+  } catch (e) {
+    // Fall back to memory cache or local file
+  }
+
+  if (cached) return cached;
   return readDb();
 }
 
@@ -836,6 +853,16 @@ export function saveOrder(order: Order): Order {
   return order;
 }
 
+export async function saveOrderAsync(order: Order): Promise<Order> {
+  const db = await getDb();
+  if (!Array.isArray(db.orders)) {
+    db.orders = [];
+  }
+  db.orders.unshift(order);
+  await writeDbAsync(db);
+  return order;
+}
+
 export function updateOrderStatus(id: string, status: OrderStatus): boolean {
   const db = readDb();
   if (!Array.isArray(db.orders)) return false;
@@ -844,5 +871,16 @@ export function updateOrderStatus(id: string, status: OrderStatus): boolean {
   order.status = status;
   order.updatedAt = new Date().toISOString();
   writeDb(db);
+  return true;
+}
+
+export async function updateOrderStatusAsync(id: string, status: OrderStatus): Promise<boolean> {
+  const db = await getDb();
+  if (!Array.isArray(db.orders)) return false;
+  const order = db.orders.find((o) => o.id === id || o.orderNumber === id);
+  if (!order) return false;
+  order.status = status;
+  order.updatedAt = new Date().toISOString();
+  await writeDbAsync(db);
   return true;
 }

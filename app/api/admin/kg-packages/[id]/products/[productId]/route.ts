@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -11,10 +11,10 @@ function cleanString(value: unknown): string | undefined {
   return trimmed ? trimmed : undefined;
 }
 
-function syncLegacyMirror(db: ReturnType<typeof readDb>): void {
-  const sizes = (db.kgPackageSizes ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
-  const def = sizes.find((s) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
-  db.kgPackages = (def?.items ?? []).slice().sort((a, b) => a.displayOrder - b.displayOrder);
+function syncLegacyMirror(db: any): void {
+  const sizes = (db.kgPackageSizes ?? []).slice().sort((a: any, b: any) => a.displayOrder - b.displayOrder);
+  const def = sizes.find((s: any) => s.name.trim().toLowerCase() === "1 kg") ?? sizes[0];
+  db.kgPackages = (def?.items ?? []).slice().sort((a: any, b: any) => a.displayOrder - b.displayOrder);
 }
 
 export async function PATCH(
@@ -26,7 +26,7 @@ export async function PATCH(
   }
   const { id, productId } = await params;
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   const size = (db.kgPackageSizes ?? []).find((s) => s.id === id);
   if (!size) return NextResponse.json({ error: "Package size not found." }, { status: 404 });
   const ref = (size.items ?? []).find((r) => r.productId === productId);
@@ -46,7 +46,7 @@ export async function PATCH(
     else delete ref.customImage;
   }
   syncLegacyMirror(db);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ item: ref });
 }
@@ -59,7 +59,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id, productId } = await params;
-  const db = readDb();
+  const db = await getDb();
   const size = (db.kgPackageSizes ?? []).find((s) => s.id === id);
   if (!size) return NextResponse.json({ error: "Package size not found." }, { status: 404 });
   const before = (size.items ?? []).length;
@@ -70,7 +70,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
   syncLegacyMirror(db);
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ ok: true });
 }

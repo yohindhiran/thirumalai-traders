@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { updateOrderStatus, getOrderById } from "@/lib/db";
+import { updateOrderStatus, updateOrderStatusAsync, getOrderById } from "@/lib/db";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
 import type { OrderStatus } from "@/types";
 
@@ -50,8 +50,8 @@ export async function PATCH(
     }
   }
 
-  // 2. Update local DB
-  const ok = updateOrderStatus(id, status);
+  // 2. Update local DB & Supabase app_state
+  const ok = await updateOrderStatusAsync(id, status);
   const order = getOrderById(id);
 
   return NextResponse.json({ ok, order });

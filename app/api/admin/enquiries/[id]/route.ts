@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdmin } from "@/lib/auth";
-import { invalidateProductCache, readDb, writeDb } from "@/lib/db";
+import { getDb, invalidateProductCache, writeDbAsync } from "@/lib/db";
 import { ENQUIRY_STATUSES } from "@/data/site";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +15,7 @@ export async function PATCH(
   }
   const { id } = await params;
   const body = await request.json().catch(() => null);
-  const db = readDb();
+  const db = await getDb();
   const enquiry = db.enquiries.find((e) => e.id === id);
   if (!enquiry) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -29,7 +29,7 @@ export async function PATCH(
   }
   enquiry.updatedAt = new Date().toISOString();
 
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ enquiry });
 }
@@ -42,13 +42,13 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
-  const db = readDb();
+  const db = await getDb();
   const before = db.enquiries.length;
   db.enquiries = db.enquiries.filter((e) => e.id !== id);
   if (db.enquiries.length === before) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
-  writeDb(db);
+  await writeDbAsync(db);
   invalidateProductCache();
   return NextResponse.json({ ok: true });
 }
